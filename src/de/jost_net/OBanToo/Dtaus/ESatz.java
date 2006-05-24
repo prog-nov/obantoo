@@ -1,0 +1,125 @@
+/*
+ * $Source$
+ * $Revision$
+ * $Date$
+ * $Author$
+ *
+ * Copyright 2006 by Heiner Jostkleigrewe
+ * Diese Datei steht unter LGPL - siehe beigefügte lpgl.txt
+ */
+package de.jost_net.OBanToo.Dtaus;
+
+import java.math.BigInteger;
+
+/**
+ * E-Satz - Datei-Nachsatz
+ * 
+ * @author Heiner Jostkleigrewe
+ * 
+ */
+public class ESatz extends Satz
+{
+  /**
+   * Feld e01, 4 Bytes, numerisch, Satzlängenfeld, Konstant 0128
+   */
+  private String eSatzlaenge = "0128";
+
+  /**
+   * Feld e02, 1 Byte, alpha, Satzart, Konstant E
+   */
+  private String eSatzart = "E";
+
+  /**
+   * Feld e04, 7 Bytes, numerisch, Anzahl der Datensätze C, Abstimm-Daten
+   */
+  private int eAnzahlC = 9999999;
+
+  /**
+   * Feld e06, 17 Bytes, numerisch, Summe der Kontonummern, Abstimm-Unterlage
+   */
+  private BigInteger eSummeKontonummern = null;
+
+  /**
+   * Feld e07, 17 Bytes, numerisch, Summe der Bankleitzahlen, Abstimm-Unterlage
+   */
+  private BigInteger eSummeBankleitzahlen = null;
+
+  /**
+   * Feld e08, 13 Bytes, numerisch, Summe der Euro-Beträge aus den Datensätzen C
+   * (Feld 12)
+   */
+  private long eSummeBetraege = 0l;
+
+  /**
+   * Konstruktor mit der Übergabe eines zu parsenden Satzes
+   * 
+   * @param satz
+   */
+  public ESatz(String satz) throws DtausException
+  {
+    super(satz);
+    if (!satz.substring(0, 4).equals(eSatzlaenge))
+    {
+      throw new DtausException(DtausException.E_SATZLAENGENFELD_FEHLERHAFT);
+    }
+    if (!satz.substring(4, 5).equals(eSatzart))
+    {
+      throw new DtausException(DtausException.E_SATZART_FEHLERHAFT);
+    }
+    setAnzahlDatensaetze(satz.substring(10, 17));
+    setSummeKontonummern(satz.substring(30, 47));
+    setSummeBankleitzahlen(satz.substring(47, 64));
+    setSummeBetraege(satz.substring(64, 77));
+
+  }
+
+  public void setAnzahlDatensaetze(String value) throws DtausException
+  {
+    try
+    {
+      eAnzahlC = Integer.parseInt(value);
+    }
+    catch (NumberFormatException e)
+    {
+      throw new DtausException(DtausException.E_ANZAHL_CSAETZE_FEHLERHAFT,
+          value);
+    }
+  }
+
+  public void setSummeKontonummern(String value) throws DtausException
+  {
+    eSummeKontonummern = new BigInteger(value);
+  }
+
+  public void setSummeBankleitzahlen(String value) throws DtausException
+  {
+    eSummeBankleitzahlen = new BigInteger(value);
+  }
+
+  public void setSummeBetraege(String value) throws DtausException
+  {
+    try
+    {
+      eSummeBetraege = Long.parseLong(value);
+    }
+    catch (NumberFormatException e)
+    {
+      throw new DtausException(DtausException.E_SUMME_BETRAEGE_FEHLERHAFT,
+          value);
+    }
+  }
+
+  public String toString()
+  {
+    return "Satzlaenge=" + eSatzlaenge + ", Satzart=" + eSatzart
+        + ", Anzahl C-Sätze=" + eAnzahlC + ", Summe Kontonummern="
+        + eSummeKontonummern.toString() + ", Summe Bankleitzahlen="
+        + eSummeBankleitzahlen.toString() + ", Summe Beträge=" + eSummeBetraege;
+  }
+}
+/*
+ * $Log$
+ * Revision 1.1  2006/05/24 16:24:44  jost
+ * Prerelease
+ *
+ */
