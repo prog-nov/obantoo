@@ -19,16 +19,16 @@ import java.io.IOException;
  * <p>
  * Beispiel Auflistung aller Datensätze:<br>
  * <code>
- * DtausDateiParser p = new DtausDateiParser("/home/heiner/dtaus0.txt");
- * CSatz c = p.next();
- * while (c != null)
- * {
- *   System.out.println(c);
- *   c = p.next();
- * }
- * System.out.println("----");
- * System.out.println(p.getASatz());
- * System.out.println(p.getESatz());
+ * DtausDateiParser p = new DtausDateiParser("/home/heiner/dtaus0.txt");<br>
+ * CSatz c = p.next();<br>
+ * while (c != null)<br>
+ * {<br>
+ *   System.out.println(c);<br>
+ *   c = p.next();<br>
+ * }<br>
+ * System.out.println("----");<br>
+ * System.out.println(p.getASatz());<br>
+ * System.out.println(p.getESatz());<br>
  * </code>
  * 
  * Sollte die zu parsende DTAUS-Datei fehlerhaft sein, werden entsprechende
@@ -115,14 +115,14 @@ public class DtausDateiParser
         return 512;
       }
       // C-Satz mit 11 bis 14 Erweiterungsteilen
-      else if (sl >= 506 && sl <= 477)
+      else if (sl >= 506 && sl <= 593)
       {
-        return 512;
+        return 640;
       }
       // C-Satz mit 15 Erweiterungsteilen
       else if (sl >= 622)
       {
-        return 640;
+        return 728;
       }
       throw new DtausException(DtausException.SATZLAENGE_FEHLERHAFT,
           satzlaengenfeld);
@@ -139,7 +139,7 @@ public class DtausDateiParser
   {
     try
     {
-      DtausDateiParser p = new DtausDateiParser("/home/heiner/dtaus0.txt");
+      DtausDateiParser p = new DtausDateiParser("/home/heiner/DTAUS1");
       CSatz c = p.next();
       while (c != null)
       {
@@ -167,7 +167,9 @@ public class DtausDateiParser
 }
 /*
  * $Log$
- * Revision 1.1  2006/05/24 16:24:44  jost
+ * Revision 1.2  2006/05/25 20:30:40  jost
+ * Korrektur Satzlängen und Doku
+ * Revision 1.1 2006/05/24 16:24:44 jost
  * Prerelease
- *
+ * 
  */
