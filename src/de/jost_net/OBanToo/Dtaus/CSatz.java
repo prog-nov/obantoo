@@ -160,17 +160,14 @@ public class CSatz extends Satz
       throw new DtausException(DtausException.C_SATZLAENGE_FEHLERHAFT, satz
           .substring(0, 4));
     }
-    if (this.getErweiterungszeichen() >= 1)
+
+    // Startpositionen der Erweiterungsteile
+    int[] pos = { 187, 216, 256, 285, 314, 343, 384, 413, 442, 471, 512, 541,
+        570, 599 };
+    for (int i = 0; i < this.getErweiterungszeichen(); i++)
     {
-      addErweiterung(satz.substring(187, 216));
-    }
-    if (this.getErweiterungszeichen() >= 2)
-    {
-      addErweiterung(satz.substring(216, 245));
-    }
-    if (this.getErweiterungszeichen() >= 3)
-    {
-      addErweiterung(satz.substring(245, 274));
+      int p = pos[this.getErweiterungszeichen() - 1];
+      addErweiterung(satz.substring(p, p + 29));
     }
   }
 
@@ -460,22 +457,26 @@ public class CSatz extends Satz
         + this.getErweiterungszeichen();
     for (int i = 0; i < this.cErweiterung01.size(); i++)
     {
-      ret += ", Erweiterung=" + this.cErweiterung01.elementAt(i);
+      ret += ", Erweiterung1[" + (i + 1) + "]="
+          + this.cErweiterung01.elementAt(i);
     }
     for (int i = 0; i < this.cErweiterung02.size(); i++)
     {
-      ret += ", Erweiterung=" + this.cErweiterung02.elementAt(i);
+      ret += ", Erweiterung2[" + (i + 1) + "]="
+          + this.cErweiterung02.elementAt(i);
     }
     for (int i = 0; i < this.cErweiterung03.size(); i++)
     {
-      ret += ", Erweiterung=" + this.cErweiterung03.elementAt(i);
+      ret += ", Erweiterung3[" + (i + 1) + "]="
+          + this.cErweiterung03.elementAt(i);
     }
     return ret;
   }
 }
 /*
  * $Log$
- * Revision 1.1  2006/05/24 16:24:44  jost
- * Prerelease
- *
+ * Revision 1.2  2006/05/25 20:30:05  jost
+ * Alle Erweiterungsteile können jetzt verarbeitet werden.
+ * Revision 1.1 2006/05/24 16:24:44 jost Prerelease
+ * 
  */
