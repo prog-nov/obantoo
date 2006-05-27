@@ -6,10 +6,13 @@
 		<property name="build.dir" value="build" />
 		<property name="src.dir" value="src" />
 		<property name="classes.dir" value="${build.dir}/bin" />
-		<property name="doc.dir" value="${build.dir}/doc" />
+		<property name="doc.dir" value="doc" />
 		<property name="javadoc.dir" value="doc/api" />
-		<property name="jar.file" value="${build.dir}/obantoo.jar" />
-		<echo message="${build.dir}" />
+		<property name="deploy" value="deploy" />
+        <property environment="env"/>
+        <property file="lib.props"/>
+		<property name="jar.file" value="${build.dir}/obantoo-bin-${version}.jar" />
+		<property name="zip.file" value="${deploy}/obantoo-${version}.zip" />
 	</target>
 
 	<target name="compile" depends="init" description="Compilieren">
@@ -22,10 +25,11 @@
 		<tstamp/>
 		<jar destfile="${jar.file}">
 			<manifest>
-				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Built-By" value="Heiner Jostkleigrewe" />
 				<attribute name="Built-Date" value="${DSTAMP}" />
 				<attribute name="Implementation-Title" value="obantoo" />
-            </manifest>
+				<attribute name="Implementation-Version" value="${version} ${TODAY}"/> 
+			</manifest>
 			<fileset dir="${classes.dir}" />
 		</jar>
 	</target>
@@ -40,16 +44,36 @@
 			</sourcepath>
 		</javadoc>
 	</target>
+	
+	<target name="toweb" depends="init,javadoc" description="Doku zu Berlios übertragen">
+		<scp todir="jost:janjost@shell.berlios.de:/home/groups/obantoo">
+		    <fileset dir="${doc.dir}"/>
+		  </scp>
+	</target>
+
 		
-	<target name="deploy" depends="javadoc" description="Auslieferbare ZIP-Datei erzeugen">
-		<zip destfile="obantoo.zip">
-		   <fileset dir="${build.dir}" />
+	<target name="deploy" depends="init,javadoc" description="Auslieferbare ZIP-Datei erzeugen">
+		<mkdir dir="${deploy}"/>
+		<copy todir="${build.dir}/src">
+		    <fileset dir="${src.dir}"/>
+        </copy>
+		<copy todir="${build.dir}/doc">
+		    <fileset dir="${doc.dir}"/>
+        </copy>
+		<copy todir="${build.dir}" file="LGPL.txt"/>
+		<copy todir="${build.dir}" file="lib.props"/>
+		<echo message="zip ${zip.file} und ${build.dir}" />
+
+		<zip  destfile="${zip.file}" >
+			<fileset dir="${build.dir}" />
 		</zip>
 	</target>
 
 
-	<target name="clean" description="cleanup">
-		<delete dir="${build}" />
+	<target name="clean" depends="init" description="cleanup">
+		<echo message="cleanup ${build.dir} und ${deploy}" />
+		<delete dir="${build.dir}" />
+		<delete dir="${deploy}"/>
 	</target>
 
 </project>
