@@ -68,6 +68,8 @@ public class DtausException extends Exception
   public final static String SATZLAENGE_FEHLERHAFT = "Satzlänge fehlerhaft: ";
 
   public final static String UNGUELTIGES_ZEICHEN = "Ungültiges Zeichen: ";
+  
+  public final static String UNGUELTIGE_LOGISCHE_DATEI = "Ungültige Logische Datei: ";
 
   public DtausException(String text)
   {
@@ -81,6 +83,9 @@ public class DtausException extends Exception
 }
 /*
  * $Log$
+ * Revision 1.2  2006/05/28 09:06:53  jost
+ * Zusätzliche Konstante
+ *
  * Revision 1.1  2006/05/24 16:24:44  jost
  * Prerelease
  *
