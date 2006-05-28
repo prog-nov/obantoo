@@ -9,17 +9,37 @@
  */
 package de.jost_net.OBanToo.Dtaus;
 
-import java.io.BufferedReader;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Vector;
 
 /**
  * Parser für DTAUS-Dateien
  * <p>
- * Beispiel Auflistung aller Datensätze:<br>
+ * Mit dem DTAUS-Parser können DTAUS-Dateien geparst werden, die eine oder
+ * mehrere logische Dateien enthalten. Im Konstruktor wird der Parse-Vorgang
+ * gestartet. Die gesamte DTAUS-Datei verarbeitet. Die Daten werden in Objekten
+ * vom Typ "LogischeDatei" gespeichert.
+ * <p>
+ * Sollte die zu parsende DTAUS-Datei fehlerhaft sein, werden entsprechende
+ * DtausExceptions geworfen.
+ * <p>
+ * Nachdem das DtausDateiParser-Objekt instanziiert ist, kann über die Methode
+ * getAnzahlLogischerDateien() die Anzahl der enthaltenen logischen Dateien
+ * ermittelt werden.
+ * <p>
+ * Standardmäßig beziehen sich die getASatz()-, next() und
+ * getESatz()-Methoden-Aufrufe auf die erste logische Datei. Mit
+ * setLogischeDatei(int) kann eine andere logische Datei ausgewählt werden.
+ * <p>
+ * <p>
+ * Beispiel Auflistung aller Datensätze der 2. logischen Datei:<br>
  * <code>
  * DtausDateiParser p = new DtausDateiParser("/home/heiner/dtaus0.txt");<br>
+ * p.setLogischeDatei(2);<br>
  * CSatz c = p.next();<br>
  * while (c != null)<br>
  * {<br>
@@ -31,8 +51,6 @@ import java.io.IOException;
  * System.out.println(p.getESatz());<br>
  * </code>
  * 
- * Sollte die zu parsende DTAUS-Datei fehlerhaft sein, werden entsprechende
- * DtausExceptions geworfen.
  * 
  * 
  * @author Heiner Jostkleigrewe
@@ -40,19 +58,60 @@ import java.io.IOException;
  */
 public class DtausDateiParser
 {
-  private BufferedReader dtaus;
+  private InputStream dtaus;
 
   private ASatz asatz = null;
 
   private ESatz esatz = null;
 
+  private Vector logischeDateien;
+
+  private LogischeDatei logdat;
+
   public DtausDateiParser(String filename) throws IOException, DtausException
   {
-    dtaus = new BufferedReader(new FileReader(filename));
-    asatz = new ASatz(lese());
+    this(new BufferedInputStream(new FileInputStream(filename)));
   }
 
-  public CSatz next() throws IOException, DtausException
+  public DtausDateiParser(InputStream is) throws IOException, DtausException
+  {
+    logischeDateien = new Vector();
+    dtaus = is;
+    while (is.available() > 0)
+    {
+      asatz = new ASatz(lese());
+      LogischeDatei logdat = new LogischeDatei(asatz);
+      CSatz c = internNext();
+      while (c != null)
+      {
+        logdat.addCSatz(c);
+        c = internNext();
+      }
+      logdat.setESatz(esatz);
+      logischeDateien.addElement(logdat);
+    }
+    this.logdat = (LogischeDatei) logischeDateien.elementAt(0);
+  }
+
+  public int getAnzahlLogischerDateien()
+  {
+    return logischeDateien.size();
+  }
+
+  public void setLogischeDatei(int nr) throws DtausException
+  {
+    if (nr <= logischeDateien.size())
+    {
+      this.logdat = (LogischeDatei) logischeDateien.elementAt(nr - 1);
+    }
+    else
+    {
+      throw new DtausException(DtausException.UNGUELTIGE_LOGISCHE_DATEI, nr
+          + "");
+    }
+  }
+
+  private CSatz internNext() throws IOException, DtausException
   {
     String satz = lese();
     if (satz.substring(4, 5).equals("C"))
@@ -65,23 +124,28 @@ public class DtausDateiParser
 
   public ASatz getASatz()
   {
-    return asatz;
+    return this.logdat.getASatz();
+  }
+
+  public CSatz next()
+  {
+    return this.logdat.getNextCSatz();
   }
 
   public ESatz getESatz()
   {
-    return esatz;
+    return this.logdat.getESatz();
   }
 
   private String lese() throws IOException, DtausException
   {
-    char[] inchar = new char[4];
+    byte[] inchar = new byte[4];
     dtaus.read(inchar);
     String satzlaenge = new String(inchar);
     // Lese in der Satzlänge. Die Satzlänge ist um 4 Bytes zu verringern, da
     // diese
     // Bytes bereits gelesen wurden.
-    inchar = new char[getSatzlaenge(satzlaenge) - 4];
+    inchar = new byte[getSatzlaenge(satzlaenge) - 4];
     dtaus.read(inchar);
     return satzlaenge + new String(inchar);
   }
@@ -139,8 +203,22 @@ public class DtausDateiParser
   {
     try
     {
-      DtausDateiParser p = new DtausDateiParser("/home/heiner/DTAUS1");
+      DtausDateiParser p = new DtausDateiParser("/home/heiner/DTAUS6");
       CSatz c = p.next();
+      while (c != null)
+      {
+        System.out.println(c);
+        c = p.next();
+      }
+      System.out.println("----");
+      System.out.println(p.getASatz());
+      System.out.println(p.getESatz());
+
+      System.out.println("====");
+      System.out.println("Anzahl logischer Dateien: "
+          + p.getAnzahlLogischerDateien());
+      p.setLogischeDatei(2);
+      c = p.next();
       while (c != null)
       {
         System.out.println(c);
@@ -167,9 +245,11 @@ public class DtausDateiParser
 }
 /*
  * $Log$
- * Revision 1.2  2006/05/25 20:30:40  jost
- * Korrektur Satzlängen und Doku
- * Revision 1.1 2006/05/24 16:24:44 jost
+ * Revision 1.3  2006/05/28 09:06:32  jost
+ * - Unterstützung mehrerer logischer Dateien pro physikalischer Datei
+ * - interne Umstellung von Reader auf InputStream
+ * Revision 1.2 2006/05/25 20:30:40 jost
+ * Korrektur Satzlängen und Doku Revision 1.1 2006/05/24 16:24:44 jost
  * Prerelease
  * 
  */
