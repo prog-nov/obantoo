@@ -111,6 +111,11 @@ public class DtausDateiParser
     }
   }
 
+  public LogischeDatei getLogischeDatei(int nr)
+  {
+    return (LogischeDatei) logischeDateien.elementAt(nr - 1);
+  }
+
   private CSatz internNext() throws IOException, DtausException
   {
     String satz = lese();
@@ -245,10 +250,11 @@ public class DtausDateiParser
 }
 /*
  * $Log$
- * Revision 1.3  2006/05/28 09:06:32  jost
- * - Unterstützung mehrerer logischer Dateien pro physikalischer Datei
- * - interne Umstellung von Reader auf InputStream
- * Revision 1.2 2006/05/25 20:30:40 jost
+ * Revision 1.4  2006/05/29 16:38:03  jost
+ * Anpassungen für den Einsatz in Hibiscus
+ * Revision 1.3 2006/05/28 09:06:32 jost -
+ * Unterstützung mehrerer logischer Dateien pro physikalischer Datei - interne
+ * Umstellung von Reader auf InputStream Revision 1.2 2006/05/25 20:30:40 jost
  * Korrektur Satzlängen und Doku Revision 1.1 2006/05/24 16:24:44 jost
  * Prerelease
  * 

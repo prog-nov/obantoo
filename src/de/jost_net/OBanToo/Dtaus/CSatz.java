@@ -128,6 +128,11 @@ public class CSatz extends Satz
 
   private Vector cErweiterung03 = new Vector();
 
+  public CSatz() throws DtausException
+  {
+    // 
+  }
+
   /**
    * Konstruktor mit der Übergabe eines zu parsenden Satzes
    */
@@ -149,7 +154,7 @@ public class CSatz extends Satz
     setTextschluesselergaenzung(satz.substring(46, 49));
     setErstbeauftragtesInstitut(satz.substring(61, 69));
     setKontoAuftraggeber(satz.substring(69, 79));
-    setBetrag(satz.substring(79, 90));
+    setBetragInCent(satz.substring(79, 90));
     setNameEmpfaenger(satz.substring(93, 120));
     setNameAbsender(satz.substring(128, 155));
     setVerwendungszweck(satz.substring(155, 182));
@@ -335,7 +340,7 @@ public class CSatz extends Satz
     return cKontoAuftraggeber;
   }
 
-  public void setBetrag(String value) throws DtausException
+  public void setBetragInCent(String value) throws DtausException
   {
     try
     {
@@ -347,9 +352,14 @@ public class CSatz extends Satz
     }
   }
 
-  public long getBetrag()
+  public long getBetragInCent()
   {
     return cBetrag;
+  }
+
+  public double getBetragInEuro()
+  {
+    return (double) cBetrag / 100d;
   }
 
   public void setNameEmpfaenger(String value) throws DtausException
@@ -449,7 +459,7 @@ public class CSatz extends Satz
         + this.getTextschluessel() + ", Textschluesselergänzung="
         + this.getTextschluesselergaenzung() + ", erstbeauftragtes Institut="
         + this.getErstbeauftragtesInstitut() + ", Konto Auftraggeber="
-        + this.getKontoAuftraggeber() + ", Betrag=" + this.getBetrag()
+        + this.getKontoAuftraggeber() + ", Betrag=" + this.getBetragInCent()
         + ", Name Empfänger=" + this.getNameEmpfaenger() + ", Name Absender="
         + this.getNameAbsender() + ", Verwendungszweck="
         + this.getVerwendungszweck() + ", Währungskennzeichen="
@@ -475,8 +485,10 @@ public class CSatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.2  2006/05/25 20:30:05  jost
- * Alle Erweiterungsteile können jetzt verarbeitet werden.
- * Revision 1.1 2006/05/24 16:24:44 jost Prerelease
+ * Revision 1.3  2006/05/29 16:37:37  jost
+ * Anpassungen für den Einsatz in Hibiscus
+ * Revision 1.2 2006/05/25 20:30:05 jost Alle
+ * Erweiterungsteile können jetzt verarbeitet werden. Revision 1.1 2006/05/24
+ * 16:24:44 jost Prerelease
  * 
  */

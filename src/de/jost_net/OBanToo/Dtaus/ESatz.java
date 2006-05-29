@@ -85,6 +85,10 @@ public class ESatz extends Satz
           value);
     }
   }
+  public int getAnzahlDatensaetze()
+  {
+    return eAnzahlC;
+  }
 
   public void setSummeKontonummern(String value) throws DtausException
   {
@@ -119,6 +123,9 @@ public class ESatz extends Satz
 }
 /*
  * $Log$
+ * Revision 1.2  2006/05/29 16:38:21  jost
+ * Anpassungen für den Einsatz in Hibiscus
+ *
  * Revision 1.1  2006/05/24 16:24:44  jost
  * Prerelease
  *
