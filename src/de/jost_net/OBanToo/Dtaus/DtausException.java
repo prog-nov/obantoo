@@ -9,6 +9,11 @@
  */
 package de.jost_net.OBanToo.Dtaus;
 
+/**
+ * Exception des DTAUS-Parsers
+ * 
+ * @author Heiner Jostkleigrewe
+ */
 public class DtausException extends Exception
 {
   private static final long serialVersionUID = 790050704552032876L;
@@ -68,7 +73,7 @@ public class DtausException extends Exception
   public final static String SATZLAENGE_FEHLERHAFT = "Satzlänge fehlerhaft: ";
 
   public final static String UNGUELTIGES_ZEICHEN = "Ungültiges Zeichen: ";
-  
+
   public final static String UNGUELTIGE_LOGISCHE_DATEI = "Ungültige Logische Datei: ";
 
   public DtausException(String text)
@@ -83,10 +88,11 @@ public class DtausException extends Exception
 }
 /*
  * $Log$
- * Revision 1.2  2006/05/28 09:06:53  jost
+ * Revision 1.3  2006/05/30 17:40:09  jost
+ * Kommentar eingefügt
+ * Revision 1.2 2006/05/28 09:06:53 jost
  * Zusätzliche Konstante
- *
- * Revision 1.1  2006/05/24 16:24:44  jost
- * Prerelease
- *
+ * 
+ * Revision 1.1 2006/05/24 16:24:44 jost Prerelease
+ * 
  */
