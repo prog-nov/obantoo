@@ -250,6 +250,9 @@ public class DtausDateiParser
 }
 /*
  * $Log$
+ * Revision 1.5  2006/06/04 12:23:51  jost
+ * Redaktionelle Änderung
+ *
  * Revision 1.4  2006/05/29 16:38:03  jost
  * Anpassungen für den Einsatz in Hibiscus
  * Revision 1.3 2006/05/28 09:06:32 jost -
