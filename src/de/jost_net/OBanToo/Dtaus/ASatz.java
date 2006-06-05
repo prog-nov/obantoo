@@ -9,6 +9,13 @@
  */
 package de.jost_net.OBanToo.Dtaus;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * A-Satz - Datei-Vorsatz
  * 
@@ -69,7 +76,7 @@ public class ASatz extends Satz
    * Sonderbedingungen genannte Nachweiszeitraum von mindestens 10 Kalendertagen
    * erst ab dem genannten Ausführungstermin zu berechnen ist.
    */
-  private String aAusfuehrungsdatum = null;
+  private Date aAusfuehrungsdatum = null;
 
   /**
    * Feld a12, 1 Byte, alpha, Währungskennzeichen, konstant '1'
@@ -100,6 +107,11 @@ public class ASatz extends Satz
     setReferenz(satz.substring(70, 80));
     setAusfuehrungsdatum(satz.substring(80, 88));
     setWaehrungskennzeichen(satz.substring(127, 128));
+  }
+
+  public ASatz() throws DtausException
+  {
+
   }
 
   public void setGutschriftLastschrift(String value) throws DtausException
@@ -194,12 +206,36 @@ public class ASatz extends Satz
     return aReferenz;
   }
 
-  public void setAusfuehrungsdatum(String value)
+  public void setAusfuehrungsdatum(String value) throws DtausException
+  {
+    if (value.equals("        "))
+    {
+      aAusfuehrungsdatum = null;
+      return;
+    }
+    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
+    try
+    {
+      aAusfuehrungsdatum = sdf.parse(value);
+    }
+    catch (ParseException e)
+    {
+      throw new DtausException(DtausException.A_AUSFUEHRUNGSDATUM_FEHLERHAFT);
+    }
+  }
+
+  public void setAusfuehrungsdatum(Date value)
   {
     aAusfuehrungsdatum = value;
   }
 
-  public String getAusfuehrungsdatum()
+  public String getAusfuehrungsdatumString()
+  {
+    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
+    return sdf.format(aAusfuehrungsdatum);
+  }
+
+  public Date getAusfuehrungsdatum()
   {
     return aAusfuehrungsdatum;
   }
@@ -218,6 +254,52 @@ public class ASatz extends Satz
 
   }
 
+  public void write(DataOutputStream dos) throws IOException
+  {
+    // Feld 1 - Satzlänge
+    dos.writeBytes("0128");
+    // Feld 2 - Satzart
+    dos.writeBytes("A");
+    // Feld 3 - Gutschrift/Lastschrift
+    dos.writeBytes(aGutschriftLastschrift);
+    // Feld 4 - Bankleitzahl der Bank, bei der die Diskette eingereicht wird
+    dos.writeBytes(Tool.formatBLZ(aBlz));
+    // Feld 5 - Konstant 0
+    dos.writeBytes("00000000");
+    // Feld 6 - Auftraggeber
+    dos.writeBytes(make27(aKundenname.toUpperCase()));
+    // Feld 7 - Datum
+    if (aAusfuehrungsdatum == null)
+    {
+      aAusfuehrungsdatum = new Date();
+    }
+    SimpleDateFormat sdf6 = new SimpleDateFormat("ddMMyy");
+    dos.writeBytes(sdf6.format(aAusfuehrungsdatum));
+    // Feld 8 - Konstant 4 Leerzeichen
+    dos.writeBytes(Tool.space(4));
+    // Feld 9 - Kontonummer des Auftraggebers
+    DecimalFormat dfKonto = new DecimalFormat("0000000000");
+    dos.writeBytes(dfKonto.format(aKonto));
+    // Feld 10 - Referenznummer des Einreichers
+    dos.writeBytes("0000000000");
+    // Feld 11a - Reserve
+    dos.writeBytes(Tool.space(15));
+    // Feld 11b - Ausführungsdatum
+    if (aAusfuehrungsdatum != null)
+    {
+      SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+      dos.writeBytes(sdf.format(aAusfuehrungsdatum));
+    }
+    else
+    {
+      dos.writeBytes(Tool.space(8));
+    }
+    // Feld 11c - Reserve
+    dos.writeBytes(Tool.space(24));
+    // Feld 12 - Währung
+    dos.writeBytes("1");
+  }
+
   public String toString()
   {
     return "Satzlaenge=" + aSatzlaenge + ", Satzart=" + aSatzart
@@ -230,8 +312,9 @@ public class ASatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.1  2006/05/24 16:24:44  jost
- * Prerelease
- *
+ * Revision 1.2  2006/06/05 09:34:06  jost
+ * Erweiterungen f. d. DtausDateiWriter
+ * Revision 1.1 2006/05/24 16:24:44 jost Prerelease
+ * 
  */
 

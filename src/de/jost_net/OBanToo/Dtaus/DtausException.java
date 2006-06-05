@@ -18,6 +18,8 @@ public class DtausException extends Exception
 {
   private static final long serialVersionUID = 790050704552032876L;
 
+  public final static String A_AUSFUEHRUNGSDATUM_FEHLERHAFT = "Ausführungsdatum fehlerhaft";
+
   public final static String A_SATZLAENGENFELD_FEHLERHAFT = "Satzlängenfeld des A-Satzes fehlerhaft: ";
 
   public final static String A_SATZART_FEHLERHAFT = "Satzart des A-Satzes fehlerhaft: ";
@@ -25,6 +27,8 @@ public class DtausException extends Exception
   public final static String A_GUTSCHRIFT_LASTSCHRIFT_FEHLERHAFT = "Gutschrift/Lastschrift-Kennzeichen des A-Satzes fehlerhaft: ";
 
   public final static String A_BLZ_FEHLERHAFT = "Bankleitzahl des A-Satzes fehlerhaft: ";
+
+  public final static String A_AUFTRAGGEBER_FEHLERHAFT = "Länge des Auftraggebers fehlerhaft (=0 oder >27)";
 
   public final static String A_DATEIERSTELLUNGSDATUM_FEHLERHAFT = "Dateierstellungsdatum des A-Satzes ist fehlerhaft: ";
 
@@ -44,11 +48,13 @@ public class DtausException extends Exception
 
   public final static String C_KONTONUMMER_FEHLERHAFT = "Kontonummer fehlerhaft: ";
 
+  public final static String C_NAME_EMPFAENGER = "Name des Zahlungsempfängers/Zahlungspflichtigen ungültig.";
+
+  public final static String C_NAME_ABSENDER = "Name des Absenders ungültig.";
+
   public final static String C_INTERNEKUNDENNUMMER_FEHLERHAFT = "Interne Kundennummer fehlerhaft: ";
 
   public final static String C_TEXTSCHLUESSEL_FEHLERHAFT = "Textschluessel fehlerhaft: ";
-
-  public final static String C_TEXTSCHLUESSELERGAENZUNG_FEHLERHAFT = "Textschluesselergänzung fehlerhaft: ";
 
   public final static String C_ERSTBEAUFTRAGTESINSTITUT_FEHLERHAFT = "Erstbeauftragtes Institut fehlerhaft: ";
 
@@ -61,6 +67,8 @@ public class DtausException extends Exception
   public final static String C_ERWEITERUNGSZEICHEN_FEHLERHAFT = "Erweiterungszeichen fehlerhaft: ";
 
   public final static String C_ERWEITERUNG_FEHLERHAFT = "Erweiterung fehlerhaft: ";
+
+  public final static String C_VERWENDUNGSZWECK_FEHLERHAFT = "Verwendungszweck fehlerhaft (Länge = 0 oder > 27) oder mehr als 13 Stück.";
 
   public final static String E_SATZLAENGENFELD_FEHLERHAFT = "Satzlängenfeld des E-Satzes fehlerhaft: ";
 
@@ -88,10 +96,10 @@ public class DtausException extends Exception
 }
 /*
  * $Log$
- * Revision 1.3  2006/05/30 17:40:09  jost
- * Kommentar eingefügt
- * Revision 1.2 2006/05/28 09:06:53 jost
- * Zusätzliche Konstante
+ * Revision 1.4  2006/06/05 09:35:13  jost
+ * Erweiterungen f. d. DtausDateiWriter
+ * Revision 1.3 2006/05/30 17:40:09 jost Kommentar
+ * eingefügt Revision 1.2 2006/05/28 09:06:53 jost Zusätzliche Konstante
  * 
  * Revision 1.1 2006/05/24 16:24:44 jost Prerelease
  * 

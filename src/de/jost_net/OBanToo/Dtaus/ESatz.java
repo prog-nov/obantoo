@@ -9,6 +9,8 @@
  */
 package de.jost_net.OBanToo.Dtaus;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.math.BigInteger;
 
 /**
@@ -32,23 +34,28 @@ public class ESatz extends Satz
   /**
    * Feld e04, 7 Bytes, numerisch, Anzahl der Datensätze C, Abstimm-Daten
    */
-  private int eAnzahlC = 9999999;
+  private int eAnzahlC = 0;
 
   /**
    * Feld e06, 17 Bytes, numerisch, Summe der Kontonummern, Abstimm-Unterlage
    */
-  private BigInteger eSummeKontonummern = null;
+  private BigInteger eSummeKontonummern = new BigInteger("0");
 
   /**
    * Feld e07, 17 Bytes, numerisch, Summe der Bankleitzahlen, Abstimm-Unterlage
    */
-  private BigInteger eSummeBankleitzahlen = null;
+  private BigInteger eSummeBankleitzahlen = new BigInteger("0");
 
   /**
    * Feld e08, 13 Bytes, numerisch, Summe der Euro-Beträge aus den Datensätzen C
    * (Feld 12)
    */
-  private long eSummeBetraege = 0l;
+  private BigInteger eSummeBetraege = new BigInteger("0");
+
+  public ESatz() throws DtausException
+  {
+
+  }
 
   /**
    * Konstruktor mit der Übergabe eines zu parsenden Satzes
@@ -70,7 +77,6 @@ public class ESatz extends Satz
     setSummeKontonummern(satz.substring(30, 47));
     setSummeBankleitzahlen(satz.substring(47, 64));
     setSummeBetraege(satz.substring(64, 77));
-
   }
 
   public void setAnzahlDatensaetze(String value) throws DtausException
@@ -85,6 +91,7 @@ public class ESatz extends Satz
           value);
     }
   }
+
   public int getAnzahlDatensaetze()
   {
     return eAnzahlC;
@@ -95,22 +102,75 @@ public class ESatz extends Satz
     eSummeKontonummern = new BigInteger(value);
   }
 
+  public BigInteger getSummeKontonummern()
+  {
+    return eSummeKontonummern;
+  }
+
   public void setSummeBankleitzahlen(String value) throws DtausException
   {
     eSummeBankleitzahlen = new BigInteger(value);
+  }
+
+  public BigInteger getSummeBankleitzahlen()
+  {
+    return this.eSummeBankleitzahlen;
   }
 
   public void setSummeBetraege(String value) throws DtausException
   {
     try
     {
-      eSummeBetraege = Long.parseLong(value);
+      eSummeBetraege = new BigInteger(value);
     }
     catch (NumberFormatException e)
     {
       throw new DtausException(DtausException.E_SUMME_BETRAEGE_FEHLERHAFT,
           value);
     }
+  }
+
+  public BigInteger getSummeBetraege()
+  {
+    return this.eSummeBetraege;
+  }
+
+  public void add(CSatz csatz)
+  {
+    this.eAnzahlC++;
+    this.eSummeBankleitzahlen = this.eSummeBankleitzahlen.add(new BigInteger(
+        csatz.getBlzEndbeguenstigt() + ""));
+    this.eSummeKontonummern = this.eSummeKontonummern.add(new BigInteger(csatz
+        .getKontonummer()
+        + ""));
+    this.eSummeBetraege = this.eSummeBetraege.add(new BigInteger(csatz
+        .getBetragInCent()
+        + ""));
+  }
+
+  public void write(DataOutputStream dos) throws IOException
+  {
+    // Feld 1 - Satzlängenfeld
+    dos.writeBytes("0128");
+    // Feld 2 - Satzart
+    dos.writeBytes("E");
+    // Feld 3 - Reserve
+    dos.writeBytes(Tool.space(5));
+    // Feld 4 - Anzahl Datensätze C
+    dos.writeBytes(Tool.formatKontollAnzahl(this.eAnzahlC));
+    // Feld 5 - Summe der DM-Beträge
+    dos.writeBytes(Tool.formatKontrollSumme(new BigInteger("0")));
+    // Feld 6 - Summe der Konto-Nummern
+    dos.writeBytes(Tool.formatKontroll17(this.eSummeKontonummern));
+    // Feld 7 - Summe der Bankleitzahlen
+    dos.writeBytes(Tool.formatKontroll17(this.eSummeBankleitzahlen));
+    // Feld 8 - Summe der Beträge in Euro
+    dos.writeBytes(Tool.formatKontrollSumme(this.eSummeBetraege));
+    // Feld 9 - Reserve
+    dos.writeBytes(Tool.space(51));
+    dos.flush();
+    dos.close();
+
   }
 
   public String toString()
@@ -123,10 +183,11 @@ public class ESatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.2  2006/05/29 16:38:21  jost
- * Anpassungen für den Einsatz in Hibiscus
- *
- * Revision 1.1  2006/05/24 16:24:44  jost
- * Prerelease
- *
+ * Revision 1.3  2006/06/05 09:35:36  jost
+ * Erweiterungen f. d. DtausDateiWriter
+ * Revision 1.2 2006/05/29 16:38:21 jost Anpassungen für
+ * den Einsatz in Hibiscus
+ * 
+ * Revision 1.1 2006/05/24 16:24:44 jost Prerelease
+ * 
  */

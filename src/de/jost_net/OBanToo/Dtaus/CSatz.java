@@ -9,6 +9,9 @@
  */
 package de.jost_net.OBanToo.Dtaus;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.Vector;
 
 /**
@@ -20,6 +23,24 @@ import java.util.Vector;
 // todo Sätze mit mehr als 3 Erweiterungsteilen testen
 public class CSatz extends Satz
 {
+  public static final int TS_LASTSCHRIFT_ABBUCHUNGSVERFAHREN = 4000;
+
+  public static final int TS_LASTSCHRIFT_EINZUGSERMAECHTIGUNGSVERFAHREN = 5000;
+
+  public static final int TS_LASTSCHRIFT_EC_CASH = 5005;
+
+  public static final int TS_LASTSCHRIFT_EC_CASH_AUSLAND = 5006;
+
+  public static final int TS_LASTSCHRIFT_KREDITKARTE = 5008;
+
+  public static final int TS_LASTSCHRIFT_POS = 05015;
+
+  public static final int TS_UEBERWEISUNGSGUTSCHRIFT = 51000;
+
+  public static final int TS_UEBERWEISUNG_LOHN_GEHALT_RENTE = 53000;
+
+  public static final int TS_UEBERWEISUNG_OEFFENTL_KASSEN = 56000;
+
   /**
    * Feld c01, 4 Byte, numerisch, Satzlänge, konstanter Teil 187 Bytes +
    * Erweiterungsteil( e) zu 29 Bytes, max. 0622 Stellen
@@ -43,6 +64,8 @@ public class CSatz extends Satz
    */
   private long cBlzEndbeguenstigt = 0;
 
+  private boolean cBlzEndbeguenstigtSet = false;
+
   /**
    * Feld c05, 10 Bytes, numerisch, Kontonummer,
    * Überweisungsempfänger/Zahlungspflichtiger, rechtsbündig, nicht belegte
@@ -50,27 +73,30 @@ public class CSatz extends Satz
    */
   private long cKonto = 0;
 
+  private boolean cKontoSet = false;
+
   /**
    * Feld c06, 13 Bytes, numerisch, interne Kundennummer, 1. Byte = 0, 2.-12.
    * Byte = interne Kundennummer oder Nullen, 13. Byte = 0
    */
-  private long cInterneKundennummer = 999999999990l;
+  private long cInterneKundennummer = 0L;
+
+  private boolean cInterneKundennummerSet = false;
 
   /**
-   * Feld c07a, 2 Bytes, numerisch, Textschlüssel, Kennzeichnung der Zahlungsart
+   * Feld c07, 5 Bytes, numerisch, Textschlüssel, Kennzeichnung der Zahlungsart
    * und Textschlüsselergänzungen
    */
   private int cTextschluessel;
 
-  /**
-   * Feld c07b, 3 Bytes, numerisch, Textschlüsselergänzung
-   */
-  private int cTextschluesselergaenzung;
+  private boolean cTextschluesselSet = false;
 
   /**
    * Feld c10, 8 Bytes, numerisch, erstbeauftragtes Institut/erste Inkassostelle
    */
   private long cErstbeauftragtesInstitut = 0;
+
+  private boolean cErstbeauftragtesInstitutSet = false;
 
   /**
    * Feld c11, 10 Bytes, numerisch, Auftraggeber/Zahlungsempfänger,
@@ -78,11 +104,15 @@ public class CSatz extends Satz
    */
   private long cKontoAuftraggeber = 0;
 
+  private boolean cKontoAuftraggeberSet = false;
+
   /**
    * Feld c12, 11 Bytes, numerisch, Betrag in Euro einschl. Nachkommastellen
    * (müßte eigentlich Betrag in Cent heißen)
    */
   private long cBetrag = 0;
+
+  private boolean cBetragSet = false;
 
   /**
    * Feld c14a, 27 Bytes, alpha, Name,
@@ -90,11 +120,15 @@ public class CSatz extends Satz
    */
   private String cNameEmpfaenger = null;
 
+  private boolean cNameEmpfaengerSet = false;
+
   /**
    * Feld c15, 27 Bytes, alpha, Name, Überweisender/Zahlungsempfänger
    * (linksbündig), es sind möglichst kurze Bezeichnungen zu verwenden
    */
   private String cNameAbsender = null;
+
+  private boolean cNameAbsenderSet = false;
 
   /**
    * Feld c16, 27 Bytes, alpha, Verwendungszweck, Es sind möglichst kurze
@@ -104,12 +138,9 @@ public class CSatz extends Satz
    * Zahlungsempfänger bei Lastschriften benötigt, falls die Zahlung als
    * unbezahlt bzw. unanbringlich zurückgeleitet wird.
    */
-  private String cVerwendungszweck = null;
+  private Vector cVerwendungszweck = null;
 
-  /**
-   * Feld 17a, 1 Byte, alpha, Währungskennzeichen, konstant "1"
-   */
-  private String cWaehrungskennzeichen = "1";
+  private boolean cVerwendungszweckSet = false;
 
   /**
    * Feld 18, 2 Bytes, numerisch, Erweiterungszeichen, 00 = es folgt kein
@@ -117,20 +148,9 @@ public class CSatz extends Satz
    */
   private int cErweiterungszeichen = 0;
 
-  /**
-   * Felder 19 und 20, 2 Stellen Kennzeichen des Erweiterungsteils, 01 = Names
-   * des Begünstigten/Zahlungsempfängers, 02 = Verwendungszweck, 03 = Name des
-   * Überweisenden bzw. Zahlungsempfängers und 27 Stellen für die Erweiterung
-   */
-  private Vector cErweiterung01 = new Vector();
-
-  private Vector cErweiterung02 = new Vector();
-
-  private Vector cErweiterung03 = new Vector();
-
   public CSatz() throws DtausException
   {
-    // 
+    init();
   }
 
   /**
@@ -139,6 +159,7 @@ public class CSatz extends Satz
   public CSatz(String satz) throws DtausException
   {
     super(satz);
+    init();
     satz = umkodierung(satz);
     checkSatzlaengenfeld(satz.substring(0, 4));
     if (!satz.substring(4, 5).equals(cSatzart))
@@ -150,15 +171,13 @@ public class CSatz extends Satz
     setBlzEndbeguenstigt(satz.substring(13, 21));
     setKontonummer(satz.substring(21, 31));
     setInterneKundennummer(satz.substring(32, 44));
-    setTextschluessel(satz.substring(44, 46));
-    setTextschluesselergaenzung(satz.substring(46, 49));
+    setTextschluessel(satz.substring(44, 49));
     setErstbeauftragtesInstitut(satz.substring(61, 69));
     setKontoAuftraggeber(satz.substring(69, 79));
     setBetragInCent(satz.substring(79, 90));
     setNameEmpfaenger(satz.substring(93, 120));
     setNameAbsender(satz.substring(128, 155));
-    setVerwendungszweck(satz.substring(155, 182));
-    setWaehrungskennzeichen(satz.substring(182, 183));
+    addVerwendungszweck(satz.substring(155, 182));
     setErweiterungskennzeichen(satz.substring(185, 187));
     if (getSatzlaenge() != 187 + (getErweiterungszeichen() * 29))
     {
@@ -171,9 +190,14 @@ public class CSatz extends Satz
         570, 599 };
     for (int i = 0; i < this.getErweiterungszeichen(); i++)
     {
-      int p = pos[this.getErweiterungszeichen() - 1];
+      int p = pos[i];
       addErweiterung(satz.substring(p, p + 29));
     }
+  }
+
+  private void init()
+  {
+    cVerwendungszweck = new Vector();
   }
 
   private void checkSatzlaengenfeld(String value) throws DtausException
@@ -201,13 +225,23 @@ public class CSatz extends Satz
   {
     try
     {
-      cBlzErstbeteiligt = Long.parseLong(value);
+      setBlzErstbeteiligt(Long.parseLong(value));
     }
     catch (NumberFormatException e)
     {
       throw new DtausException(DtausException.C_BLZERSTBETEILIGT_FEHLERHAFT,
           value);
     }
+  }
+
+  public void setBlzErstbeteiligt(long value) throws DtausException
+  {
+    if (value < 0 || value > 99999999)
+    {
+      throw new DtausException(DtausException.C_BLZERSTBETEILIGT_FEHLERHAFT,
+          value + "");
+    }
+    cBlzErstbeteiligt = value;
   }
 
   public long getBlzErstbeteiligt()
@@ -219,13 +253,23 @@ public class CSatz extends Satz
   {
     try
     {
-      cBlzEndbeguenstigt = Long.parseLong(value);
+      setBlzEndbeguenstigt(Long.parseLong(value));
     }
     catch (NumberFormatException e)
     {
       throw new DtausException(DtausException.C_BLZENDBEGUENSTIGT_FEHLERHAFT,
           value);
     }
+  }
+
+  public void setBlzEndbeguenstigt(long value) throws DtausException
+  {
+    if (value <= 0 || value >= 99999999)
+    {
+      throw new DtausException(DtausException.C_BLZENDBEGUENSTIGT_FEHLERHAFT);
+    }
+    this.cBlzEndbeguenstigt = value;
+    this.cBlzEndbeguenstigtSet = true;
   }
 
   public long getBlzEndbeguenstigt()
@@ -237,12 +281,22 @@ public class CSatz extends Satz
   {
     try
     {
-      cKonto = Long.parseLong(value);
+      setKontonummer(Long.parseLong(value));
     }
     catch (NumberFormatException e)
     {
       throw new DtausException(DtausException.C_KONTONUMMER_FEHLERHAFT, value);
     }
+  }
+
+  public void setKontonummer(long value) throws DtausException
+  {
+    if (value <= 0 || value >= 9999999999L)
+    {
+      throw new DtausException(DtausException.C_KONTONUMMER_FEHLERHAFT);
+    }
+    cKonto = value;
+    cKontoSet = true;
   }
 
   public long getKontonummer()
@@ -254,13 +308,24 @@ public class CSatz extends Satz
   {
     try
     {
-      cInterneKundennummer = Long.parseLong(value);
+      setInterneKundennummer(Long.parseLong(value));
     }
     catch (NumberFormatException e)
     {
       throw new DtausException(DtausException.C_INTERNEKUNDENNUMMER_FEHLERHAFT,
           value);
     }
+  }
+
+  public void setInterneKundennummer(long value) throws DtausException
+  {
+    if (value < 0)
+    {
+      throw new DtausException(DtausException.C_INTERNEKUNDENNUMMER_FEHLERHAFT,
+          value + "");
+    }
+    this.cInterneKundennummer = value;
+    this.cInterneKundennummerSet = true;
   }
 
   public long getInterneKundennummer()
@@ -272,7 +337,7 @@ public class CSatz extends Satz
   {
     try
     {
-      cTextschluessel = Integer.parseInt(value);
+      setTextschluessel(Integer.parseInt(value));
     }
     catch (NumberFormatException e)
     {
@@ -281,40 +346,51 @@ public class CSatz extends Satz
     }
   }
 
+  public void setTextschluessel(int value) throws DtausException
+  {
+    if (value != TS_LASTSCHRIFT_ABBUCHUNGSVERFAHREN
+        && value != TS_LASTSCHRIFT_EINZUGSERMAECHTIGUNGSVERFAHREN
+        && value != TS_LASTSCHRIFT_EC_CASH
+        && value != TS_LASTSCHRIFT_EC_CASH_AUSLAND
+        && value != TS_LASTSCHRIFT_EINZUGSERMAECHTIGUNGSVERFAHREN
+        && value != TS_LASTSCHRIFT_KREDITKARTE && value != TS_LASTSCHRIFT_POS
+        && value != TS_UEBERWEISUNG_LOHN_GEHALT_RENTE
+        && value != TS_UEBERWEISUNG_OEFFENTL_KASSEN
+        && value != TS_UEBERWEISUNGSGUTSCHRIFT)
+    {
+      throw new DtausException(DtausException.C_TEXTSCHLUESSEL_FEHLERHAFT);
+    }
+    cTextschluessel = value;
+    cTextschluesselSet = true;
+  }
+
   public long getTextschluessel()
   {
     return cTextschluessel;
-  }
-
-  public void setTextschluesselergaenzung(String value) throws DtausException
-  {
-    try
-    {
-      cTextschluesselergaenzung = Integer.parseInt(value);
-    }
-    catch (NumberFormatException e)
-    {
-      throw new DtausException(
-          DtausException.C_TEXTSCHLUESSELERGAENZUNG_FEHLERHAFT, value);
-    }
-  }
-
-  public long getTextschluesselergaenzung()
-  {
-    return cTextschluesselergaenzung;
   }
 
   public void setErstbeauftragtesInstitut(String value) throws DtausException
   {
     try
     {
-      cErstbeauftragtesInstitut = Long.parseLong(value);
+      setErstbeauftragtesInstitut(Long.parseLong(value));
     }
     catch (NumberFormatException e)
     {
       throw new DtausException(
           DtausException.C_ERSTBEAUFTRAGTESINSTITUT_FEHLERHAFT, value);
     }
+  }
+
+  public void setErstbeauftragtesInstitut(long value) throws DtausException
+  {
+    if (value < 0)
+    {
+      throw new DtausException(
+          DtausException.C_ERSTBEAUFTRAGTESINSTITUT_FEHLERHAFT);
+    }
+    this.cErstbeauftragtesInstitut = value;
+    this.cErstbeauftragtesInstitutSet = true;
   }
 
   public long getErstbeauftragtesInstitut()
@@ -326,13 +402,24 @@ public class CSatz extends Satz
   {
     try
     {
-      cKontoAuftraggeber = Long.parseLong(value);
+      setKontoAuftraggeber(Long.parseLong(value));
     }
     catch (NumberFormatException e)
     {
       throw new DtausException(DtausException.C_KONTOAUFTRAGGEBER_FEHLERHAFT,
           value);
     }
+  }
+
+  public void setKontoAuftraggeber(long value) throws DtausException
+  {
+    if (value <= 0)
+    {
+      throw new DtausException(DtausException.C_KONTOAUFTRAGGEBER_FEHLERHAFT,
+          value + "");
+    }
+    this.cKontoAuftraggeber = value;
+    this.cKontoAuftraggeberSet = true;
   }
 
   public long getKontoAuftraggeber()
@@ -344,12 +431,27 @@ public class CSatz extends Satz
   {
     try
     {
-      cBetrag = Long.parseLong(value);
+      setBetragInCent(Long.parseLong(value));
     }
     catch (NumberFormatException e)
     {
       throw new DtausException(DtausException.C_BETRAG_FEHLERHAFT, value);
     }
+  }
+
+  public void setBetragInCent(long value) throws DtausException
+  {
+    if (value <= 0)
+    {
+      throw new DtausException(DtausException.C_BETRAG_FEHLERHAFT, value + "");
+    }
+    cBetrag = value;
+    cBetragSet = true;
+  }
+
+  public void setBetragInEuro(double value) throws DtausException
+  {
+    setBetragInCent((long) (value * 100d));
   }
 
   public long getBetragInCent()
@@ -364,17 +466,23 @@ public class CSatz extends Satz
 
   public void setNameEmpfaenger(String value) throws DtausException
   {
-    cNameEmpfaenger = value.trim();
+    if (value.length() == 0 || value.length() > 27)
+    {
+      throw new DtausException(DtausException.C_NAME_EMPFAENGER);
+    }
+    this.cNameEmpfaenger = value.trim();
+    this.cNameEmpfaengerSet = true;
   }
 
   public String getNameEmpfaenger()
   {
-    return cNameEmpfaenger;
+    return this.cNameEmpfaenger;
   }
 
   public void setNameAbsender(String value) throws DtausException
   {
-    cNameAbsender = value.trim();
+    this.cNameAbsender = value.trim();
+    this.cNameAbsenderSet = true;
   }
 
   public String getNameAbsender()
@@ -382,32 +490,31 @@ public class CSatz extends Satz
     return cNameAbsender;
   }
 
-  public void setVerwendungszweck(String value) throws DtausException
+  public void addVerwendungszweck(String value) throws DtausException
   {
-    cVerwendungszweck = value.trim();
-  }
-
-  public String getVerwendungszweck()
-  {
-    return cVerwendungszweck;
-  }
-
-  public void setWaehrungskennzeichen(String value) throws DtausException
-  {
-    if (value.equals("1"))
+    if (value.length() == 0 || value.length() > 27)
     {
-      cWaehrungskennzeichen = value;
+      throw new DtausException(DtausException.C_VERWENDUNGSZWECK_FEHLERHAFT);
+    }
+    this.cVerwendungszweck.addElement(value.trim());
+    this.cVerwendungszweckSet = true;
+  }
+
+  public String getVerwendungszweck(int nr)
+  {
+    if (nr <= getAnzahlVerwendungszwecke())
+    {
+      return (String) cVerwendungszweck.elementAt(nr - 1);
     }
     else
     {
-      throw new DtausException(
-          DtausException.C_WAEHRUNGSKENNZEICHEN_FEHLERHAFT, value);
+      return null;
     }
   }
 
-  public String getWaehrungskennzeichen()
+  public int getAnzahlVerwendungszwecke()
   {
-    return cWaehrungskennzeichen;
+    return cVerwendungszweck.size();
   }
 
   public void setErweiterungskennzeichen(String value) throws DtausException
@@ -431,22 +538,153 @@ public class CSatz extends Satz
   public void addErweiterung(String value) throws DtausException
   {
     String val = value.substring(2).trim();
-    if (value.startsWith("01"))
+    if (value.startsWith("02"))
     {
-      this.cErweiterung01.addElement(val);
-    }
-    else if (value.startsWith("02"))
-    {
-      this.cErweiterung02.addElement(val);
-    }
-    else if (value.startsWith("03"))
-    {
-      this.cErweiterung03.addElement(val);
+      addVerwendungszweck(val);
     }
     else
     {
       throw new DtausException(DtausException.C_ERWEITERUNG_FEHLERHAFT, value);
     }
+  }
+
+  public void write(DataOutputStream dos) throws IOException, DtausException
+  {
+    if (!isOK())
+    {
+      throw new DtausException("Nicht alle C-Satz-Daten gefüllt.");
+    }
+    cErweiterungszeichen = cVerwendungszweck.size() - 1;
+    // Feld 1 - Satzlänge
+    dos.writeBytes(Tool.formatSL(187 + (cErweiterungszeichen * 29)));
+    // Feld 2 - Satzart
+    dos.writeBytes("C");
+    // Feld 3 - Bankleitzahl erstbeteiligtes Institut
+    dos.writeBytes(Tool.formatBLZ(cBlzErstbeteiligt));
+    // Feld 4 - Bankleitzahl endbegünstigtes Institut / Zahlstelle
+    dos.writeBytes(Tool.formatBLZ(cBlzEndbeguenstigt));
+    // Feld 5 - Kontonummer Überweisungsempfänger / Zahlungspflichtiger
+    dos.writeBytes(Tool.formatKonto(cKonto));
+    // Feld 6 - Interne Kundennummer
+    dos.writeBytes("0000000000000");
+    // Feld 7 - Textschluessel
+    dos.writeBytes(Tool.formatTextschluessel(cTextschluessel));
+    // Feld 8 - Bankinternes Feld
+    dos.writeBytes(" ");
+    // Feld 9 - Betrag in DM
+    DecimalFormat dfBetrag = new DecimalFormat("00000000000");
+    dos.writeBytes(dfBetrag.format(0));
+    // Feld 10 - Bankleitzahl erstbeauftragtes Institut/erste Inkassostelle
+    dos.writeBytes(Tool.formatBLZ(this.cErstbeauftragtesInstitut));
+    // Feld 11 - Konto Auftraggeber
+    dos.writeBytes(Tool.formatKonto(this.cKontoAuftraggeber));
+    // Feld 12 - Betrag in Euro
+    dos.writeBytes(dfBetrag.format(this.cBetrag));
+    // Feld 13 - Reserve
+    dos.writeBytes(Tool.space(3));
+    // Feld 14a - Name Überweisungsempfänger / Zahlungspflichtiger
+    dos.writeBytes(make27(this.cNameEmpfaenger.toUpperCase()));
+    // Feld 14b - Abgrenzung des Satzabschnittes
+    dos.writeBytes(Tool.space(8));
+    // Feld 15 - Name Auftraggeber / Zahlungsempfänger
+    dos.writeBytes(make27(this.cNameAbsender.toUpperCase()));
+    // Feld 16 - Verwendungszweck 1
+    dos.writeBytes(make27(this.getVerwendungszweck(1).toUpperCase()));
+    // Feld 17a - Währungskennzeichen
+    dos.writeBytes("1");
+    // Feld 17b - Reserve
+    dos.writeBytes(Tool.space(2));
+    // Feld 18 - Anzahl Erweiterungsteile
+    dos.writeBytes(Tool.formatErweiterung(this.cErweiterungszeichen));
+    // 2. Satzabschnitt
+    if (this.getAnzahlVerwendungszwecke() >= 2)
+    {
+      dos.writeBytes("02"
+          + make27(this.getVerwendungszweck(2).toUpperCase()));
+    }
+    else
+    {
+      dos.writeBytes(Tool.space(29));
+    }
+    if (this.getAnzahlVerwendungszwecke() >= 3)
+    {
+      dos.writeBytes("02"
+          + make27(this.getVerwendungszweck(3).toUpperCase()));
+    }
+    else
+    {
+      dos.writeBytes(Tool.space(29));
+    }
+    dos.writeBytes(Tool.space(11));
+    ausgebenErweiterungsteile(dos, 4);
+    ausgebenErweiterungsteile(dos, 8);
+    ausgebenErweiterungsteile(dos, 12);
+  }
+
+  private void ausgebenErweiterungsteile(DataOutputStream dos, int pos)
+      throws IOException
+  {
+    if (this.getAnzahlVerwendungszwecke() >= pos)
+    {
+      for (int i = pos; i < pos + 4; i++)
+      {
+        String vzweck = this.getVerwendungszweck(i);
+        if (vzweck != null)
+        {
+          dos.writeBytes("02" + make27(vzweck.toUpperCase()));
+        }
+        else
+        {
+          dos.writeBytes(Tool.space(29));
+        }
+      }
+      dos.writeBytes(Tool.space(12));
+    }
+  }
+
+  public boolean isOK() throws DtausException
+  {
+    if (!cBlzEndbeguenstigtSet)
+    {
+      throw new DtausException(DtausException.C_BLZENDBEGUENSTIGT_FEHLERHAFT);
+    }
+    if (!cKontoSet)
+    {
+      throw new DtausException(DtausException.C_KONTONUMMER_FEHLERHAFT);
+    }
+    if (!cInterneKundennummerSet)
+    {
+      throw new DtausException(DtausException.C_INTERNEKUNDENNUMMER_FEHLERHAFT);
+    }
+    if (!cTextschluesselSet)
+    {
+      throw new DtausException(DtausException.C_TEXTSCHLUESSEL_FEHLERHAFT);
+    }
+    if (!cErstbeauftragtesInstitutSet)
+    {
+      throw new DtausException(DtausException.C_BLZERSTBETEILIGT_FEHLERHAFT);
+    }
+    if (!cKontoAuftraggeberSet)
+    {
+      throw new DtausException(DtausException.C_KONTOAUFTRAGGEBER_FEHLERHAFT);
+    }
+    if (!cBetragSet)
+    {
+      throw new DtausException(DtausException.C_BETRAG_FEHLERHAFT);
+    }
+    if (!cNameEmpfaengerSet)
+    {
+      throw new DtausException(DtausException.C_NAME_EMPFAENGER);
+    }
+    if (!cNameAbsenderSet)
+    {
+      throw new DtausException(DtausException.C_NAME_ABSENDER);
+    }
+    if (!cVerwendungszweckSet)
+    {
+      throw new DtausException(DtausException.C_VERWENDUNGSZWECK_FEHLERHAFT);
+    }
+    return true;
   }
 
   public String toString()
@@ -456,38 +694,25 @@ public class CSatz extends Satz
         + this.getBlzEndbeguenstigt() + ", Kontonummer="
         + this.getKontonummer() + ", interne Kundennummer="
         + this.getInterneKundennummer() + ", Textschluessel="
-        + this.getTextschluessel() + ", Textschluesselergänzung="
-        + this.getTextschluesselergaenzung() + ", erstbeauftragtes Institut="
+        + this.getTextschluessel() + ", erstbeauftragtes Institut="
         + this.getErstbeauftragtesInstitut() + ", Konto Auftraggeber="
         + this.getKontoAuftraggeber() + ", Betrag=" + this.getBetragInCent()
         + ", Name Empfänger=" + this.getNameEmpfaenger() + ", Name Absender="
-        + this.getNameAbsender() + ", Verwendungszweck="
-        + this.getVerwendungszweck() + ", Währungskennzeichen="
-        + this.getWaehrungskennzeichen() + ", Erweiterungszeichen="
+        + this.getNameAbsender() + ", Erweiterungszeichen="
         + this.getErweiterungszeichen();
-    for (int i = 0; i < this.cErweiterung01.size(); i++)
+    for (int i = 1; i <= this.getAnzahlVerwendungszwecke(); i++)
     {
-      ret += ", Erweiterung1[" + (i + 1) + "]="
-          + this.cErweiterung01.elementAt(i);
-    }
-    for (int i = 0; i < this.cErweiterung02.size(); i++)
-    {
-      ret += ", Erweiterung2[" + (i + 1) + "]="
-          + this.cErweiterung02.elementAt(i);
-    }
-    for (int i = 0; i < this.cErweiterung03.size(); i++)
-    {
-      ret += ", Erweiterung3[" + (i + 1) + "]="
-          + this.cErweiterung03.elementAt(i);
+      ret += ", Verwendungszweck[" + (i) + "]=" + getVerwendungszweck(i);
     }
     return ret;
   }
 }
 /*
  * $Log$
- * Revision 1.3  2006/05/29 16:37:37  jost
- * Anpassungen für den Einsatz in Hibiscus
- * Revision 1.2 2006/05/25 20:30:05 jost Alle
+ * Revision 1.4  2006/06/05 09:34:36  jost
+ * Erweiterungen f. d. DtausDateiWriter
+ * Revision 1.3 2006/05/29 16:37:37 jost Anpassungen für
+ * den Einsatz in Hibiscus Revision 1.2 2006/05/25 20:30:05 jost Alle
  * Erweiterungsteile können jetzt verarbeitet werden. Revision 1.1 2006/05/24
  * 16:24:44 jost Prerelease
  * 
