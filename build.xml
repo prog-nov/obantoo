@@ -38,7 +38,7 @@
 	<target name="javadoc" depends="jar" description="Javadoc erzeugen">
 		<mkdir dir="${javadoc.dir}" />
 
-		<javadoc destdir="${javadoc.dir}" packagenames="*">
+		<javadoc destdir="${javadoc.dir}" packagenames="*" access="private">
 			<sourcepath>
 				<pathelement location="${src.dir}" />
 			</sourcepath>
