@@ -18,6 +18,8 @@ import java.util.Date;
 /**
  * Datenträgeraustauschdateien (DTAUS) erstellen
  * <p>
+ * Mit dem DtausDateiWriter können DTAUS-Dateien mit einer oder mehreren
+ * logischen Dateien erzeugt werden.
  * 
  * Beispiel für die Erstellung einer DTAUS-Datei:<br>
  * <br>
@@ -61,11 +63,25 @@ import java.util.Date;
  * dtausDateiWriter.addCVerwendungszweck("schlafen");<br>
  * dtausDateiWriter.writeCSatz();<br>
  * </code> <br>
- * Die Methode writeESatz schließt den OutputStream implizit<br>
+ * E-Satz schreiben = Ende einer logischen Datei.<br>
  * <code>
  * dtausDateiWriter.writeESatz();<br>
+ * </code> <br>
+ * Gegebenenfalls kann eine weitere logische Datei durch die folgenden Aufrufe
+ * erstellt werden:<br>
+ * <code>
+ * dtausDateiWriter.open();<br>
+ * dtausDateiWriter.setA.....<br>
+ * dtausDateiWriter.writeASatz();<br>
+ * :<br>
+ * :<br>
+ * dtausDateiWriter.writeCSatz();<br>
+ * dtausDateiWriter.writeCSatz();<br>
+ * dtausDateiWriter.writeASatz();<br>
+ * dtausDateiWriter.close;<br>
+ * <br>
  * System.out.println("DTAUS-Datei erstellt!");<br>
- *</code>
+ * </code>
  */
 public class DtausDateiWriter
 {
@@ -83,9 +99,33 @@ public class DtausDateiWriter
   public DtausDateiWriter(OutputStream os) throws DtausException
   {
     dos = new DataOutputStream(os);
+    open();
+  }
+
+  /**
+   * Die Open-Methode wird durch den Konstruktor aufgerufen. Ein erneuter Aufruf
+   * darf erfolgen, nachdem der E-Satz geschrieben wurden. Damit wird die
+   * Ausgabe einer weiteren logischen Datei möglich.
+   * 
+   * @throws DtausException
+   */
+  public void open() throws DtausException
+  {
     asatz = new ASatz();
     csatz = new CSatz();
     esatz = new ESatz();
+  }
+
+  /**
+   * Die Close-Methode ist nach der Ausgabe des E-Satzes der letzten/einzigen
+   * logischen Datei erforderlich.
+   * 
+   * @throws IOException
+   */
+  public void close() throws IOException
+  {
+    dos.flush();
+    dos.close();
   }
 
   public void setAGutschriftLastschrift(String aGutschriftLastschrift)
@@ -258,7 +298,8 @@ public class DtausDateiWriter
 }
 /*
  * $Log$
- * Revision 1.1  2006/06/05 09:34:51  jost
- * Neu
- *
+ * Revision 1.2  2006/06/14 19:56:41  jost
+ * Mehrere logische Dateien können jetzt ausgegeben werden.
+ * Revision 1.1 2006/06/05 09:34:51 jost Neu
+ * 
  */

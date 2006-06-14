@@ -168,9 +168,7 @@ public class ESatz extends Satz
     dos.writeBytes(Tool.formatKontrollSumme(this.eSummeBetraege));
     // Feld 9 - Reserve
     dos.writeBytes(Tool.space(51));
-    dos.flush();
-    dos.close();
-
+ 
   }
 
   public String toString()
@@ -183,6 +181,9 @@ public class ESatz extends Satz
 }
 /*
  * $Log$
+ * Revision 1.4  2006/06/14 19:57:05  jost
+ * Mehrere logische Dateien können jetzt ausgegeben werden.
+ *
  * Revision 1.3  2006/06/05 09:35:36  jost
  * Erweiterungen f. d. DtausDateiWriter
  * Revision 1.2 2006/05/29 16:38:21 jost Anpassungen für
