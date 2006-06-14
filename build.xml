@@ -74,6 +74,7 @@
 		<echo message="cleanup ${build.dir} und ${deploy}" />
 		<delete dir="${build.dir}" />
 		<delete dir="${deploy}"/>
+        <delete dir="${javadoc.dir}"/>
 	</target>
 
 </project>
