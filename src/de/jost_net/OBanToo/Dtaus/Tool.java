@@ -12,6 +12,8 @@ package de.jost_net.OBanToo.Dtaus;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Tool
 {
@@ -60,6 +62,12 @@ public class Tool
     return nf.format(bdBetrag);
   }
 
+  public static String formatQIFBetrag(double value)
+  {
+    DecimalFormat df = new DecimalFormat("##########0.00");
+    return df.format(value).replace(',', '.');
+  }
+
   public static String formatBLZ(long value)
   {
     DecimalFormat dfBLZ = new DecimalFormat("00000000");
@@ -77,10 +85,24 @@ public class Tool
     DecimalFormat dfTextschluessel = new DecimalFormat("00000");
     return dfTextschluessel.format(value);
   }
+
+  public static String formatQIFDate(Date value)
+  {
+    SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yy");
+    return sdf.format(value);
+  }
+
+  public static Date parseQIFDate(String value) throws java.text.ParseException
+  {
+    SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yy");
+    return sdf.parse(value);
+  }
 }
 /*
  * $Log$
- * Revision 1.1  2006/06/05 09:36:11  jost
- * Erweiterungen f. d. DtausDateiWriter
- *
+ * Revision 1.2  2006/06/15 12:27:06  jost
+ * Neue Methoden aufgenommen
+ * Revision 1.1 2006/06/05 09:36:11 jost Erweiterungen f. d.
+ * DtausDateiWriter
+ * 
  */
