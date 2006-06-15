@@ -9,10 +9,14 @@
  */
 package de.jost_net.OBanToo.QIF;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
+
+import de.jost_net.OBanToo.Dtaus.Tool;
 
 /**
  * QIF-Buchungssatz
@@ -29,7 +33,7 @@ public class QIFBuchung
 
   private String kategorie = null;
 
-  private String clearedStatus = "";
+  private String clearedStatus = null;
 
   private String referenz = null;
 
@@ -44,6 +48,7 @@ public class QIFBuchung
 
   public QIFBuchung()
   {
+    adresse = new Vector();
   }
 
   public void add(String line) throws QIFException
@@ -60,10 +65,9 @@ public class QIFBuchung
       {
         //
       }
-      sdf = new SimpleDateFormat("MM.dd.yy");
       try
       {
-        datum = sdf.parse(line.substring(1));
+        datum = Tool.parseQIFDate(line.substring(1));
         return;
       }
       catch (ParseException e)
@@ -106,9 +110,19 @@ public class QIFBuchung
     return datum;
   }
 
+  public void setDatum(Date value)
+  {
+    this.datum = value;
+  }
+
   public double getBetrag()
   {
     return betrag;
+  }
+
+  public void setBetrag(double value)
+  {
+    this.betrag = value;
   }
 
   public String getEmpfaenger()
@@ -116,9 +130,19 @@ public class QIFBuchung
     return empfaenger;
   }
 
+  public void setEmpfaenger(String value)
+  {
+    this.empfaenger = value;
+  }
+
   public String getKategorie()
   {
     return kategorie;
+  }
+
+  public void setKategorie(String value)
+  {
+    this.kategorie = value;
   }
 
   public String getClearedStatus()
@@ -126,14 +150,29 @@ public class QIFBuchung
     return clearedStatus;
   }
 
+  public void setClearedStatus(String value)
+  {
+    this.clearedStatus = value;
+  }
+
   public String getReferenz()
   {
     return referenz;
   }
 
+  public void setReferenz(String value)
+  {
+    this.referenz = value;
+  }
+
   public String getMemo()
   {
     return memo;
+  }
+
+  public void setMemo(String value)
+  {
+    this.memo = value;
   }
 
   public int getAnzahlAdresszeilen()
@@ -151,6 +190,46 @@ public class QIFBuchung
     return (String) adresse.elementAt(ai);
   }
 
+  public void addAdresse(String value)
+  {
+    adresse.addElement(value);
+  }
+
+  public void write(DataOutputStream dos) throws IOException
+  {
+    if (this.getDatum() != null)
+    {
+      dos.writeBytes("D" + Tool.formatQIFDate(this.getDatum())+"\n");
+    }
+    dos.writeBytes("T" + Tool.formatQIFBetrag(this.getBetrag())+"\n");
+    if (this.getEmpfaenger() != null)
+    {
+      dos.writeBytes("P" + this.getEmpfaenger()+"\n");
+    }
+    if (this.getKategorie() != null)
+    {
+      dos.writeBytes("L" + this.getKategorie()+"\n");
+    }
+    if (this.getClearedStatus() != null)
+    {
+      dos.writeBytes("C" + this.getClearedStatus()+"\n");
+    }
+    ai = -1;
+    for (int i = 0; i < this.getAnzahlAdresszeilen(); i++)
+    {
+      dos.writeBytes("A" + this.getAdresseNext()+"\n");
+    }
+    if (this.getReferenz() != null)
+    {
+      dos.writeBytes("N" + this.getReferenz()+"\n");
+    }
+    if (this.getMemo() != null)
+    {
+      dos.writeBytes("M" + this.getMemo()+"\n");
+    }
+    dos.writeBytes("^\n");
+  }
+
   public String toString()
   {
     String ret = "Datum=" + datum + ", Betrag=" + betrag + ", Empfänger="
@@ -166,7 +245,9 @@ public class QIFBuchung
 }
 /*
  * $Log$
- * Revision 1.1  2006/05/30 17:40:40  jost
- * *** empty log message ***
- *
+ * Revision 1.2  2006/06/15 12:27:30  jost
+ * Erweiterung um QIFDateiWriter
+ * Revision 1.1 2006/05/30 17:40:40 jost *** empty log
+ * message ***
+ * 
  */
