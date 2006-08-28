@@ -90,7 +90,8 @@ public class ASatz extends Satz
    */
   public ASatz(String satz) throws DtausException
   {
-    super(satz);
+    satz = codingFromDtaus(satz);
+    validCharacters(satz);
     if (!satz.substring(0, 4).equals(aSatzlaenge))
     {
       throw new DtausException(DtausException.A_SATZLAENGENFELD_FEHLERHAFT);
@@ -114,6 +115,11 @@ public class ASatz extends Satz
 
   }
 
+  /**
+   * Kennzeichen <br>
+   * GK = Gutschrift Kunde<br>
+   * LK = Lastschrift Kunde<br>
+   */
   public void setGutschriftLastschrift(String value) throws DtausException
   {
     if (value.equals("GK") || value.equals("LK"))
@@ -154,9 +160,10 @@ public class ASatz extends Satz
     return aBlz;
   }
 
-  public void setKundenname(String value)
+  public void setKundenname(String value) throws DtausException
   {
-    aKundenname = value.trim();
+    aKundenname = makeValid(value);
+    validCharacters(aKundenname);
   }
 
   public String getKundenname()
@@ -267,7 +274,7 @@ public class ASatz extends Satz
     // Feld 5 - Konstant 0
     dos.writeBytes("00000000");
     // Feld 6 - Auftraggeber
-    dos.writeBytes(make27(aKundenname.toUpperCase()));
+    dos.writeBytes(make27(aKundenname));
     // Feld 7 - Datum
     if (aAusfuehrungsdatum == null)
     {
@@ -312,9 +319,10 @@ public class ASatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.2  2006/06/05 09:34:06  jost
- * Erweiterungen f. d. DtausDateiWriter
- * Revision 1.1 2006/05/24 16:24:44 jost Prerelease
+ * Revision 1.3  2006/08/28 19:01:00  jost
+ * Korrekte Behandlung von Groﬂ-Kleinschreibung und ƒ÷‹ﬂ
+ * Revision 1.2 2006/06/05 09:34:06 jost Erweiterungen f.
+ * d. DtausDateiWriter Revision 1.1 2006/05/24 16:24:44 jost Prerelease
  * 
  */
 

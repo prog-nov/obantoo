@@ -13,6 +13,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -161,6 +162,15 @@ public class DtausDateiWriter
   }
 
   /**
+   * Feld A7 - Datum Standardwert: Tagesdatum
+   */
+  public void setADatum(Date aDatum) throws DtausException
+  {
+    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
+    setADatum(sdf.format(aDatum));
+  }
+
+  /**
    * Feld A9 - Kontonummer des Auftraggebers Standardwert: 0
    */
   public void setAKonto(long aKonto) throws DtausException
@@ -261,14 +271,16 @@ public class DtausDateiWriter
     asatz.write(dos);
   }
 
-  public void writeCSatz() throws IOException, DtausException
+  public String writeCSatz() throws IOException, DtausException
   {
     csatz.setNameAbsender(asatz.getKundenname());
     csatz.setErstbeauftragtesInstitut(asatz.getBlz());
     csatz.setKontoAuftraggeber(asatz.getKonto());
     esatz.add(csatz); // Kontrollsummen addieren
     csatz.write(dos);
+    String ret = csatz.toString();
     csatz = new CSatz();
+    return ret;
   }
 
   public void writeESatz() throws IOException
@@ -298,8 +310,10 @@ public class DtausDateiWriter
 }
 /*
  * $Log$
- * Revision 1.2  2006/06/14 19:56:41  jost
- * Mehrere logische Dateien können jetzt ausgegeben werden.
- * Revision 1.1 2006/06/05 09:34:51 jost Neu
+ * Revision 1.3  2006/08/28 19:03:42  jost
+ * Korrekte Behandlung von Groß-Kleinschreibung und ÄÖÜß
+ * Revision 1.2 2006/06/14 19:56:41 jost Mehrere
+ * logische Dateien können jetzt ausgegeben werden. Revision 1.1 2006/06/05
+ * 09:34:51 jost Neu
  * 
  */

@@ -158,9 +158,9 @@ public class CSatz extends Satz
    */
   public CSatz(String satz) throws DtausException
   {
-    super(satz);
+    satz = codingFromDtaus(satz);
+    validCharacters(satz);
     init();
-    satz = umkodierung(satz);
     checkSatzlaengenfeld(satz.substring(0, 4));
     if (!satz.substring(4, 5).equals(cSatzart))
     {
@@ -470,7 +470,8 @@ public class CSatz extends Satz
     {
       throw new DtausException(DtausException.C_NAME_EMPFAENGER);
     }
-    this.cNameEmpfaenger = value.trim();
+    this.cNameEmpfaenger = makeValid(value);
+    validCharacters(this.cNameEmpfaenger);
     this.cNameEmpfaengerSet = true;
   }
 
@@ -481,7 +482,8 @@ public class CSatz extends Satz
 
   public void setNameAbsender(String value) throws DtausException
   {
-    this.cNameAbsender = value.trim();
+    this.cNameAbsender = makeValid(value);
+    validCharacters(this.cNameAbsender);
     this.cNameAbsenderSet = true;
   }
 
@@ -494,9 +496,12 @@ public class CSatz extends Satz
   {
     if (value.length() == 0 || value.length() > 27)
     {
-      throw new DtausException(DtausException.C_VERWENDUNGSZWECK_FEHLERHAFT);
+      throw new DtausException(DtausException.C_VERWENDUNGSZWECK_FEHLERHAFT,
+          value);
     }
-    this.cVerwendungszweck.addElement(value.trim());
+    String vzw = makeValid(value);
+    validCharacters(vzw);
+    this.cVerwendungszweck.addElement(vzw);
     this.cVerwendungszweckSet = true;
   }
 
@@ -538,6 +543,8 @@ public class CSatz extends Satz
   public void addErweiterung(String value) throws DtausException
   {
     String val = value.substring(2).trim();
+    val = makeValid(val);
+    validCharacters(val);
     if (value.startsWith("02"))
     {
       addVerwendungszweck(val);
@@ -583,13 +590,13 @@ public class CSatz extends Satz
     // Feld 13 - Reserve
     dos.writeBytes(Tool.space(3));
     // Feld 14a - Name Überweisungsempfänger / Zahlungspflichtiger
-    dos.writeBytes(make27(this.cNameEmpfaenger.toUpperCase()));
+    dos.writeBytes(make27(this.cNameEmpfaenger));
     // Feld 14b - Abgrenzung des Satzabschnittes
     dos.writeBytes(Tool.space(8));
     // Feld 15 - Name Auftraggeber / Zahlungsempfänger
-    dos.writeBytes(make27(this.cNameAbsender.toUpperCase()));
+    dos.writeBytes(make27(this.cNameAbsender));
     // Feld 16 - Verwendungszweck 1
-    dos.writeBytes(make27(this.getVerwendungszweck(1).toUpperCase()));
+    dos.writeBytes(make27(this.getVerwendungszweck(1)));
     // Feld 17a - Währungskennzeichen
     dos.writeBytes("1");
     // Feld 17b - Reserve
@@ -599,8 +606,7 @@ public class CSatz extends Satz
     // 2. Satzabschnitt
     if (this.getAnzahlVerwendungszwecke() >= 2)
     {
-      dos.writeBytes("02"
-          + make27(this.getVerwendungszweck(2).toUpperCase()));
+      dos.writeBytes("02" + make27(this.getVerwendungszweck(2)));
     }
     else
     {
@@ -608,8 +614,7 @@ public class CSatz extends Satz
     }
     if (this.getAnzahlVerwendungszwecke() >= 3)
     {
-      dos.writeBytes("02"
-          + make27(this.getVerwendungszweck(3).toUpperCase()));
+      dos.writeBytes("02" + make27(this.getVerwendungszweck(3)));
     }
     else
     {
@@ -631,7 +636,7 @@ public class CSatz extends Satz
         String vzweck = this.getVerwendungszweck(i);
         if (vzweck != null)
         {
-          dos.writeBytes("02" + make27(vzweck.toUpperCase()));
+          dos.writeBytes("02" + make27(vzweck));
         }
         else
         {
@@ -709,10 +714,11 @@ public class CSatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.4  2006/06/05 09:34:36  jost
- * Erweiterungen f. d. DtausDateiWriter
- * Revision 1.3 2006/05/29 16:37:37 jost Anpassungen für
- * den Einsatz in Hibiscus Revision 1.2 2006/05/25 20:30:05 jost Alle
+ * Revision 1.5  2006/08/28 19:01:32  jost
+ * Korrekte Behandlung von Groß-Kleinschreibung und ÄÖÜß
+ * Revision 1.4 2006/06/05 09:34:36 jost Erweiterungen f.
+ * d. DtausDateiWriter Revision 1.3 2006/05/29 16:37:37 jost Anpassungen für den
+ * Einsatz in Hibiscus Revision 1.2 2006/05/25 20:30:05 jost Alle
  * Erweiterungsteile können jetzt verarbeitet werden. Revision 1.1 2006/05/24
  * 16:24:44 jost Prerelease
  * 
