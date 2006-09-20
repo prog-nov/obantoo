@@ -12,6 +12,7 @@ package de.jost_net.OBanToo.Dtaus;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -307,13 +308,19 @@ public class DtausDateiWriter
   {
     return esatz.getSummeBetraege();
   }
+
+  public BigDecimal getSummeBetraegeDecimal()
+  {
+    return new BigDecimal(esatz.getSummeBetraege()).divide(new BigDecimal(100));
+  }
 }
 /*
  * $Log$
- * Revision 1.3  2006/08/28 19:03:42  jost
- * Korrekte Behandlung von Groß-Kleinschreibung und ÄÖÜß
- * Revision 1.2 2006/06/14 19:56:41 jost Mehrere
- * logische Dateien können jetzt ausgegeben werden. Revision 1.1 2006/06/05
- * 09:34:51 jost Neu
+ * Revision 1.4  2006/09/20 15:47:29  jost
+ * Neue Methode "BigDecimal getSummeBetraegeDecimal()"
+ * Revision 1.3 2006/08/28 19:03:42 jost
+ * Korrekte Behandlung von Groß-Kleinschreibung und ÄÖÜß Revision 1.2 2006/06/14
+ * 19:56:41 jost Mehrere logische Dateien können jetzt ausgegeben werden.
+ * Revision 1.1 2006/06/05 09:34:51 jost Neu
  * 
  */
