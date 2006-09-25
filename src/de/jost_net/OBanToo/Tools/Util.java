@@ -11,7 +11,7 @@ package de.jost_net.OBanToo.Tools;
 
 public class Util
 {
-  static String toHex(String val)
+  public static String toHex(String val)
   {
     String ret = "0x";
     for (int i = 0; i < val.length(); i++)
@@ -21,13 +21,13 @@ public class Util
     return ret;
   }
 
-  static String toHex(char c, int width)
+  public static String toHex(char c, int width)
   {
     int i = (int) c;
     return toHex(i, width);
   }
 
-  static String toHex(int val, int width)
+  public static String toHex(int val, int width)
   {
     String s = Integer.toHexString(val).toUpperCase();
     while (s.length() < width)
@@ -40,7 +40,8 @@ public class Util
 }
 /*
  * $Log$
- * Revision 1.1  2006/09/25 18:16:21  jost
- * Neu
- * Revision 1.4 2006/06/05 09:35:13 jost
+ * Revision 1.2  2006/09/25 18:29:24  jost
+ * Sichtbarkeit der Methoden auf public erweitert
+ * Revision 1.1 2006/09/25 18:16:21 jost Neu Revision 1.4
+ * 2006/06/05 09:35:13 jost
  */
