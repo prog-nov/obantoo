@@ -45,13 +45,6 @@
 		</javadoc>
 	</target>
 	
-	<target name="toweb" depends="init,javadoc" description="Doku zu Berlios übertragen">
-		<scp todir="jost:janjost@shell.berlios.de:/home/groups/obantoo">
-		    <fileset dir="${doc.dir}"/>
-		  </scp>
-	</target>
-
-		
 	<target name="deploy" depends="init,javadoc" description="Auslieferbare ZIP-Datei erzeugen">
 		<mkdir dir="${deploy}"/>
 		<copy todir="${build.dir}/src">
