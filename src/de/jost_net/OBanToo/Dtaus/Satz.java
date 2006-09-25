@@ -9,6 +9,7 @@
  */
 package de.jost_net.OBanToo.Dtaus;
 
+import de.jost_net.OBanToo.Tools.Util;
 
 public class Satz
 {
@@ -74,6 +75,9 @@ public class Satz
       {
         throw new DtausException(DtausException.UNGUELTIGES_ZEICHEN, value
             .substring(i, i + 1)
+            + "("
+            + Util.toHex(value.substring(i, i + 1))
+            + ")"
             + " an Position " + i + ": " + value);
       }
     }
@@ -123,9 +127,11 @@ public class Satz
 }
 /*
  * $Log$
- * Revision 1.3  2006/08/28 19:04:43  jost
- * Korrekte Behandlung von Groﬂ-Kleinschreibung und ƒ÷‹ﬂ
- * Revision 1.2 2006/06/05 09:35:59 jost Erweiterungen f. d.
- * DtausDateiWriter Revision 1.1 2006/05/24 16:24:44 jost Prerelease
+ * Revision 1.4  2006/09/25 18:28:57  jost
+ * Fehlerhaftes Zeichen wird auch als Hex-Wert ausgegeben.
+ * Revision 1.3 2006/08/28 19:04:43 jost Korrekte Behandlung
+ * von Groﬂ-Kleinschreibung und ƒ÷‹ﬂ Revision 1.2 2006/06/05 09:35:59 jost
+ * Erweiterungen f. d. DtausDateiWriter Revision 1.1 2006/05/24 16:24:44 jost
+ * Prerelease
  * 
  */
