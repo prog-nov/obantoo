@@ -96,13 +96,30 @@ public class Satz
     return ret;
   }
 
-  protected String codingFromDtaus(String value)
+  protected String codingFromDtaus(String value, int toleranz)
   {
     String ret = value;
     ret = ret.replace((char) 0x5b, 'Ä');
     ret = ret.replace('\\', 'Ö');
     ret = ret.replace((char) 0x5d, 'Ü');
     ret = ret.replace((char) 0x7e, 'ß');
+    switch (toleranz)
+    {
+      case DtausDateiParser.UMLAUTUMSETZUNG:
+      {
+        ret = ret.replace((char) 0x8e, 'Ä');
+        ret = ret.replace((char) 0x84, 'Ä');
+        ret = ret.replace((char) 0x99, 'Ö');
+        ret = ret.replace((char) 0x94, 'Ö');
+        ret = ret.replace((char) 0x9a, 'Ü');
+        ret = ret.replace((char) 0x81, 'Ü');
+        ret = ret.replace((char) 0xe1, 'ß');
+      }
+      case DtausDateiParser.HEX00TOSPACE:
+      {
+        ret = ret.replace((char) 0x00, ' ');
+      }
+    }
     return ret;
   }
 
@@ -127,11 +144,12 @@ public class Satz
 }
 /*
  * $Log$
- * Revision 1.4  2006/09/25 18:28:57  jost
- * Fehlerhaftes Zeichen wird auch als Hex-Wert ausgegeben.
- * Revision 1.3 2006/08/28 19:04:43 jost Korrekte Behandlung
- * von Groß-Kleinschreibung und ÄÖÜß Revision 1.2 2006/06/05 09:35:59 jost
- * Erweiterungen f. d. DtausDateiWriter Revision 1.1 2006/05/24 16:24:44 jost
- * Prerelease
+ * Revision 1.5  2006/10/06 12:48:18  jost
+ * Optionale Fehlertoleranz
+ * Revision 1.4 2006/09/25 18:28:57 jost Fehlerhaftes
+ * Zeichen wird auch als Hex-Wert ausgegeben. Revision 1.3 2006/08/28 19:04:43
+ * jost Korrekte Behandlung von Groß-Kleinschreibung und ÄÖÜß Revision 1.2
+ * 2006/06/05 09:35:59 jost Erweiterungen f. d. DtausDateiWriter Revision 1.1
+ * 2006/05/24 16:24:44 jost Prerelease
  * 
  */

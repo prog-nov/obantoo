@@ -20,9 +20,22 @@ import java.util.Vector;
  * Parser für DTAUS-Dateien
  * <p>
  * Mit dem DTAUS-Parser können DTAUS-Dateien geparst werden, die eine oder
- * mehrere logische Dateien enthalten. Im Konstruktor wird der Parse-Vorgang
- * gestartet. Die gesamte DTAUS-Datei verarbeitet. Die Daten werden in Objekten
- * vom Typ "LogischeDatei" gespeichert.
+ * mehrere logische Dateien enthalten.
+ * </p>
+ * <p>
+ * Dem Parser kann über einen speziellen Konstruktor mitgeteilt werden, wie
+ * fehlertolerant er sein soll.
+ * <ul>
+ * <li>SPEZIFIKATIONSKONFORM - entsprechend der DTAUS-Spezifikation wird ohne
+ * Fehlertoleranz gearbeitet.</li>
+ * <li>UMLAUTUMSETZUNG - Die Umlaute im DOS-Format werden in das DTAUS-Format
+ * konvertiert.</li>
+ * <li>HEX00TOSPACE - Zusätzlich zur UMLAUTUMSETZUNG wird der Zeichencode 00 in
+ * Leerzeichen umgewandelt.</li>
+ * </ul>
+ * Im Konstruktor wird der Parse-Vorgang gestartet. Die gesamte DTAUS-Datei
+ * verarbeitet. Die Daten werden in Objekten vom Typ "LogischeDatei"
+ * gespeichert.
  * <p>
  * Sollte die zu parsende DTAUS-Datei fehlerhaft sein, werden entsprechende
  * DtausExceptions geworfen.
@@ -68,18 +81,43 @@ public class DtausDateiParser
 
   private LogischeDatei logdat;
 
+  public static final int SPEZIFIKATIONSKONFORM = 0;
+
+  public static final int UMLAUTUMSETZUNG = 1;
+
+  public static final int HEX00TOSPACE = 2;
+
+  private int toleranz = SPEZIFIKATIONSKONFORM;
+
   public DtausDateiParser(String filename) throws IOException, DtausException
   {
-    this(new BufferedInputStream(new FileInputStream(filename)));
+    this(new BufferedInputStream(new FileInputStream(filename)),
+        SPEZIFIKATIONSKONFORM);
+  }
+
+  /**
+   * Konstruktor mit der Möglichkeit, die Fehlertoleranz einzustellen.
+   */
+  public DtausDateiParser(String filename, int toleranz) throws IOException,
+      DtausException
+  {
+    this(new BufferedInputStream(new FileInputStream(filename)), toleranz);
   }
 
   public DtausDateiParser(InputStream is) throws IOException, DtausException
   {
+    this(is, SPEZIFIKATIONSKONFORM);
+  }
+
+  public DtausDateiParser(InputStream is, int toleranz) throws IOException,
+      DtausException
+  {
+    this.toleranz = toleranz;
     logischeDateien = new Vector();
     dtaus = is;
     while (is.available() > 0)
     {
-      asatz = new ASatz(lese());
+      asatz = new ASatz(lese(), toleranz);
       LogischeDatei logdat = new LogischeDatei(asatz);
       CSatz c = internNext();
       while (c != null)
@@ -121,9 +159,9 @@ public class DtausDateiParser
     String satz = lese();
     if (satz.substring(4, 5).equals("C"))
     {
-      return new CSatz(satz);
+      return new CSatz(satz, toleranz);
     }
-    esatz = new ESatz(satz);
+    esatz = new ESatz(satz, toleranz);
     return null;
   }
 
@@ -206,32 +244,47 @@ public class DtausDateiParser
 
   public static void main(String[] args)
   {
+    int tol = 0;
+    if (args.length < 1 || args.length > 2)
+    {
+      System.err.println("Argumente für den Aufruf: dateiname [toleranz]\n"
+          + "toleranz = 0 Spezifikationskonform\n"
+          + "toleranz = 1 DOS-Umlaute umwandeln\n"
+          + "toleranz = 2 Zeichencode 00 in Space umwandeln");
+      System.exit(1);
+    }
+    if (args.length == 2)
+    {
+      try
+      {
+        tol = Integer.parseInt(args[1]);
+      }
+      catch (NumberFormatException e)
+      {
+        System.err.println("Ungültiges Toleranz-Merkmal");
+        System.exit(1);
+      }
+    }
     try
     {
-      DtausDateiParser p = new DtausDateiParser("/home/heiner/DTAUS6");
-      CSatz c = p.next();
-      while (c != null)
-      {
-        System.out.println(c);
-        c = p.next();
-      }
-      System.out.println("----");
-      System.out.println(p.getASatz());
-      System.out.println(p.getESatz());
-
-      System.out.println("====");
+      DtausDateiParser p = new DtausDateiParser(args[0], tol);
       System.out.println("Anzahl logischer Dateien: "
           + p.getAnzahlLogischerDateien());
-      p.setLogischeDatei(2);
-      c = p.next();
-      while (c != null)
+      for (int i = 1; i <= p.getAnzahlLogischerDateien(); i++)
       {
-        System.out.println(c);
-        c = p.next();
+        p.setLogischeDatei(i);
+        CSatz c = p.next();
+        while (c != null)
+        {
+          System.out.println(c);
+          c = p.next();
+        }
+        System.out.println("----");
+        System.out.println(p.getASatz());
+        System.out.println(p.getESatz());
+
+        System.out.println("====");
       }
-      System.out.println("----");
-      System.out.println(p.getASatz());
-      System.out.println(p.getESatz());
     }
     catch (FileNotFoundException e)
     {
@@ -250,15 +303,15 @@ public class DtausDateiParser
 }
 /*
  * $Log$
- * Revision 1.5  2006/06/04 12:23:51  jost
+ * Revision 1.6  2006/10/06 12:47:39  jost
+ * Optionale Fehlertoleranz
+ * Revision 1.5 2006/06/04 12:23:51 jost
  * Redaktionelle Änderung
- *
- * Revision 1.4  2006/05/29 16:38:03  jost
- * Anpassungen für den Einsatz in Hibiscus
- * Revision 1.3 2006/05/28 09:06:32 jost -
- * Unterstützung mehrerer logischer Dateien pro physikalischer Datei - interne
- * Umstellung von Reader auf InputStream Revision 1.2 2006/05/25 20:30:40 jost
- * Korrektur Satzlängen und Doku Revision 1.1 2006/05/24 16:24:44 jost
- * Prerelease
+ * 
+ * Revision 1.4 2006/05/29 16:38:03 jost Anpassungen für den Einsatz in Hibiscus
+ * Revision 1.3 2006/05/28 09:06:32 jost - Unterstützung mehrerer logischer
+ * Dateien pro physikalischer Datei - interne Umstellung von Reader auf
+ * InputStream Revision 1.2 2006/05/25 20:30:40 jost Korrektur Satzlängen und
+ * Doku Revision 1.1 2006/05/24 16:24:44 jost Prerelease
  * 
  */

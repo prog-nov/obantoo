@@ -156,9 +156,9 @@ public class CSatz extends Satz
   /**
    * Konstruktor mit der Übergabe eines zu parsenden Satzes
    */
-  public CSatz(String satz) throws DtausException
+  public CSatz(String satz, int toleranz) throws DtausException
   {
-    satz = codingFromDtaus(satz);
+    satz = codingFromDtaus(satz, toleranz);
     validCharacters(satz);
     init();
     checkSatzlaengenfeld(satz.substring(0, 4));
@@ -714,12 +714,13 @@ public class CSatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.5  2006/08/28 19:01:32  jost
- * Korrekte Behandlung von Groß-Kleinschreibung und ÄÖÜß
- * Revision 1.4 2006/06/05 09:34:36 jost Erweiterungen f.
- * d. DtausDateiWriter Revision 1.3 2006/05/29 16:37:37 jost Anpassungen für den
- * Einsatz in Hibiscus Revision 1.2 2006/05/25 20:30:05 jost Alle
- * Erweiterungsteile können jetzt verarbeitet werden. Revision 1.1 2006/05/24
- * 16:24:44 jost Prerelease
+ * Revision 1.6  2006/10/06 12:44:57  jost
+ * Optionale Fehlertoleranz
+ * Revision 1.5 2006/08/28 19:01:32 jost Korrekte
+ * Behandlung von Groß-Kleinschreibung und ÄÖÜß Revision 1.4 2006/06/05 09:34:36
+ * jost Erweiterungen f. d. DtausDateiWriter Revision 1.3 2006/05/29 16:37:37
+ * jost Anpassungen für den Einsatz in Hibiscus Revision 1.2 2006/05/25 20:30:05
+ * jost Alle Erweiterungsteile können jetzt verarbeitet werden. Revision 1.1
+ * 2006/05/24 16:24:44 jost Prerelease
  * 
  */

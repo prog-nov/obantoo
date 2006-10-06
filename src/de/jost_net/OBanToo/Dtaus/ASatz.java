@@ -88,9 +88,9 @@ public class ASatz extends Satz
    * 
    * @param satz
    */
-  public ASatz(String satz) throws DtausException
+  public ASatz(String satz, int toleranz) throws DtausException
   {
-    satz = codingFromDtaus(satz);
+    satz = codingFromDtaus(satz, toleranz);
     validCharacters(satz);
     if (!satz.substring(0, 4).equals(aSatzlaenge))
     {
@@ -319,10 +319,12 @@ public class ASatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.3  2006/08/28 19:01:00  jost
- * Korrekte Behandlung von Groﬂ-Kleinschreibung und ƒ÷‹ﬂ
- * Revision 1.2 2006/06/05 09:34:06 jost Erweiterungen f.
- * d. DtausDateiWriter Revision 1.1 2006/05/24 16:24:44 jost Prerelease
+ * Revision 1.4  2006/10/06 12:44:38  jost
+ * Optionale Fehlertoleranz
+ * Revision 1.3 2006/08/28 19:01:00 jost Korrekte
+ * Behandlung von Groﬂ-Kleinschreibung und ƒ÷‹ﬂ Revision 1.2 2006/06/05 09:34:06
+ * jost Erweiterungen f. d. DtausDateiWriter Revision 1.1 2006/05/24 16:24:44
+ * jost Prerelease
  * 
  */
 
