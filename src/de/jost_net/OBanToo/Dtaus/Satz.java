@@ -129,7 +129,7 @@ public class Satz
   public String make27(String in)
   {
     String out = "";
-    if (in.length() > 27)
+    if (in.length() >= 27)
     {
       out = in.substring(0, 27);
     }
@@ -144,6 +144,9 @@ public class Satz
 }
 /*
  * $Log$
+ * Revision 1.6  2006/10/08 18:40:08  jost
+ * Bugfix: Korrekte Behandlung von Textfeldern der Länge 27
+ *
  * Revision 1.5  2006/10/06 12:48:18  jost
  * Optionale Fehlertoleranz
  * Revision 1.4 2006/09/25 18:28:57 jost Fehlerhaftes
