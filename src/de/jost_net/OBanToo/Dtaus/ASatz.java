@@ -189,7 +189,7 @@ public class ASatz extends Satz
     }
     catch (NumberFormatException e)
     {
-      throw new DtausException(DtausException.A_KONTO_FEHLERHAFT);
+      throw new DtausException(DtausException.A_KONTO_FEHLERHAFT, value);
     }
   }
 
@@ -319,6 +319,9 @@ public class ASatz extends Satz
 }
 /*
  * $Log$
+ * Revision 1.5  2006/10/08 18:39:10  jost
+ * Zusätzliche Debug-Ausgabe
+ *
  * Revision 1.4  2006/10/06 12:44:38  jost
  * Optionale Fehlertoleranz
  * Revision 1.3 2006/08/28 19:01:00 jost Korrekte
