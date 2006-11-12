@@ -100,20 +100,20 @@ public class Satz
   {
     String ret = value;
     ret = ret.replace((char) 0x5b, 'Ä');
-    ret = ret.replace('\\', 'Ö');
+    ret = ret.replace((char) 0x8e, 'Ä');
+    ret = ret.replace((char) 0x5c, 'Ö');
+    ret = ret.replace((char) 0x99, 'Ö');
     ret = ret.replace((char) 0x5d, 'Ü');
+    ret = ret.replace((char) 0x9a, 'Ü');
     ret = ret.replace((char) 0x7e, 'ß');
+    ret = ret.replace((char) 0xe1, 'ß');
     switch (toleranz)
     {
       case DtausDateiParser.UMLAUTUMSETZUNG:
       {
-        ret = ret.replace((char) 0x8e, 'Ä');
         ret = ret.replace((char) 0x84, 'Ä');
-        ret = ret.replace((char) 0x99, 'Ö');
         ret = ret.replace((char) 0x94, 'Ö');
-        ret = ret.replace((char) 0x9a, 'Ü');
         ret = ret.replace((char) 0x81, 'Ü');
-        ret = ret.replace((char) 0xe1, 'ß');
       }
       case DtausDateiParser.HEX00TOSPACE:
       {
@@ -144,15 +144,16 @@ public class Satz
 }
 /*
  * $Log$
- * Revision 1.6  2006/10/08 18:40:08  jost
- * Bugfix: Korrekte Behandlung von Textfeldern der Länge 27
- *
- * Revision 1.5  2006/10/06 12:48:18  jost
- * Optionale Fehlertoleranz
- * Revision 1.4 2006/09/25 18:28:57 jost Fehlerhaftes
- * Zeichen wird auch als Hex-Wert ausgegeben. Revision 1.3 2006/08/28 19:04:43
- * jost Korrekte Behandlung von Groß-Kleinschreibung und ÄÖÜß Revision 1.2
- * 2006/06/05 09:35:59 jost Erweiterungen f. d. DtausDateiWriter Revision 1.1
- * 2006/05/24 16:24:44 jost Prerelease
+ * Revision 1.7  2006/11/12 07:30:26  jost
+ * Korrekte Umlautbehandlung (DTAUS0/DTAUS1).
+ * Revision 1.6 2006/10/08 18:40:08 jost Bugfix: Korrekte
+ * Behandlung von Textfeldern der Länge 27
+ * 
+ * Revision 1.5 2006/10/06 12:48:18 jost Optionale Fehlertoleranz Revision 1.4
+ * 2006/09/25 18:28:57 jost Fehlerhaftes Zeichen wird auch als Hex-Wert
+ * ausgegeben. Revision 1.3 2006/08/28 19:04:43 jost Korrekte Behandlung von
+ * Groß-Kleinschreibung und ÄÖÜß Revision 1.2 2006/06/05 09:35:59 jost
+ * Erweiterungen f. d. DtausDateiWriter Revision 1.1 2006/05/24 16:24:44 jost
+ * Prerelease
  * 
  */
