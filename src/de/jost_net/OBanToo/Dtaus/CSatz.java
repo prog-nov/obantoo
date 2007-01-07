@@ -466,7 +466,7 @@ public class CSatz extends Satz
 
   public void setNameEmpfaenger(String value) throws DtausException
   {
-    if (value.length() == 0 || value.length() > 27)
+    if ( value.length() > 27)
     {
       throw new DtausException(DtausException.C_NAME_EMPFAENGER);
     }
@@ -494,7 +494,7 @@ public class CSatz extends Satz
 
   public void addVerwendungszweck(String value) throws DtausException
   {
-    if (value.length() == 0 || value.length() > 27)
+    if (value.length() > 27)
     {
       throw new DtausException(DtausException.C_VERWENDUNGSZWECK_FEHLERHAFT,
           value);
@@ -714,6 +714,9 @@ public class CSatz extends Satz
 }
 /*
  * $Log$
+ * Revision 1.7  2007/01/07 20:42:18  jost
+ * Verwendungszwecke der Länge 0 zugelassen.
+ *
  * Revision 1.6  2006/10/06 12:44:57  jost
  * Optionale Fehlertoleranz
  * Revision 1.5 2006/08/28 19:01:32 jost Korrekte
