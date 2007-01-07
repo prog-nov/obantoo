@@ -17,7 +17,14 @@
 
 	<target name="compile" depends="init" description="Compilieren">
 		<mkdir dir="${classes.dir}" />
-		<javac source="1.4" target="1.4" debug="true" debuglevel="lines,vars,source" deprecation="true" destdir="${classes.dir}" srcdir="${src.dir}">
+		<javac source="1.4" 
+			     target="1.4" 
+			     debug="true" 
+			     debuglevel="lines,vars,source" 
+			     deprecation="true" 
+			     destdir="${classes.dir}" 
+			     srcdir="${src.dir}"
+			     encoding="ISO-8859-15">
 		</javac>
 	</target>
 
@@ -38,7 +45,10 @@
 	<target name="javadoc" depends="jar" description="Javadoc erzeugen">
 		<mkdir dir="${javadoc.dir}" />
 
-		<javadoc destdir="${javadoc.dir}" packagenames="*" access="private">
+		<javadoc destdir="${javadoc.dir}" 
+			       packagenames="*" 
+			       access="private" 
+			       encoding="ISO-8859-15">
 			<sourcepath>
 				<pathelement location="${src.dir}" />
 			</sourcepath>
