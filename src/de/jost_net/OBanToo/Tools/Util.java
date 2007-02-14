@@ -9,6 +9,9 @@
  */
 package de.jost_net.OBanToo.Tools;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class Util
 {
   public static String toHex(String val)
@@ -19,6 +22,11 @@ public class Util
       ret += toHex(val.charAt(i), 2);
     }
     return ret;
+  }
+
+  public static String formatCurrency(double value)
+  {
+    return NumberFormat.getCurrencyInstance(Locale.GERMANY).format(value);
   }
 
   public static String toHex(char c, int width)
@@ -40,8 +48,9 @@ public class Util
 }
 /*
  * $Log$
- * Revision 1.2  2006/09/25 18:29:24  jost
- * Sichtbarkeit der Methoden auf public erweitert
- * Revision 1.1 2006/09/25 18:16:21 jost Neu Revision 1.4
- * 2006/06/05 09:35:13 jost
+ * Revision 1.3  2007/02/14 14:43:56  jost
+ * Neue Methode: formatCurrency(double)
+ * Revision 1.2 2006/09/25 18:29:24 jost Sichtbarkeit der
+ * Methoden auf public erweitert Revision 1.1 2006/09/25 18:16:21 jost Neu
+ * Revision 1.4 2006/06/05 09:35:13 jost
  */
