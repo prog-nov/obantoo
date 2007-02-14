@@ -239,7 +239,14 @@ public class ASatz extends Satz
   public String getAusfuehrungsdatumString()
   {
     SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
-    return sdf.format(aAusfuehrungsdatum);
+    try
+    {
+      return sdf.format(aAusfuehrungsdatum);
+    }
+    catch (NullPointerException e)
+    {
+      return "";
+    }
   }
 
   public Date getAusfuehrungsdatum()
@@ -319,15 +326,15 @@ public class ASatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.5  2006/10/08 18:39:10  jost
- * Zus‰tzliche Debug-Ausgabe
- *
- * Revision 1.4  2006/10/06 12:44:38  jost
- * Optionale Fehlertoleranz
- * Revision 1.3 2006/08/28 19:01:00 jost Korrekte
- * Behandlung von Groﬂ-Kleinschreibung und ƒ÷‹ﬂ Revision 1.2 2006/06/05 09:34:06
- * jost Erweiterungen f. d. DtausDateiWriter Revision 1.1 2006/05/24 16:24:44
- * jost Prerelease
+ * Revision 1.6  2007/02/14 14:42:06  jost
+ * NPE verhindert.
+ * Revision 1.5 2006/10/08 18:39:10 jost Zus‰tzliche
+ * Debug-Ausgabe
+ * 
+ * Revision 1.4 2006/10/06 12:44:38 jost Optionale Fehlertoleranz Revision 1.3
+ * 2006/08/28 19:01:00 jost Korrekte Behandlung von Groﬂ-Kleinschreibung und
+ * ƒ÷‹ﬂ Revision 1.2 2006/06/05 09:34:06 jost Erweiterungen f. d.
+ * DtausDateiWriter Revision 1.1 2006/05/24 16:24:44 jost Prerelease
  * 
  */
 
