@@ -135,6 +135,11 @@ public class DtausDateiParser
   {
     return logischeDateien.size();
   }
+  
+  /**
+   * aktuelle logische Datei setzen.
+   * Werte von 1 bis getAnzahlLogischerDateien() sind zulässig
+   */
 
   public void setLogischeDatei(int nr) throws DtausException
   {
@@ -303,6 +308,9 @@ public class DtausDateiParser
 }
 /*
  * $Log$
+ * Revision 1.7  2007/02/14 14:42:54  jost
+ * javadoc
+ *
  * Revision 1.6  2006/10/06 12:47:39  jost
  * Optionale Fehlertoleranz
  * Revision 1.5 2006/06/04 12:23:51 jost
