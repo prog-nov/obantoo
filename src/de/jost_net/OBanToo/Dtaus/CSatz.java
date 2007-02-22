@@ -142,11 +142,17 @@ public class CSatz extends Satz
 
   private boolean cVerwendungszweckSet = false;
 
+  private String cNameEmpfaenger2 = null;
+
+  private String cNameAbsender2 = null;
+
   /**
    * Feld 18, 2 Bytes, numerisch, Erweiterungszeichen, 00 = es folgt kein
    * Erweiterungsteil, 01-15 = Anzahl der Erweiterungsteile
    */
   private int cErweiterungszeichen = 0;
+
+  private Vector cErweiterungsteile = null;
 
   public CSatz() throws DtausException
   {
@@ -466,7 +472,7 @@ public class CSatz extends Satz
 
   public void setNameEmpfaenger(String value) throws DtausException
   {
-    if ( value.length() > 27)
+    if (value.length() > 27)
     {
       throw new DtausException(DtausException.C_NAME_EMPFAENGER);
     }
@@ -480,8 +486,27 @@ public class CSatz extends Satz
     return this.cNameEmpfaenger;
   }
 
+  public void setNameEmpfaenger2(String value) throws DtausException
+  {
+    if (value.length() > 27)
+    {
+      throw new DtausException(DtausException.C_NAME_EMPFAENGER2, value);
+    }
+    this.cNameEmpfaenger2 = makeValid(value);
+    validCharacters(this.cNameEmpfaenger2);
+  }
+
+  public String getNameEmpfaenger2()
+  {
+    return this.cNameEmpfaenger2;
+  }
+
   public void setNameAbsender(String value) throws DtausException
   {
+    if (value.length() > 27)
+    {
+      throw new DtausException(DtausException.C_NAME_ABSENDER);
+    }
     this.cNameAbsender = makeValid(value);
     validCharacters(this.cNameAbsender);
     this.cNameAbsenderSet = true;
@@ -490,6 +515,21 @@ public class CSatz extends Satz
   public String getNameAbsender()
   {
     return cNameAbsender;
+  }
+
+  public void setNameAbsender2(String value) throws DtausException
+  {
+    if (value.length() > 27)
+    {
+      throw new DtausException(DtausException.C_NAME_ABSENDER2);
+    }
+    this.cNameAbsender2 = makeValid(value);
+    validCharacters(this.cNameAbsender2);
+  }
+
+  public String getNameAbsender2()
+  {
+    return cNameAbsender2;
   }
 
   public void addVerwendungszweck(String value) throws DtausException
@@ -510,6 +550,18 @@ public class CSatz extends Satz
     if (nr <= getAnzahlVerwendungszwecke())
     {
       return (String) cVerwendungszweck.elementAt(nr - 1);
+    }
+    else
+    {
+      return null;
+    }
+  }
+
+  private String getErweiterungsteil(int nr)
+  {
+    if (nr <= cErweiterungszeichen)
+    {
+      return (String) cErweiterungsteile.elementAt(nr - 1);
     }
     else
     {
@@ -548,6 +600,14 @@ public class CSatz extends Satz
     if (value.startsWith("02"))
     {
       addVerwendungszweck(val);
+    }
+    else if (value.startsWith("01"))
+    {
+      setNameEmpfaenger2(val);
+    }
+    else if (value.startsWith("03"))
+    {
+      setNameAbsender2(val);
     }
     else
     {
@@ -601,42 +661,61 @@ public class CSatz extends Satz
     dos.writeBytes("1");
     // Feld 17b - Reserve
     dos.writeBytes(Tool.space(2));
+    // Erweiterungsteile aufbauen
+    cErweiterungsteile = new Vector();
+    cErweiterungszeichen = 0;
+    if (cNameEmpfaenger2 != null)
+    {
+      cErweiterungsteile.addElement("01" + make27(this.getNameEmpfaenger2()));
+      cErweiterungszeichen++;
+    }
+    for (int i = 2; i <= this.getAnzahlVerwendungszwecke(); i++)
+    {
+      cErweiterungsteile.addElement("02" + make27(this.getVerwendungszweck(i)));
+      System.out.println(this.getVerwendungszweck(i));
+      cErweiterungszeichen++;
+    }
+    if (cNameAbsender2 != null)
+    {
+      cErweiterungsteile.addElement("03" + make27(this.getNameAbsender2()));
+      cErweiterungszeichen++;
+    }
     // Feld 18 - Anzahl Erweiterungsteile
     dos.writeBytes(Tool.formatErweiterung(this.cErweiterungszeichen));
     // 2. Satzabschnitt
-    if (this.getAnzahlVerwendungszwecke() >= 2)
+    if (this.cErweiterungszeichen >= 1)
     {
-      dos.writeBytes("02" + make27(this.getVerwendungszweck(2)));
+      dos.writeBytes((String) this.getErweiterungsteil(1));
     }
     else
     {
       dos.writeBytes(Tool.space(29));
     }
-    if (this.getAnzahlVerwendungszwecke() >= 3)
+    if (this.cErweiterungszeichen >= 2)
     {
-      dos.writeBytes("02" + make27(this.getVerwendungszweck(3)));
+      dos.writeBytes((String) this.cErweiterungsteile.elementAt(2));
     }
     else
     {
       dos.writeBytes(Tool.space(29));
     }
     dos.writeBytes(Tool.space(11));
-    ausgebenErweiterungsteile(dos, 4);
-    ausgebenErweiterungsteile(dos, 8);
-    ausgebenErweiterungsteile(dos, 12);
+    ausgebenErweiterungsteile(dos, 3);
+    ausgebenErweiterungsteile(dos, 7);
+    ausgebenErweiterungsteile(dos, 11);
   }
 
   private void ausgebenErweiterungsteile(DataOutputStream dos, int pos)
       throws IOException
   {
-    if (this.getAnzahlVerwendungszwecke() >= pos)
+    if (this.cErweiterungszeichen >= pos)
     {
       for (int i = pos; i < pos + 4; i++)
       {
-        String vzweck = this.getVerwendungszweck(i);
+        String vzweck = (String) this.getErweiterungsteil(i);
         if (vzweck != null)
         {
-          dos.writeBytes("02" + make27(vzweck));
+          dos.writeBytes(vzweck);
         }
         else
         {
@@ -702,8 +781,10 @@ public class CSatz extends Satz
         + this.getTextschluessel() + ", erstbeauftragtes Institut="
         + this.getErstbeauftragtesInstitut() + ", Konto Auftraggeber="
         + this.getKontoAuftraggeber() + ", Betrag=" + this.getBetragInCent()
-        + ", Name Empfänger=" + this.getNameEmpfaenger() + ", Name Absender="
-        + this.getNameAbsender() + ", Erweiterungszeichen="
+        + ", Name Empfänger=" + this.getNameEmpfaenger() + ", Name Empfänger2="
+        + this.getNameEmpfaenger2() + ", Name Absender="
+        + this.getNameAbsender() + ", Name Absender2="
+        + this.getNameAbsender2() + ", Erweiterungszeichen="
         + this.getErweiterungszeichen();
     for (int i = 1; i <= this.getAnzahlVerwendungszwecke(); i++)
     {
@@ -714,16 +795,17 @@ public class CSatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.7  2007/01/07 20:42:18  jost
- * Verwendungszwecke der LÃ¤nge 0 zugelassen.
- *
- * Revision 1.6  2006/10/06 12:44:57  jost
- * Optionale Fehlertoleranz
- * Revision 1.5 2006/08/28 19:01:32 jost Korrekte
- * Behandlung von Groß-Kleinschreibung und ÄÖÜß Revision 1.4 2006/06/05 09:34:36
- * jost Erweiterungen f. d. DtausDateiWriter Revision 1.3 2006/05/29 16:37:37
- * jost Anpassungen für den Einsatz in Hibiscus Revision 1.2 2006/05/25 20:30:05
- * jost Alle Erweiterungsteile können jetzt verarbeitet werden. Revision 1.1
- * 2006/05/24 16:24:44 jost Prerelease
+ * Revision 1.8  2007/02/22 18:39:39  jost
+ * Implementierung der Erweiterungsteile 01 (Name EmpfÃ¤nger/Zahlungspflichtiger 2) und 03 (Absender/ZahlungsempfÃ¤nger 2)
+ * Revision 1.7 2007/01/07 20:42:18 jost Verwendungszwecke
+ * der LÃ¤nge 0 zugelassen.
+ * 
+ * Revision 1.6 2006/10/06 12:44:57 jost Optionale Fehlertoleranz Revision 1.5
+ * 2006/08/28 19:01:32 jost Korrekte Behandlung von Groß-Kleinschreibung und
+ * ÄÖÜß Revision 1.4 2006/06/05 09:34:36 jost Erweiterungen f. d.
+ * DtausDateiWriter Revision 1.3 2006/05/29 16:37:37 jost Anpassungen für den
+ * Einsatz in Hibiscus Revision 1.2 2006/05/25 20:30:05 jost Alle
+ * Erweiterungsteile können jetzt verarbeitet werden. Revision 1.1 2006/05/24
+ * 16:24:44 jost Prerelease
  * 
  */

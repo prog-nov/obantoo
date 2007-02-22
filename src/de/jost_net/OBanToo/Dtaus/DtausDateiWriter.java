@@ -254,6 +254,14 @@ public class DtausDateiWriter
     csatz.setNameEmpfaenger(value);
   }
 
+  /**
+   * Name des Überweisungsempfängers/Zahlungspflichtigen -Teil 2-, max. 27 Stellen.
+   */
+  public void setCName2(String value) throws DtausException
+  {
+    csatz.setNameEmpfaenger2(value);
+  }
+
   public void setCInterneKundennummer(long value) throws DtausException
   {
     csatz.setInterneKundennummer(value);
@@ -316,11 +324,12 @@ public class DtausDateiWriter
 }
 /*
  * $Log$
- * Revision 1.4  2006/09/20 15:47:29  jost
- * Neue Methode "BigDecimal getSummeBetraegeDecimal()"
- * Revision 1.3 2006/08/28 19:03:42 jost
- * Korrekte Behandlung von Groß-Kleinschreibung und ÄÖÜß Revision 1.2 2006/06/14
- * 19:56:41 jost Mehrere logische Dateien können jetzt ausgegeben werden.
- * Revision 1.1 2006/06/05 09:34:51 jost Neu
+ * Revision 1.5  2007/02/22 18:40:04  jost
+ * Implementierung der Erweiterungsteile 01 (Name EmpfÃ¤nger/Zahlungspflichtiger 2) und 03 (Absender/ZahlungsempfÃ¤nger 2)
+ * Revision 1.4 2006/09/20 15:47:29 jost Neue
+ * Methode "BigDecimal getSummeBetraegeDecimal()" Revision 1.3 2006/08/28
+ * 19:03:42 jost Korrekte Behandlung von Groß-Kleinschreibung und ÄÖÜß Revision
+ * 1.2 2006/06/14 19:56:41 jost Mehrere logische Dateien können jetzt ausgegeben
+ * werden. Revision 1.1 2006/06/05 09:34:51 jost Neu
  * 
  */
