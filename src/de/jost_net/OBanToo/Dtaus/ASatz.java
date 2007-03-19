@@ -122,7 +122,8 @@ public class ASatz extends Satz
    */
   public void setGutschriftLastschrift(String value) throws DtausException
   {
-    if (value.equals("GK") || value.equals("LK"))
+    if (value.equals("GK") || value.equals("LK") || value.equals("GB")
+        || value.equals("LB"))
     {
       aGutschriftLastschrift = value;
     }
@@ -326,10 +327,10 @@ public class ASatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.6  2007/02/14 14:42:06  jost
- * NPE verhindert.
- * Revision 1.5 2006/10/08 18:39:10 jost Zus‰tzliche
- * Debug-Ausgabe
+ * Revision 1.7  2007/03/19 08:53:15  jost
+ * Bankdaten zugelassen
+ * Revision 1.6 2007/02/14 14:42:06 jost NPE verhindert.
+ * Revision 1.5 2006/10/08 18:39:10 jost Zus‰tzliche Debug-Ausgabe
  * 
  * Revision 1.4 2006/10/06 12:44:38 jost Optionale Fehlertoleranz Revision 1.3
  * 2006/08/28 19:01:00 jost Korrekte Behandlung von Groﬂ-Kleinschreibung und
