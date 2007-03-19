@@ -1,6 +1,11 @@
 <!--#include virtual="main.shtml"-->  
     <h2>Changelog</h2>
     <ul>
+      <li>Version 1.4 vom 19.03.2007</li>
+         <ul>
+           <li>Dateikennzeichen für Bankendateien zugelassen</li>
+           <li>Textschlüssel 09, 59 und 67-68 für Bankenzwecke zugelassen</li>
+         </ul>
       <li>Version 1.3 vom 22.02.2007</li>
          <ul>
             <li>Implementierung der Erweiterungsteile 01 (Name Empfänger/Zahlungspflichtiger 2) 
