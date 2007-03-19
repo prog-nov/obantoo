@@ -372,7 +372,9 @@ public class CSatz extends Satz
         && value != TS_LASTSCHRIFT_KREDITKARTE && value != TS_LASTSCHRIFT_POS
         && value != TS_UEBERWEISUNG_LOHN_GEHALT_RENTE
         && value != TS_UEBERWEISUNG_OEFFENTL_KASSEN
-        && value != TS_UEBERWEISUNGSGUTSCHRIFT)
+        && value != TS_UEBERWEISUNGSGUTSCHRIFT && value != TS_BANK_09
+        && value != TS_BANK_59 && value != TS_BANK_67 && value != TS_BANK_68
+        && value != TS_BANK_69)
     {
       throw new DtausException(DtausException.C_TEXTSCHLUESSEL_FEHLERHAFT);
     }
@@ -805,12 +807,13 @@ public class CSatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.9  2007/03/19 08:53:35  jost
- * Textschlüssel für Bankzwecke zugelassen.
- * Revision 1.8 2007/02/22 18:39:39 jost Implementierung
- * der Erweiterungsteile 01 (Name Empfänger/Zahlungspflichtiger 2) und 03
- * (Absender/Zahlungsempfänger 2) Revision 1.7 2007/01/07 20:42:18 jost
- * Verwendungszwecke der Länge 0 zugelassen.
+ * Revision 1.10  2007/03/19 14:59:04  jost
+ * Bugfix bei der Prüfung der Textschlüssel
+ * Revision 1.9 2007/03/19 08:53:35 jost Textschlüssel
+ * für Bankzwecke zugelassen. Revision 1.8 2007/02/22 18:39:39 jost
+ * Implementierung der Erweiterungsteile 01 (Name Empfänger/Zahlungspflichtiger
+ * 2) und 03 (Absender/Zahlungsempfänger 2) Revision 1.7 2007/01/07 20:42:18
+ * jost Verwendungszwecke der Länge 0 zugelassen.
  * 
  * Revision 1.6 2006/10/06 12:44:57 jost Optionale Fehlertoleranz Revision 1.5
  * 2006/08/28 19:01:32 jost Korrekte Behandlung von Gro�-Kleinschreibung und

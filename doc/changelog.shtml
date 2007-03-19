@@ -1,6 +1,10 @@
 <!--#include virtual="main.shtml"-->  
     <h2>Changelog</h2>
     <ul>
+      <li>Version 1.4.1 vom 19.03.2007</li>
+         <ul>
+           <li>Bugfix bei der Prüfung der Textschlüssel im C-Satz</li>
+         </ul>
       <li>Version 1.4 vom 19.03.2007</li>
          <ul>
            <li>Dateikennzeichen für Bankendateien zugelassen</li>
