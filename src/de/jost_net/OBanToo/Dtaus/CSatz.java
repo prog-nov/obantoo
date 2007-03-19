@@ -35,11 +35,21 @@ public class CSatz extends Satz
 
   public static final int TS_LASTSCHRIFT_POS = 05015;
 
+  public static final int TS_BANK_09 = 9000;
+
   public static final int TS_UEBERWEISUNGSGUTSCHRIFT = 51000;
 
   public static final int TS_UEBERWEISUNG_LOHN_GEHALT_RENTE = 53000;
 
   public static final int TS_UEBERWEISUNG_OEFFENTL_KASSEN = 56000;
+
+  public static final int TS_BANK_59 = 59000;
+
+  public static final int TS_BANK_67 = 67000;
+
+  public static final int TS_BANK_68 = 68000;
+
+  public static final int TS_BANK_69 = 69000;
 
   /**
    * Feld c01, 4 Byte, numerisch, Satzl�nge, konstanter Teil 187 Bytes +
@@ -795,10 +805,12 @@ public class CSatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.8  2007/02/22 18:39:39  jost
- * Implementierung der Erweiterungsteile 01 (Name Empfänger/Zahlungspflichtiger 2) und 03 (Absender/Zahlungsempfänger 2)
- * Revision 1.7 2007/01/07 20:42:18 jost Verwendungszwecke
- * der Länge 0 zugelassen.
+ * Revision 1.9  2007/03/19 08:53:35  jost
+ * Textschlüssel für Bankzwecke zugelassen.
+ * Revision 1.8 2007/02/22 18:39:39 jost Implementierung
+ * der Erweiterungsteile 01 (Name Empfänger/Zahlungspflichtiger 2) und 03
+ * (Absender/Zahlungsempfänger 2) Revision 1.7 2007/01/07 20:42:18 jost
+ * Verwendungszwecke der Länge 0 zugelassen.
  * 
  * Revision 1.6 2006/10/06 12:44:57 jost Optionale Fehlertoleranz Revision 1.5
  * 2006/08/28 19:01:32 jost Korrekte Behandlung von Gro�-Kleinschreibung und
