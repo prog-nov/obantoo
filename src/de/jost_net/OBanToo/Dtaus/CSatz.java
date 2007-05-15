@@ -705,7 +705,7 @@ public class CSatz extends Satz
     }
     if (this.cErweiterungszeichen >= 2)
     {
-      dos.writeBytes((String) this.cErweiterungsteile.elementAt(2));
+      dos.writeBytes(this.getErweiterungsteil(2));
     }
     else
     {
@@ -807,13 +807,15 @@ public class CSatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.10  2007/03/19 14:59:04  jost
- * Bugfix bei der Prüfung der Textschlüssel
- * Revision 1.9 2007/03/19 08:53:35 jost Textschlüssel
- * für Bankzwecke zugelassen. Revision 1.8 2007/02/22 18:39:39 jost
- * Implementierung der Erweiterungsteile 01 (Name Empfänger/Zahlungspflichtiger
- * 2) und 03 (Absender/Zahlungsempfänger 2) Revision 1.7 2007/01/07 20:42:18
- * jost Verwendungszwecke der Länge 0 zugelassen.
+ * Revision 1.11  2007/05/15 13:29:28  jost
+ * Bugfix Erweiterungsteile
+ * Revision 1.10 2007/03/19 14:59:04 jost Bugfix bei der
+ * Prüfung der Textschlüssel Revision 1.9 2007/03/19 08:53:35 jost
+ * Textschlüssel für Bankzwecke zugelassen. Revision 1.8 2007/02/22 18:39:39
+ * jost Implementierung der Erweiterungsteile 01 (Name
+ * Empfänger/Zahlungspflichtiger 2) und 03 (Absender/Zahlungsempfänger 2)
+ * Revision 1.7 2007/01/07 20:42:18 jost Verwendungszwecke der Länge 0
+ * zugelassen.
  * 
  * Revision 1.6 2006/10/06 12:44:57 jost Optionale Fehlertoleranz Revision 1.5
  * 2006/08/28 19:01:32 jost Korrekte Behandlung von Gro�-Kleinschreibung und
