@@ -11,6 +11,7 @@ package de.jost_net.OBanToo.Dtaus;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Vector;
 
@@ -467,9 +468,14 @@ public class CSatz extends Satz
     cBetragSet = true;
   }
 
+  /**
+   * Betrag in Euro setzen.
+   */
   public void setBetragInEuro(double value) throws DtausException
   {
-    setBetragInCent((long) (value * 100d));
+    BigDecimal bval = new BigDecimal(value+"");
+    bval = bval.multiply(new BigDecimal("100"));
+    setBetragInCent(bval.longValue());
   }
 
   public long getBetragInCent()
@@ -807,9 +813,10 @@ public class CSatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.11  2007/05/15 13:29:28  jost
- * Bugfix Erweiterungsteile
- * Revision 1.10 2007/03/19 14:59:04 jost Bugfix bei der
+ * Revision 1.12  2007/07/17 19:24:43  jost
+ * Bugfix in der Methode setBetragInEuro(double)
+ * Revision 1.11 2007/05/15 13:29:28 jost Bugfix
+ * Erweiterungsteile Revision 1.10 2007/03/19 14:59:04 jost Bugfix bei der
  * Prüfung der Textschlüssel Revision 1.9 2007/03/19 08:53:35 jost
  * Textschlüssel für Bankzwecke zugelassen. Revision 1.8 2007/02/22 18:39:39
  * jost Implementierung der Erweiterungsteile 01 (Name
