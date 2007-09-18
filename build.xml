@@ -56,7 +56,7 @@
 		</javadoc>
 	</target>
 	
-	<target name="deploy" depends="init,javadoc" description="Auslieferbare ZIP-Datei erzeugen">
+	<target name="deploy" depends="init,clean,javadoc" description="Auslieferbare ZIP-Datei erzeugen">
 		<mkdir dir="${deploy}"/>
 		<copy todir="${build.dir}/src">
 		    <fileset dir="${src.dir}"/>
