@@ -14,13 +14,14 @@ import de.jost_net.OBanToo.Tools.Util;
 public class Satz
 {
 
-  public Satz() throws DtausException
+  public Satz() 
   {
     //
   }
 
-  public Satz(String value) throws DtausException
+  public Satz(String value) 
   {
+    //
   }
 
   protected String makeValid(String value)
@@ -73,12 +74,10 @@ public class Satz
       }
       else
       {
-        throw new DtausException(DtausException.UNGUELTIGES_ZEICHEN, value
-            .substring(i, i + 1)
-            + "("
-            + Util.toHex(value.substring(i, i + 1))
-            + ")"
-            + " an Position " + i + ": " + value);
+        throw new DtausException(DtausException.UNGUELTIGES_ZEICHEN,
+            value.substring(i, i + 1) + "("
+                + Util.toHex(value.substring(i, i + 1)) + ")" + " an Position "
+                + i + ": " + value);
       }
     }
   }
@@ -144,10 +143,11 @@ public class Satz
 }
 /*
  * $Log$
- * Revision 1.7  2006/11/12 07:30:26  jost
- * Korrekte Umlautbehandlung (DTAUS0/DTAUS1).
- * Revision 1.6 2006/10/08 18:40:08 jost Bugfix: Korrekte
- * Behandlung von Textfeldern der L‰nge 27
+ * Revision 1.8  2007/09/18 17:51:57  jost
+ * √úberfl√ºssige throws entfernt.
+ * Revision 1.7 2006/11/12 07:30:26 jost Korrekte
+ * Umlautbehandlung (DTAUS0/DTAUS1). Revision 1.6 2006/10/08 18:40:08 jost
+ * Bugfix: Korrekte Behandlung von Textfeldern der L‰nge 27
  * 
  * Revision 1.5 2006/10/06 12:48:18 jost Optionale Fehlertoleranz Revision 1.4
  * 2006/09/25 18:28:57 jost Fehlerhaftes Zeichen wird auch als Hex-Wert

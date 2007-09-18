@@ -24,6 +24,7 @@ import java.util.Date;
  */
 public class ASatz extends Satz
 {
+
   /**
    * Feld a01, 4 Bytes, numerisch, Satzl‰ngenfeld, Konstant 0128
    */
@@ -110,9 +111,9 @@ public class ASatz extends Satz
     setWaehrungskennzeichen(satz.substring(127, 128));
   }
 
-  public ASatz() throws DtausException
+  public ASatz() 
   {
-
+    //
   }
 
   /**
@@ -172,7 +173,7 @@ public class ASatz extends Satz
     return aKundenname;
   }
 
-  public void setDateierstellungsdatum(String value) throws DtausException
+  public void setDateierstellungsdatum(String value)
   {
     aDateierstellungsdatum = value;
   }
@@ -327,10 +328,11 @@ public class ASatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.7  2007/03/19 08:53:15  jost
- * Bankdaten zugelassen
- * Revision 1.6 2007/02/14 14:42:06 jost NPE verhindert.
- * Revision 1.5 2006/10/08 18:39:10 jost Zus‰tzliche Debug-Ausgabe
+ * Revision 1.8  2007/09/18 17:48:39  jost
+ * √úberfl√ºssige throws entfernt.
+ * Revision 1.7 2007/03/19 08:53:15 jost Bankdaten
+ * zugelassen Revision 1.6 2007/02/14 14:42:06 jost NPE verhindert. Revision 1.5
+ * 2006/10/08 18:39:10 jost Zus‰tzliche Debug-Ausgabe
  * 
  * Revision 1.4 2006/10/06 12:44:38 jost Optionale Fehlertoleranz Revision 1.3
  * 2006/08/28 19:01:00 jost Korrekte Behandlung von Groﬂ-Kleinschreibung und
