@@ -98,7 +98,7 @@ public class DtausDateiWriter
 
   private ESatz esatz;
 
-  public DtausDateiWriter(OutputStream os) throws DtausException
+  public DtausDateiWriter(OutputStream os) 
   {
     dos = new DataOutputStream(os);
     open();
@@ -109,9 +109,8 @@ public class DtausDateiWriter
    * darf erfolgen, nachdem der E-Satz geschrieben wurden. Damit wird die
    * Ausgabe einer weiteren logischen Datei möglich.
    * 
-   * @throws DtausException
    */
-  public void open() throws DtausException
+  public void open() 
   {
     asatz = new ASatz();
     csatz = new CSatz();
@@ -144,6 +143,11 @@ public class DtausDateiWriter
   {
     asatz.setBlz(aBLZBank);
   }
+  
+  public long getABLZBank()
+  {
+    return asatz.getBlz();
+  }
 
   /**
    * Feld A6 - Name des Auftraggebers. Gültige Werte: Siehe zugelassene Zeichen,
@@ -153,11 +157,16 @@ public class DtausDateiWriter
   {
     asatz.setKundenname(aKundenname);
   }
+  
+  public String getAKundenname()
+  {
+    return asatz.getKundenname();
+  }
 
   /**
    * Feld A7 - Datum Format: TTMMJJ Standardwert: Tagesdatum
    */
-  public void setADatum(String aDatum) throws DtausException
+  public void setADatum(String aDatum)
   {
     asatz.setDateierstellungsdatum(aDatum);
   }
@@ -165,7 +174,7 @@ public class DtausDateiWriter
   /**
    * Feld A7 - Datum Standardwert: Tagesdatum
    */
-  public void setADatum(Date aDatum) throws DtausException
+  public void setADatum(Date aDatum) 
   {
     SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
     setADatum(sdf.format(aDatum));
@@ -174,9 +183,14 @@ public class DtausDateiWriter
   /**
    * Feld A9 - Kontonummer des Auftraggebers Standardwert: 0
    */
-  public void setAKonto(long aKonto) throws DtausException
+  public void setAKonto(long aKonto)
   {
     asatz.setKonto(aKonto);
+  }
+  
+  public long getAKonto()
+  {
+    return asatz.getKonto();
   }
 
   /**
@@ -208,6 +222,11 @@ public class DtausDateiWriter
   {
     csatz.setBlzEndbeguenstigt(value);
   }
+  
+  public long getCBLZEndbeguenstigt()
+  {
+    return csatz.getBlzEndbeguenstigt();
+  }
 
   /**
    * Feld C5 - Kontonummer des Überweisungsempfängers/Zahlungspflichtigen
@@ -217,6 +236,10 @@ public class DtausDateiWriter
     csatz.setKontonummer(cKonto);
   }
 
+  public long getCKonto()
+  {
+    return csatz.getKontonummer();
+  }
   /**
    * Feld C7 - Textschlüssel - Kennzeichnung der Zahlungsart "51000"
    * Überweisungs-Gutschrift "53000" Überweisung Lohn/Gehalt/Rente "5400J"
@@ -243,6 +266,11 @@ public class DtausDateiWriter
   public void setCBetragInEuro(double value) throws DtausException
   {
     csatz.setBetragInEuro(value);
+  }
+  
+  public double getCBetragInEuro()
+  {
+    return csatz.getBetragInEuro();
   }
 
   /**
@@ -279,7 +307,7 @@ public class DtausDateiWriter
   {
     asatz.write(dos);
   }
-
+  
   public String writeCSatz() throws IOException, DtausException
   {
     csatz.setNameAbsender(asatz.getKundenname());
@@ -296,7 +324,7 @@ public class DtausDateiWriter
   {
     esatz.write(dos);
   }
-
+  
   public long getAnzahlSaetze()
   {
     return esatz.getAnzahlDatensaetze();
@@ -324,6 +352,10 @@ public class DtausDateiWriter
 }
 /*
  * $Log$
+ * Revision 1.6  2007/09/18 17:50:58  jost
+ * ÃœberflÃ¼ssige throws entfernt.
+ * ZusÃ¤tzliche Methoden.
+ *
  * Revision 1.5  2007/02/22 18:40:04  jost
  * Implementierung der Erweiterungsteile 01 (Name EmpfÃ¤nger/Zahlungspflichtiger 2) und 03 (Absender/ZahlungsempfÃ¤nger 2)
  * Revision 1.4 2006/09/20 15:47:29 jost Neue
