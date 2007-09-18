@@ -24,6 +24,7 @@ import java.util.Vector;
 // todo S�tze mit mehr als 3 Erweiterungsteilen testen
 public class CSatz extends Satz
 {
+
   public static final int TS_LASTSCHRIFT_ABBUCHUNGSVERFAHREN = 4000;
 
   public static final int TS_LASTSCHRIFT_EINZUGSERMAECHTIGUNGSVERFAHREN = 5000;
@@ -165,7 +166,7 @@ public class CSatz extends Satz
 
   private Vector cErweiterungsteile = null;
 
-  public CSatz() throws DtausException
+  public CSatz()
   {
     init();
   }
@@ -181,8 +182,8 @@ public class CSatz extends Satz
     checkSatzlaengenfeld(satz.substring(0, 4));
     if (!satz.substring(4, 5).equals(cSatzart))
     {
-      throw new DtausException(DtausException.C_SATZART_FEHLERHAFT, satz
-          .substring(4, 5));
+      throw new DtausException(DtausException.C_SATZART_FEHLERHAFT,
+          satz.substring(4, 5));
     }
     setBlzErstbeteiligt(satz.substring(5, 13));
     setBlzEndbeguenstigt(satz.substring(13, 21));
@@ -198,13 +199,13 @@ public class CSatz extends Satz
     setErweiterungskennzeichen(satz.substring(185, 187));
     if (getSatzlaenge() != 187 + (getErweiterungszeichen() * 29))
     {
-      throw new DtausException(DtausException.C_SATZLAENGE_FEHLERHAFT, satz
-          .substring(0, 4));
+      throw new DtausException(DtausException.C_SATZLAENGE_FEHLERHAFT,
+          satz.substring(0, 4));
     }
 
     // Startpositionen der Erweiterungsteile
     int[] pos = { 187, 216, 256, 285, 314, 343, 384, 413, 442, 471, 512, 541,
-        570, 599 };
+        570, 599};
     for (int i = 0; i < this.getErweiterungszeichen(); i++)
     {
       int p = pos[i];
@@ -473,7 +474,7 @@ public class CSatz extends Satz
    */
   public void setBetragInEuro(double value) throws DtausException
   {
-    BigDecimal bval = new BigDecimal(value+"");
+    BigDecimal bval = new BigDecimal(value + "");
     bval = bval.multiply(new BigDecimal("100"));
     setBetragInCent(bval.longValue());
   }
@@ -485,7 +486,7 @@ public class CSatz extends Satz
 
   public double getBetragInEuro()
   {
-    return (double) cBetrag / 100d;
+    return cBetrag / 100d;
   }
 
   public void setNameEmpfaenger(String value) throws DtausException
@@ -703,7 +704,7 @@ public class CSatz extends Satz
     // 2. Satzabschnitt
     if (this.cErweiterungszeichen >= 1)
     {
-      dos.writeBytes((String) this.getErweiterungsteil(1));
+      dos.writeBytes(this.getErweiterungsteil(1));
     }
     else
     {
@@ -730,7 +731,7 @@ public class CSatz extends Satz
     {
       for (int i = pos; i < pos + 4; i++)
       {
-        String vzweck = (String) this.getErweiterungsteil(i);
+        String vzweck = this.getErweiterungsteil(i);
         if (vzweck != null)
         {
           dos.writeBytes(vzweck);
@@ -813,9 +814,10 @@ public class CSatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.12  2007/07/17 19:24:43  jost
- * Bugfix in der Methode setBetragInEuro(double)
- * Revision 1.11 2007/05/15 13:29:28 jost Bugfix
+ * Revision 1.13  2007/09/18 17:49:47  jost
+ * Überflüssige throws und castings entfernt.
+ * Revision 1.12 2007/07/17 19:24:43 jost Bugfix in der
+ * Methode setBetragInEuro(double) Revision 1.11 2007/05/15 13:29:28 jost Bugfix
  * Erweiterungsteile Revision 1.10 2007/03/19 14:59:04 jost Bugfix bei der
  * Prüfung der Textschlüssel Revision 1.9 2007/03/19 08:53:35 jost
  * Textschlüssel für Bankzwecke zugelassen. Revision 1.8 2007/02/22 18:39:39
