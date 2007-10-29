@@ -491,6 +491,7 @@ public class CSatz extends Satz
 
   public void setNameEmpfaenger(String value) throws DtausException
   {
+    value = value.trim();
     if (value.length() > 27)
     {
       throw new DtausException(DtausException.C_NAME_EMPFAENGER);
@@ -507,6 +508,7 @@ public class CSatz extends Satz
 
   public void setNameEmpfaenger2(String value) throws DtausException
   {
+    value = value.trim();
     if (value.length() > 27)
     {
       throw new DtausException(DtausException.C_NAME_EMPFAENGER2, value);
@@ -522,6 +524,7 @@ public class CSatz extends Satz
 
   public void setNameAbsender(String value) throws DtausException
   {
+    value = value.trim();
     if (value.length() > 27)
     {
       throw new DtausException(DtausException.C_NAME_ABSENDER);
@@ -538,6 +541,7 @@ public class CSatz extends Satz
 
   public void setNameAbsender2(String value) throws DtausException
   {
+    value= value.trim();
     if (value.length() > 27)
     {
       throw new DtausException(DtausException.C_NAME_ABSENDER2);
@@ -553,6 +557,7 @@ public class CSatz extends Satz
 
   public void addVerwendungszweck(String value) throws DtausException
   {
+    value = value.trim();
     if (value.length() > 27)
     {
       throw new DtausException(DtausException.C_VERWENDUNGSZWECK_FEHLERHAFT,
@@ -814,6 +819,9 @@ public class CSatz extends Satz
 }
 /*
  * $Log$
+ * Revision 1.14  2007/10/29 18:17:08  jost
+ * trim() eingebaut
+ *
  * Revision 1.13  2007/09/18 17:49:47  jost
  * Überflüssige throws und castings entfernt.
  * Revision 1.12 2007/07/17 19:24:43 jost Bugfix in der
