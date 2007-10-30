@@ -1,6 +1,10 @@
 <!--#include virtual="main.shtml"-->  
     <h2>Changelog</h2>
     <ul>
+      <li>Version 1.4.5 vom 29.10.2007</li>
+         <ul>
+             <li>Bugfix beim Import. Leerzeichen am Ende der Datenfelder abgeschnitten.</li>
+         </ul>
       <li>Version 1.4.4 vom 18.09.2007</li>
          <ul>
          	 <li>Zusätzliche Methoden in DtausDateiWriter</li>
