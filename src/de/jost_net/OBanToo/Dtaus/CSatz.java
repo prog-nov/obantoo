@@ -182,8 +182,8 @@ public class CSatz extends Satz
     checkSatzlaengenfeld(satz.substring(0, 4));
     if (!satz.substring(4, 5).equals(cSatzart))
     {
-      throw new DtausException(DtausException.C_SATZART_FEHLERHAFT,
-          satz.substring(4, 5));
+      throw new DtausException(DtausException.C_SATZART_FEHLERHAFT, satz
+          .substring(4, 5));
     }
     setBlzErstbeteiligt(satz.substring(5, 13));
     setBlzEndbeguenstigt(satz.substring(13, 21));
@@ -199,13 +199,13 @@ public class CSatz extends Satz
     setErweiterungskennzeichen(satz.substring(185, 187));
     if (getSatzlaenge() != 187 + (getErweiterungszeichen() * 29))
     {
-      throw new DtausException(DtausException.C_SATZLAENGE_FEHLERHAFT,
-          satz.substring(0, 4));
+      throw new DtausException(DtausException.C_SATZLAENGE_FEHLERHAFT, satz
+          .substring(0, 4));
     }
 
     // Startpositionen der Erweiterungsteile
     int[] pos = { 187, 216, 256, 285, 314, 343, 384, 413, 442, 471, 512, 541,
-        570, 599};
+        570, 599 };
     for (int i = 0; i < this.getErweiterungszeichen(); i++)
     {
       int p = pos[i];
@@ -366,19 +366,165 @@ public class CSatz extends Satz
 
   public void setTextschluessel(int value) throws DtausException
   {
-    if (value != TS_LASTSCHRIFT_ABBUCHUNGSVERFAHREN
-        && value != TS_LASTSCHRIFT_EINZUGSERMAECHTIGUNGSVERFAHREN
-        && value != TS_LASTSCHRIFT_EC_CASH
-        && value != TS_LASTSCHRIFT_EC_CASH_AUSLAND
-        && value != TS_LASTSCHRIFT_EINZUGSERMAECHTIGUNGSVERFAHREN
-        && value != TS_LASTSCHRIFT_KREDITKARTE && value != TS_LASTSCHRIFT_POS
-        && value != TS_UEBERWEISUNG_LOHN_GEHALT_RENTE
-        && value != TS_UEBERWEISUNG_OEFFENTL_KASSEN
-        && value != TS_UEBERWEISUNGSGUTSCHRIFT && value != TS_BANK_09
-        && value != TS_BANK_59 && value != TS_BANK_67 && value != TS_BANK_68
-        && value != TS_BANK_69)
+    DecimalFormat df = new DecimalFormat("00000");
+    String valueStr = df.format(value);
+    String textschluesselStr = valueStr.substring(0, 2);
+    int textschluessel = Integer.parseInt(textschluesselStr);
+    String textschluesselergaenzungStr = valueStr.substring(2);
+    int textschluesselergaenzung = Integer
+        .parseInt(textschluesselergaenzungStr);
+
+    boolean zul‰ssig = false;
+
+    if (textschluessel == 1)
     {
-      throw new DtausException(DtausException.C_TEXTSCHLUESSEL_FEHLERHAFT);
+      if (textschluesselergaenzung == 0 || textschluesselergaenzung == 888)
+      {
+        zul‰ssig = true;
+      }
+    }
+    else if (textschluessel == 2)
+    {
+      if (textschluesselergaenzung == 0 || textschluesselergaenzung == 888)
+      {
+        zul‰ssig = true;
+      }
+    }
+    else if (textschluessel == 4)
+    {
+      if (textschluesselergaenzung == 0 || textschluesselergaenzung == 888)
+      {
+        zul‰ssig = true;
+      }
+    }
+    else if (textschluessel == 5)
+    {
+      if (textschluesselergaenzung == 0
+          || textschluesselergaenzung == 1
+          || textschluesselergaenzung == 4
+          || textschluesselergaenzung == 5
+          || textschluesselergaenzung == 6
+          || textschluesselergaenzung == 8
+          || textschluesselergaenzung == 15
+          || textschluesselergaenzung == 240
+          || textschluesselergaenzung == 888
+          || (textschluesselergaenzungStr.length() == 3 && textschluesselergaenzungStr
+              .endsWith("9")))
+      {
+        zul‰ssig = true;
+      }
+    }
+    else if (textschluessel == 9)
+    {
+      zul‰ssig = true;
+    }
+    else if (textschluessel == 11)
+    {
+      if (textschluesselergaenzung == 0 || textschluesselergaenzung == 888)
+      {
+        zul‰ssig = true;
+      }
+    }
+    else if (textschluessel == 14)
+    {
+      if (textschluesselergaenzung == 0 || textschluesselergaenzung == 1)
+      {
+        zul‰ssig = true;
+      }
+    }
+    else if (textschluessel == 51)
+    {
+      if (textschluesselergaenzung == 0
+          || textschluesselergaenzung == 200
+          || textschluesselergaenzung == 240
+          || textschluesselergaenzung == 241
+          || textschluesselergaenzung == 444
+          || textschluesselergaenzung == 445
+          || textschluesselergaenzung == 888
+          || (textschluesselergaenzungStr.length() == 3 && textschluesselergaenzungStr
+              .endsWith("9")))
+      {
+        zul‰ssig = true;
+      }
+    }
+    else if (textschluessel == 52)
+    {
+      if (textschluesselergaenzung == 0 || textschluesselergaenzung == 888)
+      {
+        zul‰ssig = true;
+      }
+    }
+    else if (textschluessel == 53)
+    {
+      if (textschluesselergaenzung == 0 || textschluesselergaenzung == 444
+          || textschluesselergaenzung == 445 || textschluesselergaenzung == 888)
+      {
+        zul‰ssig = true;
+      }
+    }
+    else if (textschluessel == 54)
+    {
+      zul‰ssig = true;
+    }
+    else if (textschluessel == 56)
+    {
+      if (textschluesselergaenzung == 0 || textschluesselergaenzung == 444
+          || textschluesselergaenzung == 445)
+      {
+        zul‰ssig = true;
+      }
+    }
+    else if (textschluessel == 59)
+    {
+      zul‰ssig = true;
+    }
+    else if (textschluessel == 65)
+    {
+      zul‰ssig = true;
+    }
+    else if (textschluessel == 67)
+    {
+      if (textschluesselergaenzung == 0 || textschluesselergaenzung == 444
+          || textschluesselergaenzung == 445 || textschluesselergaenzung == 888)
+      {
+        zul‰ssig = true;
+      }
+    }
+    else if (textschluessel == 68)
+    {
+      if (textschluesselergaenzung == 0 || textschluesselergaenzung == 444
+          || textschluesselergaenzung == 445 || textschluesselergaenzung == 888)
+      {
+        zul‰ssig = true;
+      }
+    }
+    else if (textschluessel == 69)
+    {
+      if (textschluesselergaenzung == 0 || textschluesselergaenzung == 444
+          || textschluesselergaenzung == 445 || textschluesselergaenzung == 888)
+      {
+        zul‰ssig = true;
+      }
+    }
+    else if (textschluessel == 81)
+    {
+      if (textschluesselergaenzung == 0)
+      {
+        zul‰ssig = true;
+      }
+    }
+    else if (textschluessel == 84)
+    {
+      if (textschluesselergaenzung == 0)
+      {
+        zul‰ssig = true;
+      }
+    }
+
+    if (!zul‰ssig)
+    {
+      throw new DtausException(DtausException.C_TEXTSCHLUESSEL_FEHLERHAFT,
+          valueStr);
     }
     cTextschluessel = value;
     cTextschluesselSet = true;
@@ -541,7 +687,7 @@ public class CSatz extends Satz
 
   public void setNameAbsender2(String value) throws DtausException
   {
-    value= value.trim();
+    value = value.trim();
     if (value.length() > 27)
     {
       throw new DtausException(DtausException.C_NAME_ABSENDER2);
@@ -816,16 +962,22 @@ public class CSatz extends Satz
     }
     return ret;
   }
+
+  public static void main(String[] args) throws DtausException
+  {
+    CSatz c = new CSatz();
+    c.setTextschluessel("53009");
+  }
 }
 /*
  * $Log$
- * Revision 1.14  2007/10/29 18:17:08  jost
- * trim() eingebaut
- *
- * Revision 1.13  2007/09/18 17:49:47  jost
- * √úberfl√ºssige throws und castings entfernt.
- * Revision 1.12 2007/07/17 19:24:43 jost Bugfix in der
- * Methode setBetragInEuro(double) Revision 1.11 2007/05/15 13:29:28 jost Bugfix
+ * Revision 1.15  2007/11/15 20:01:22  jost
+ * Pr√ºfung der Textschl√ºssel erweitert.
+ * Revision 1.14 2007/10/29 18:17:08 jost trim() eingebaut
+ * 
+ * Revision 1.13 2007/09/18 17:49:47 jost √úberfl√ºssige throws und castings
+ * entfernt. Revision 1.12 2007/07/17 19:24:43 jost Bugfix in der Methode
+ * setBetragInEuro(double) Revision 1.11 2007/05/15 13:29:28 jost Bugfix
  * Erweiterungsteile Revision 1.10 2007/03/19 14:59:04 jost Bugfix bei der
  * Pr√ºfung der Textschl√ºssel Revision 1.9 2007/03/19 08:53:35 jost
  * Textschl√ºssel f√ºr Bankzwecke zugelassen. Revision 1.8 2007/02/22 18:39:39
