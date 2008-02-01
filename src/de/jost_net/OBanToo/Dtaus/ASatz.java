@@ -107,11 +107,11 @@ public class ASatz extends Satz
     setDateierstellungsdatum(satz.substring(50, 56));
     setKonto(satz.substring(60, 70));
     setReferenz(satz.substring(70, 80));
-    setAusfuehrungsdatum(satz.substring(80, 88));
+    setAusfuehrungsdatum(satz.substring(95, 103));
     setWaehrungskennzeichen(satz.substring(127, 128));
   }
 
-  public ASatz() 
+  public ASatz()
   {
     //
   }
@@ -222,7 +222,7 @@ public class ASatz extends Satz
       aAusfuehrungsdatum = null;
       return;
     }
-    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
+    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
     try
     {
       aAusfuehrungsdatum = sdf.parse(value);
@@ -240,7 +240,7 @@ public class ASatz extends Satz
 
   public String getAusfuehrungsdatumString()
   {
-    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
+    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
     try
     {
       return sdf.format(aAusfuehrungsdatum);
@@ -290,7 +290,7 @@ public class ASatz extends Satz
       aAusfuehrungsdatum = new Date();
     }
     SimpleDateFormat sdf6 = new SimpleDateFormat("ddMMyy");
-    dos.writeBytes(sdf6.format(aAusfuehrungsdatum));
+    dos.writeBytes(sdf6.format(new Date()));
     // Feld 8 - Konstant 4 Leerzeichen
     dos.writeBytes(Tool.space(4));
     // Feld 9 - Kontonummer des Auftraggebers
@@ -328,11 +328,12 @@ public class ASatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.8  2007/09/18 17:48:39  jost
- * √úberfl√ºssige throws entfernt.
- * Revision 1.7 2007/03/19 08:53:15 jost Bankdaten
- * zugelassen Revision 1.6 2007/02/14 14:42:06 jost NPE verhindert. Revision 1.5
- * 2006/10/08 18:39:10 jost Zus‰tzliche Debug-Ausgabe
+ * Revision 1.9  2008/02/01 17:07:50  jost
+ * Bugfix Ausf√ºhrungsdatum
+ * Revision 1.8 2007/09/18 17:48:39 jost √úberfl√ºssige
+ * throws entfernt. Revision 1.7 2007/03/19 08:53:15 jost Bankdaten zugelassen
+ * Revision 1.6 2007/02/14 14:42:06 jost NPE verhindert. Revision 1.5 2006/10/08
+ * 18:39:10 jost Zus‰tzliche Debug-Ausgabe
  * 
  * Revision 1.4 2006/10/06 12:44:38 jost Optionale Fehlertoleranz Revision 1.3
  * 2006/08/28 19:01:00 jost Korrekte Behandlung von Groﬂ-Kleinschreibung und
