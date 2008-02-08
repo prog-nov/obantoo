@@ -24,7 +24,10 @@ public class DtausWriterTest
     dtausDateiWriter.setCInterneKundennummer(1);
     dtausDateiWriter.setCBetragInEuro(1000);
     dtausDateiWriter.setCName("Donald Duck");
+    dtausDateiWriter.setCName2("Entenhausen");
     dtausDateiWriter.addCVerwendungszweck("bekannt");
+    dtausDateiWriter.addCVerwendungszweck("bla");
+
     dtausDateiWriter.writeCSatz();
 
     dtausDateiWriter.setCBLZEndbeguenstigt(80077711);
