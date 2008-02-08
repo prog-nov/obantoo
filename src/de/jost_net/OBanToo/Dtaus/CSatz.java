@@ -792,6 +792,14 @@ public class CSatz extends Satz
       throw new DtausException("Nicht alle C-Satz-Daten gef�llt.");
     }
     cErweiterungszeichen = cVerwendungszweck.size() - 1;
+    if (cNameEmpfaenger2 != null)
+    {
+      cErweiterungszeichen++;
+    }
+    if (cNameAbsender2 != null)
+    {
+      cErweiterungszeichen++;
+    }
     // Feld 1 - Satzl�nge
     dos.writeBytes(Tool.formatSL(187 + (cErweiterungszeichen * 29)));
     // Feld 2 - Satzart
@@ -833,22 +841,17 @@ public class CSatz extends Satz
     dos.writeBytes(Tool.space(2));
     // Erweiterungsteile aufbauen
     cErweiterungsteile = new Vector();
-    cErweiterungszeichen = 0;
     if (cNameEmpfaenger2 != null)
     {
       cErweiterungsteile.addElement("01" + make27(this.getNameEmpfaenger2()));
-      cErweiterungszeichen++;
     }
     for (int i = 2; i <= this.getAnzahlVerwendungszwecke(); i++)
     {
       cErweiterungsteile.addElement("02" + make27(this.getVerwendungszweck(i)));
-      System.out.println(this.getVerwendungszweck(i));
-      cErweiterungszeichen++;
     }
     if (cNameAbsender2 != null)
     {
       cErweiterungsteile.addElement("03" + make27(this.getNameAbsender2()));
-      cErweiterungszeichen++;
     }
     // Feld 18 - Anzahl Erweiterungsteile
     dos.writeBytes(Tool.formatErweiterung(this.cErweiterungszeichen));
@@ -971,9 +974,11 @@ public class CSatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.15  2007/11/15 20:01:22  jost
- * Prüfung der Textschlüssel erweitert.
- * Revision 1.14 2007/10/29 18:17:08 jost trim() eingebaut
+ * Revision 1.16  2008/02/08 18:44:46  jost
+ * Bugfix Erweiterungsteile
+ * Revision 1.15 2007/11/15 20:01:22 jost Prüfung der
+ * Textschlüssel erweitert. Revision 1.14 2007/10/29 18:17:08 jost trim()
+ * eingebaut
  * 
  * Revision 1.13 2007/09/18 17:49:47 jost Überflüssige throws und castings
  * entfernt. Revision 1.12 2007/07/17 19:24:43 jost Bugfix in der Methode
