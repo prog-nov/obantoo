@@ -32,10 +32,20 @@ import java.util.Vector;
  * konvertiert.</li>
  * <li>HEX00TOSPACE - Zusätzlich zur UMLAUTUMSETZUNG wird der Zeichencode 00 in
  * Leerzeichen umgewandelt.</li>
+ * <li>FALSCHESWAEHRUNGSKENNZEICHENERLAUBT - Ein fehlendes oder fehlerhaftes
+ * Währungskennzeichen im A-Satz wird protokolliert. Es wird jedoch keine
+ * DtausException geworfen</li>
  * </ul>
+ * <p>
+ * Sollen verschiedene Toleranzen aktiviert werden, sind die Parameter zu
+ * addieren. Aus Kompatibilitätsgründen wird beim Parameter HEX00TOSPACE
+ * automatisch der Parameter UMLAUTUMSETZUNG aktiviert.
+ * </p>
+ * <p>
  * Im Konstruktor wird der Parse-Vorgang gestartet. Die gesamte DTAUS-Datei
  * verarbeitet. Die Daten werden in Objekten vom Typ "LogischeDatei"
  * gespeichert.
+ * </p>
  * <p>
  * Sollte die zu parsende DTAUS-Datei fehlerhaft sein, werden entsprechende
  * DtausExceptions geworfen.
@@ -87,6 +97,8 @@ public class DtausDateiParser
 
   public static final int HEX00TOSPACE = 2;
 
+  public static final int FALSCHESWAEHRUNGSKENNZEICHENERLAUBT = 4;
+
   private int toleranz = SPEZIFIKATIONSKONFORM;
 
   public DtausDateiParser(String filename) throws IOException, DtausException
@@ -135,10 +147,10 @@ public class DtausDateiParser
   {
     return logischeDateien.size();
   }
-  
+
   /**
-   * aktuelle logische Datei setzen.
-   * Werte von 1 bis getAnzahlLogischerDateien() sind zulässig
+   * aktuelle logische Datei setzen. Werte von 1 bis getAnzahlLogischerDateien()
+   * sind zulässig
    */
 
   public void setLogischeDatei(int nr) throws DtausException
@@ -308,13 +320,13 @@ public class DtausDateiParser
 }
 /*
  * $Log$
- * Revision 1.7  2007/02/14 14:42:54  jost
- * javadoc
- *
- * Revision 1.6  2006/10/06 12:47:39  jost
- * Optionale Fehlertoleranz
- * Revision 1.5 2006/06/04 12:23:51 jost
- * Redaktionelle Änderung
+ * Revision 1.8  2008/02/17 08:30:46  jost
+ * Neuer Toleranzlevel
+ * Neues Feld5
+ * Revision 1.7 2007/02/14 14:42:54 jost javadoc
+ * 
+ * Revision 1.6 2006/10/06 12:47:39 jost Optionale Fehlertoleranz Revision 1.5
+ * 2006/06/04 12:23:51 jost Redaktionelle Änderung
  * 
  * Revision 1.4 2006/05/29 16:38:03 jost Anpassungen für den Einsatz in Hibiscus
  * Revision 1.3 2006/05/28 09:06:32 jost - Unterstützung mehrerer logischer

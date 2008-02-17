@@ -48,6 +48,12 @@ public class ASatz extends Satz
   private long aBlz = 0;
 
   /**
+   * Feld a05, 8 Byte, Dateien, die von Banken geliefert werden, enthalten hier
+   * die BLZ
+   */
+  private long aFeld5;
+
+  /**
    * Feld a06, 27 Byte, alpha, Kundenname, Dateiabsender
    */
   private String aKundenname = null;
@@ -84,6 +90,8 @@ public class ASatz extends Satz
    */
   private String aWaehrungskennzeichen = "1";
 
+  private int toleranz = 0;
+
   /**
    * Konstruktor mit der ‹bergabe eines zu parsenden Satzes
    * 
@@ -91,6 +99,7 @@ public class ASatz extends Satz
    */
   public ASatz(String satz, int toleranz) throws DtausException
   {
+    this.toleranz = toleranz;
     satz = codingFromDtaus(satz, toleranz);
     validCharacters(satz);
     if (!satz.substring(0, 4).equals(aSatzlaenge))
@@ -103,6 +112,7 @@ public class ASatz extends Satz
     }
     setGutschriftLastschrift(satz.substring(5, 7));
     setBlz(satz.substring(7, 15));
+    setFeld5(satz.substring(14, 23));
     setKundenname(satz.substring(23, 50));
     setDateierstellungsdatum(satz.substring(50, 56));
     setKonto(satz.substring(60, 70));
@@ -160,6 +170,28 @@ public class ASatz extends Satz
   public long getBlz()
   {
     return aBlz;
+  }
+
+  public void setFeld5(String value) throws DtausException
+  {
+    try
+    {
+      aFeld5 = Long.parseLong(value);
+    }
+    catch (NumberFormatException e)
+    {
+      aFeld5 = 0;
+    }
+  }
+
+  public void setFeld5(long value)
+  {
+    aFeld5 = value;
+  }
+
+  public long getFeld5()
+  {
+    return aFeld5;
   }
 
   public void setKundenname(String value) throws DtausException
@@ -264,8 +296,16 @@ public class ASatz extends Satz
     }
     else
     {
-      throw new DtausException(
-          DtausException.A_WAEHRUNGSKENNZEICHEN_FEHLERHAFT, value);
+      if ((toleranz & DtausDateiParser.FALSCHESWAEHRUNGSKENNZEICHENERLAUBT) == DtausDateiParser.FALSCHESWAEHRUNGSKENNZEICHENERLAUBT)
+      {
+        System.out.println(DtausException.A_WAEHRUNGSKENNZEICHEN_FEHLERHAFT
+            + value);
+      }
+      else
+      {
+        throw new DtausException(
+            DtausException.A_WAEHRUNGSKENNZEICHEN_FEHLERHAFT, value);
+      }
     }
 
   }
@@ -320,20 +360,22 @@ public class ASatz extends Satz
   {
     return "Satzlaenge=" + aSatzlaenge + ", Satzart=" + aSatzart
         + ", Gutschrift/Lastschrift=" + aGutschriftLastschrift + ", BLZ="
-        + aBlz + ", Kundenname=" + aKundenname + ", Dateierstellungsdatum="
-        + aDateierstellungsdatum + ", Konto=" + aKonto + ", Referenz="
-        + aReferenz + ", Ausf¸hrungsdatum=" + aAusfuehrungsdatum
-        + ", W‰hrungskennzeichen=" + aWaehrungskennzeichen;
+        + aBlz + ", Feld5=" + aFeld5 + ", Kundenname=" + aKundenname
+        + ", Dateierstellungsdatum=" + aDateierstellungsdatum + ", Konto="
+        + aKonto + ", Referenz=" + aReferenz + ", Ausf¸hrungsdatum="
+        + aAusfuehrungsdatum + ", W‰hrungskennzeichen=" + aWaehrungskennzeichen;
   }
 }
 /*
  * $Log$
- * Revision 1.9  2008/02/01 17:07:50  jost
- * Bugfix Ausf√ºhrungsdatum
- * Revision 1.8 2007/09/18 17:48:39 jost √úberfl√ºssige
- * throws entfernt. Revision 1.7 2007/03/19 08:53:15 jost Bankdaten zugelassen
- * Revision 1.6 2007/02/14 14:42:06 jost NPE verhindert. Revision 1.5 2006/10/08
- * 18:39:10 jost Zus‰tzliche Debug-Ausgabe
+ * Revision 1.10  2008/02/17 08:30:18  jost
+ * Neuer Toleranzlevel
+ * Neues Feld5
+ * Revision 1.9 2008/02/01 17:07:50 jost Bugfix
+ * Ausf√ºhrungsdatum Revision 1.8 2007/09/18 17:48:39 jost √úberfl√ºssige throws
+ * entfernt. Revision 1.7 2007/03/19 08:53:15 jost Bankdaten zugelassen Revision
+ * 1.6 2007/02/14 14:42:06 jost NPE verhindert. Revision 1.5 2006/10/08 18:39:10
+ * jost Zus‰tzliche Debug-Ausgabe
  * 
  * Revision 1.4 2006/10/06 12:44:38 jost Optionale Fehlertoleranz Revision 1.3
  * 2006/08/28 19:01:00 jost Korrekte Behandlung von Groﬂ-Kleinschreibung und
