@@ -14,12 +14,12 @@ import de.jost_net.OBanToo.Tools.Util;
 public class Satz
 {
 
-  public Satz() 
+  public Satz()
   {
     //
   }
 
-  public Satz(String value) 
+  public Satz(String value)
   {
     //
   }
@@ -74,10 +74,12 @@ public class Satz
       }
       else
       {
-        throw new DtausException(DtausException.UNGUELTIGES_ZEICHEN,
-            value.substring(i, i + 1) + "("
-                + Util.toHex(value.substring(i, i + 1)) + ")" + " an Position "
-                + i + ": " + value);
+        throw new DtausException(DtausException.UNGUELTIGES_ZEICHEN, value
+            .substring(i, i + 1)
+            + "("
+            + Util.toHex(value.substring(i, i + 1))
+            + ")"
+            + " an Position " + i + ": " + value);
       }
     }
   }
@@ -106,18 +108,18 @@ public class Satz
     ret = ret.replace((char) 0x9a, 'Ü');
     ret = ret.replace((char) 0x7e, 'ß');
     ret = ret.replace((char) 0xe1, 'ß');
-    switch (toleranz)
+    if (toleranz == DtausDateiParser.UMLAUTUMSETZUNG
+        || toleranz == DtausDateiParser.HEX00TOSPACE
+        || (toleranz & DtausDateiParser.UMLAUTUMSETZUNG) == DtausDateiParser.UMLAUTUMSETZUNG)
     {
-      case DtausDateiParser.UMLAUTUMSETZUNG:
-      {
-        ret = ret.replace((char) 0x84, 'Ä');
-        ret = ret.replace((char) 0x94, 'Ö');
-        ret = ret.replace((char) 0x81, 'Ü');
-      }
-      case DtausDateiParser.HEX00TOSPACE:
-      {
-        ret = ret.replace((char) 0x00, ' ');
-      }
+      ret = ret.replace((char) 0x84, 'Ä');
+      ret = ret.replace((char) 0x94, 'Ö');
+      ret = ret.replace((char) 0x81, 'Ü');
+    }
+    if (toleranz == DtausDateiParser.HEX00TOSPACE
+        || (toleranz & DtausDateiParser.HEX00TOSPACE) == DtausDateiParser.HEX00TOSPACE)
+    {
+      ret = ret.replace((char) 0x00, ' ');
     }
     return ret;
   }
@@ -143,9 +145,10 @@ public class Satz
 }
 /*
  * $Log$
- * Revision 1.8  2007/09/18 17:51:57  jost
- * ÃœberflÃ¼ssige throws entfernt.
- * Revision 1.7 2006/11/12 07:30:26 jost Korrekte
+ * Revision 1.9  2008/02/17 08:31:26  jost
+ * Neuer Toleranzlevel
+ * Revision 1.8 2007/09/18 17:51:57 jost ÃœberflÃ¼ssige
+ * throws entfernt. Revision 1.7 2006/11/12 07:30:26 jost Korrekte
  * Umlautbehandlung (DTAUS0/DTAUS1). Revision 1.6 2006/10/08 18:40:08 jost
  * Bugfix: Korrekte Behandlung von Textfeldern der Länge 27
  * 
