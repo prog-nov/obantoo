@@ -112,7 +112,7 @@ public class ASatz extends Satz
     }
     setGutschriftLastschrift(satz.substring(5, 7));
     setBlz(satz.substring(7, 15));
-    setFeld5(satz.substring(14, 23));
+    setFeld5(satz.substring(15, 23));
     setKundenname(satz.substring(23, 50));
     setDateierstellungsdatum(satz.substring(50, 56));
     setKonto(satz.substring(60, 70));
@@ -368,10 +368,10 @@ public class ASatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.10  2008/02/17 08:30:18  jost
- * Neuer Toleranzlevel
- * Neues Feld5
- * Revision 1.9 2008/02/01 17:07:50 jost Bugfix
+ * Revision 1.11  2008/02/19 18:22:53  jost
+ * Bugfix A-Satz
+ * Revision 1.10 2008/02/17 08:30:18 jost Neuer
+ * Toleranzlevel Neues Feld5 Revision 1.9 2008/02/01 17:07:50 jost Bugfix
  * Ausführungsdatum Revision 1.8 2007/09/18 17:48:39 jost Überflüssige throws
  * entfernt. Revision 1.7 2007/03/19 08:53:15 jost Bankdaten zugelassen Revision
  * 1.6 2007/02/14 14:42:06 jost NPE verhindert. Revision 1.5 2006/10/08 18:39:10
