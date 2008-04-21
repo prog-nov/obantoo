@@ -390,9 +390,14 @@ public class CSatz extends Satz
         zul‰ssig = true;
       }
     }
+    else if (textschluessel == 3 && textschluesselergaenzung == 0)
+    {
+      zul‰ssig = true;
+    }
     else if (textschluessel == 4)
     {
-      if (textschluesselergaenzung == 0 || textschluesselergaenzung == 888)
+      if (textschluesselergaenzung == 0 || textschluesselergaenzung == 444
+          || textschluesselergaenzung == 888)
       {
         zul‰ssig = true;
       }
@@ -401,12 +406,31 @@ public class CSatz extends Satz
     {
       if (textschluesselergaenzung == 0
           || textschluesselergaenzung == 1
+          || textschluesselergaenzung == 2
+          || textschluesselergaenzung == 3
           || textschluesselergaenzung == 4
           || textschluesselergaenzung == 5
           || textschluesselergaenzung == 6
+          || textschluesselergaenzung == 7
           || textschluesselergaenzung == 8
+          || textschluesselergaenzung == 9
+          || textschluesselergaenzung == 10
+          || textschluesselergaenzung == 11
           || textschluesselergaenzung == 15
+          || textschluesselergaenzung == 19
+          || textschluesselergaenzung == 20
+          || textschluesselergaenzung == 21
+          || textschluesselergaenzung == 71
+          || textschluesselergaenzung == 73
+          || textschluesselergaenzung == 200
+          || textschluesselergaenzung == 201
+          || textschluesselergaenzung == 202
+          || textschluesselergaenzung == 210
+          || textschluesselergaenzung == 222
+          || textschluesselergaenzung == 230
           || textschluesselergaenzung == 240
+          || textschluesselergaenzung == 242
+          || textschluesselergaenzung == 444
           || textschluesselergaenzung == 888
           || (textschluesselergaenzungStr.length() == 3 && textschluesselergaenzungStr
               .endsWith("9")))
@@ -418,6 +442,10 @@ public class CSatz extends Satz
     {
       zul‰ssig = true;
     }
+    else if (textschluessel == 10 && textschluesselergaenzung == 0)
+    {
+      zul‰ssig = true;
+    }
     else if (textschluessel == 11)
     {
       if (textschluesselergaenzung == 0 || textschluesselergaenzung == 888)
@@ -425,22 +453,82 @@ public class CSatz extends Satz
         zul‰ssig = true;
       }
     }
+    else if (textschluessel == 12 && textschluesselergaenzung == 0)
+    {
+      zul‰ssig = true;
+    }
+    else if (textschluessel == 13 && textschluesselergaenzung == 0)
+    {
+      zul‰ssig = true;
+    }
     else if (textschluessel == 14)
     {
-      if (textschluesselergaenzung == 0 || textschluesselergaenzung == 1)
+      if (textschluesselergaenzung == 1 || textschluesselergaenzung == 2
+          || textschluesselergaenzung == 3 || textschluesselergaenzung == 5
+          || textschluesselergaenzung == 6 || textschluesselergaenzung == 7
+          || textschluesselergaenzung == 8 || textschluesselergaenzung == 9
+          || textschluesselergaenzung == 10 || textschluesselergaenzung == 11
+          || textschluesselergaenzung == 12 || textschluesselergaenzung == 13
+          || textschluesselergaenzung == 84 || textschluesselergaenzung == 85
+          || textschluesselergaenzung == 86 || textschluesselergaenzung == 87
+          || textschluesselergaenzung == 88 || textschluesselergaenzung == 89)
       {
         zul‰ssig = true;
       }
+    }
+    else if (textschluessel == 15
+        && (textschluesselergaenzung == 0 || isEUStaat(textschluesselergaenzung)))
+    {
+      zul‰ssig = true;
     }
     else if (textschluessel == 51)
     {
       if (textschluesselergaenzung == 0
           || textschluesselergaenzung == 200
+          || textschluesselergaenzung == 210
+          || textschluesselergaenzung == 211
+          || textschluesselergaenzung == 212
+          || textschluesselergaenzung == 220
+          || textschluesselergaenzung == 221
+          || textschluesselergaenzung == 230
           || textschluesselergaenzung == 240
           || textschluesselergaenzung == 241
+          || textschluesselergaenzung == 401
+          || textschluesselergaenzung == 402
+          || textschluesselergaenzung == 403
+          || textschluesselergaenzung == 405
+          || textschluesselergaenzung == 406
+          || textschluesselergaenzung == 407
+          || textschluesselergaenzung == 408
+          || textschluesselergaenzung == 409
+          || textschluesselergaenzung == 410
+          || textschluesselergaenzung == 411
+          || textschluesselergaenzung == 412
+          || textschluesselergaenzung == 413
           || textschluesselergaenzung == 444
           || textschluesselergaenzung == 445
+          || textschluesselergaenzung == 484
+          || textschluesselergaenzung == 485
+          || textschluesselergaenzung == 486
+          || textschluesselergaenzung == 487
+          || textschluesselergaenzung == 488
+          || textschluesselergaenzung == 489
+          || textschluesselergaenzung == 501
+          || textschluesselergaenzung == 502
+          || textschluesselergaenzung == 503
+          || textschluesselergaenzung == 504
+          || textschluesselergaenzung == 505
+          || textschluesselergaenzung == 506
+          || textschluesselergaenzung == 507
+          || textschluesselergaenzung == 509
+          || textschluesselergaenzung == 510
+          || textschluesselergaenzung == 511
+          || textschluesselergaenzung == 520
+          || textschluesselergaenzung == 521
+          || textschluesselergaenzung == 571
+          || textschluesselergaenzung == 573
           || textschluesselergaenzung == 888
+          || textschluesselergaenzung == 990
           || (textschluesselergaenzungStr.length() == 3 && textschluesselergaenzungStr
               .endsWith("9")))
       {
@@ -449,7 +537,8 @@ public class CSatz extends Satz
     }
     else if (textschluessel == 52)
     {
-      if (textschluesselergaenzung == 0 || textschluesselergaenzung == 888)
+      if (textschluesselergaenzung == 0 || textschluesselergaenzung == 444
+          || textschluesselergaenzung == 888)
       {
         zul‰ssig = true;
       }
@@ -478,7 +567,12 @@ public class CSatz extends Satz
     {
       zul‰ssig = true;
     }
-    else if (textschluessel == 65)
+    else if (textschluessel == 63
+        && (textschluesselergaenzung == 0 || isEUStaat(textschluesselergaenzung)))
+    {
+      zul‰ssig = true;
+    }
+    else if (textschluessel == 65 && isEUStaat(textschluesselergaenzung))
     {
       zul‰ssig = true;
     }
@@ -528,6 +622,18 @@ public class CSatz extends Satz
     }
     cTextschluessel = value;
     cTextschluesselSet = true;
+  }
+
+  private boolean isEUStaat(int texterweiterung)
+  {
+    return (texterweiterung == 56 || texterweiterung == 208
+        || texterweiterung == 246 || texterweiterung == 250
+        || texterweiterung == 300 || texterweiterung == 826
+        || texterweiterung == 372 || texterweiterung == 352
+        || texterweiterung == 380 || texterweiterung == 442
+        || texterweiterung == 528 || texterweiterung == 578
+        || texterweiterung == 040 || texterweiterung == 620
+        || texterweiterung == 752 || texterweiterung == 756);
   }
 
   public long getTextschluessel()
@@ -974,9 +1080,10 @@ public class CSatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.16  2008/02/08 18:44:46  jost
- * Bugfix Erweiterungsteile
- * Revision 1.15 2007/11/15 20:01:22 jost Pr√ºfung der
+ * Revision 1.17  2008/04/21 18:15:14  jost
+ * Neue Textschluessel
+ * Revision 1.16 2008/02/08 18:44:46 jost Bugfix
+ * Erweiterungsteile Revision 1.15 2007/11/15 20:01:22 jost Pr√ºfung der
  * Textschl√ºssel erweitert. Revision 1.14 2007/10/29 18:17:08 jost trim()
  * eingebaut
  * 
