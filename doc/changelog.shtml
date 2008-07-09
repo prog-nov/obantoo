@@ -1,9 +1,14 @@
 <!--#include virtual="main.shtml"-->  
     <h2>Changelog</h2>
     <ul>
+      <li>Version 1.4.12 vom ??.??.2008</li>
+         <ul>
+             <li>Charset beim Einlesen der DTAUS-Datei per Default ISO-8859-1, explizit konfigurierbar</li>
+         </ul>
       <li>Version 1.4.11 vom 09.07.2008</li>
          <ul>
              <li>Hochkomma (') durch Leerzeichen ersetzt</li>
+             <li>Charset beim Einlesen der DTAUS-Datei per Default ISO-8859-1, explizit konfigurierbar</li>
          </ul>
      <li>Version 1.4.9 vom 21.04.2008</li>
          <ul>
