@@ -24,7 +24,8 @@ import java.util.Vector;
  * </p>
  * <p>
  * Dem Parser kann über einen speziellen Konstruktor mitgeteilt werden, wie
- * fehlertolerant er sein soll.
+ * fehlertolerant er sein soll. Standardmässig wird das Encoding ISO-8859-1
+ * verwendet. In einem Konstruktor kann ein anderes Encoding vorgegeben werden.
  * <ul>
  * <li>SPEZIFIKATIONSKONFORM - entsprechend der DTAUS-Spezifikation wird ohne
  * Fehlertoleranz gearbeitet.</li>
@@ -81,6 +82,8 @@ import java.util.Vector;
  */
 public class DtausDateiParser
 {
+  private String encoding = "ISO-8859-1";
+
   private InputStream dtaus;
 
   private ASatz asatz = null;
@@ -116,6 +119,13 @@ public class DtausDateiParser
     this(new BufferedInputStream(new FileInputStream(filename)), toleranz);
   }
 
+  public DtausDateiParser(String filename, int toleranz, String encoding)
+      throws IOException, DtausException
+  {
+    this(new BufferedInputStream(new FileInputStream(filename)), toleranz,
+        encoding);
+  }
+
   public DtausDateiParser(InputStream is) throws IOException, DtausException
   {
     this(is, SPEZIFIKATIONSKONFORM);
@@ -124,7 +134,18 @@ public class DtausDateiParser
   public DtausDateiParser(InputStream is, int toleranz) throws IOException,
       DtausException
   {
+    this(is, toleranz, null);
+  }
+
+  public DtausDateiParser(InputStream is, int toleranz, String encoding)
+      throws IOException, DtausException
+  {
     this.toleranz = toleranz;
+    if (encoding != null)
+    {
+      this.encoding = encoding;
+    }
+
     logischeDateien = new Vector();
     dtaus = is;
     while (is.available() > 0)
@@ -201,13 +222,13 @@ public class DtausDateiParser
   {
     byte[] inchar = new byte[4];
     dtaus.read(inchar);
-    String satzlaenge = new String(inchar);
+    String satzlaenge = new String(inchar, this.encoding);
     // Lese in der Satzlänge. Die Satzlänge ist um 4 Bytes zu verringern, da
     // diese
     // Bytes bereits gelesen wurden.
     inchar = new byte[getSatzlaenge(satzlaenge) - 4];
     dtaus.read(inchar);
-    return satzlaenge + new String(inchar);
+    return satzlaenge + new String(inchar, this.encoding);
   }
 
   /**
@@ -320,10 +341,10 @@ public class DtausDateiParser
 }
 /*
  * $Log$
- * Revision 1.8  2008/02/17 08:30:46  jost
- * Neuer Toleranzlevel
- * Neues Feld5
- * Revision 1.7 2007/02/14 14:42:54 jost javadoc
+ * Revision 1.9  2008/07/09 19:43:28  jost
+ * Patch von Olaf Willuhn: StandardmÃ¤ssig wird das Encoding ISO-8859-1 verwendet. Optional kann Ã¼ber zusÃ¤tzliche Konstruktoren ein anderes Encoding eingestellt werden.
+ * Revision 1.8 2008/02/17 08:30:46 jost Neuer
+ * Toleranzlevel Neues Feld5 Revision 1.7 2007/02/14 14:42:54 jost javadoc
  * 
  * Revision 1.6 2006/10/06 12:47:39 jost Optionale Fehlertoleranz Revision 1.5
  * 2006/06/04 12:23:51 jost Redaktionelle Änderung
