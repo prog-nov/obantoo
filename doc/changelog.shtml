@@ -1,7 +1,11 @@
 <!--#include virtual="main.shtml"-->  
     <h2>Changelog</h2>
     <ul>
-      <li>Version 1.4.9 vom 21.04.2008</li>
+      <li>Version 1.4.11 vom 09.07.2008</li>
+         <ul>
+             <li>Hochkomma (') durch Leerzeichen ersetzt</li>
+         </ul>
+     <li>Version 1.4.9 vom 21.04.2008</li>
          <ul>
              <li>Feld5 im A-Satz eingefügt</li>
              <li>Neuer Toleranzmodus</li>
