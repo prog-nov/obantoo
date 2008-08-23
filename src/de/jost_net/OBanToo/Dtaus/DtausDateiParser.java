@@ -283,15 +283,17 @@ public class DtausDateiParser
   public static void main(String[] args)
   {
     int tol = 0;
-    if (args.length < 1 || args.length > 2)
+    String encoding = null;
+    if (args.length < 1 || args.length > 3)
     {
-      System.err.println("Argumente für den Aufruf: dateiname [toleranz]\n"
-          + "toleranz = 0 Spezifikationskonform\n"
-          + "toleranz = 1 DOS-Umlaute umwandeln\n"
-          + "toleranz = 2 Zeichencode 00 in Space umwandeln");
+      System.err
+          .println("Argumente für den Aufruf: dateiname [toleranz] [encoding]\n"
+              + "toleranz = 0 Spezifikationskonform\n"
+              + "toleranz = 1 DOS-Umlaute umwandeln\n"
+              + "toleranz = 2 Zeichencode 00 in Space umwandeln");
       System.exit(1);
     }
-    if (args.length == 2)
+    if (args.length >= 2)
     {
       try
       {
@@ -303,9 +305,21 @@ public class DtausDateiParser
         System.exit(1);
       }
     }
+    if (args.length == 3)
+    {
+      encoding = args[2];
+    }
     try
     {
-      DtausDateiParser p = new DtausDateiParser(args[0], tol);
+      DtausDateiParser p;
+      if (encoding == null)
+      {
+        p = new DtausDateiParser(args[0], tol);
+      }
+      else
+      {
+        p = new DtausDateiParser(args[0], tol, encoding);
+      }
       System.out.println("Anzahl logischer Dateien: "
           + p.getAnzahlLogischerDateien());
       for (int i = 1; i <= p.getAnzahlLogischerDateien(); i++)
@@ -341,10 +355,13 @@ public class DtausDateiParser
 }
 /*
  * $Log$
- * Revision 1.9  2008/07/09 19:43:28  jost
- * Patch von Olaf Willuhn: StandardmÃ¤ssig wird das Encoding ISO-8859-1 verwendet. Optional kann Ã¼ber zusÃ¤tzliche Konstruktoren ein anderes Encoding eingestellt werden.
- * Revision 1.8 2008/02/17 08:30:46 jost Neuer
- * Toleranzlevel Neues Feld5 Revision 1.7 2007/02/14 14:42:54 jost javadoc
+ * Revision 1.10  2008/08/23 12:18:30  jost
+ * Encoding kann als Kommandozeilenparameter an die main-Methode Ã¼bergeben werden.
+ * Revision 1.9 2008/07/09 19:43:28 jost Patch
+ * von Olaf Willuhn: StandardmÃ¤ssig wird das Encoding ISO-8859-1 verwendet.
+ * Optional kann Ã¼ber zusÃ¤tzliche Konstruktoren ein anderes Encoding
+ * eingestellt werden. Revision 1.8 2008/02/17 08:30:46 jost Neuer Toleranzlevel
+ * Neues Feld5 Revision 1.7 2007/02/14 14:42:54 jost javadoc
  * 
  * Revision 1.6 2006/10/06 12:47:39 jost Optionale Fehlertoleranz Revision 1.5
  * 2006/06/04 12:23:51 jost Redaktionelle Änderung
@@ -354,5 +371,4 @@ public class DtausDateiParser
  * Dateien pro physikalischer Datei - interne Umstellung von Reader auf
  * InputStream Revision 1.2 2006/05/25 20:30:40 jost Korrektur Satzlängen und
  * Doku Revision 1.1 2006/05/24 16:24:44 jost Prerelease
- * 
  */
