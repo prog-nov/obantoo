@@ -157,6 +157,11 @@ public class CSatz extends Satz
   private String cNameEmpfaenger2 = null;
 
   private String cNameAbsender2 = null;
+  
+  /**
+   * Feld 17, 1 Byte, alpha, Währungskennzeichen
+   */
+  private String cWaehrungskennzeichen;
 
   /**
    * Feld 18, 2 Bytes, numerisch, Erweiterungszeichen, 00 = es folgt kein
@@ -177,7 +182,7 @@ public class CSatz extends Satz
   public CSatz(String satz, int toleranz) throws DtausException
   {
     satz = codingFromDtaus(satz, toleranz);
-    validCharacters(satz);
+    //validCharacters(satz);
     init();
     checkSatzlaengenfeld(satz.substring(0, 4));
     if (!satz.substring(4, 5).equals(cSatzart))
@@ -196,6 +201,7 @@ public class CSatz extends Satz
     setNameEmpfaenger(satz.substring(93, 120));
     setNameAbsender(satz.substring(128, 155));
     addVerwendungszweck(satz.substring(155, 182));
+    setCWaehrungskennzeichen(satz.substring(182, 183));
     setErweiterungskennzeichen(satz.substring(185, 187));
     if (getSatzlaenge() != 187 + (getErweiterungszeichen() * 29))
     {
@@ -807,6 +813,18 @@ public class CSatz extends Satz
     return cNameAbsender2;
   }
 
+  
+  public String getCWaehrungskennzeichen() 
+  {
+    return cWaehrungskennzeichen;
+  }
+
+
+  public void setCWaehrungskennzeichen(String value) 
+  {
+    this.cWaehrungskennzeichen = value;
+  }
+  
   public void addVerwendungszweck(String value) throws DtausException
   {
     value = value.trim();
@@ -1080,22 +1098,25 @@ public class CSatz extends Satz
 }
 /*
  * $Log$
+ * Revision 1.18  2009/01/08 18:41:24  jost
+ * Erweiterung um die Ausgabe des WÃ¤hrungskennzeichens durch el hassane ouardi
+ *
  * Revision 1.17  2008/04/21 18:15:14  jost
  * Neue Textschluessel
  * Revision 1.16 2008/02/08 18:44:46 jost Bugfix
- * Erweiterungsteile Revision 1.15 2007/11/15 20:01:22 jost PrÃ¼fung der
- * TextschlÃ¼ssel erweitert. Revision 1.14 2007/10/29 18:17:08 jost trim()
+ * Erweiterungsteile Revision 1.15 2007/11/15 20:01:22 jost Prüfung der
+ * Textschlüssel erweitert. Revision 1.14 2007/10/29 18:17:08 jost trim()
  * eingebaut
  * 
- * Revision 1.13 2007/09/18 17:49:47 jost ÃœberflÃ¼ssige throws und castings
+ * Revision 1.13 2007/09/18 17:49:47 jost Überflüssige throws und castings
  * entfernt. Revision 1.12 2007/07/17 19:24:43 jost Bugfix in der Methode
  * setBetragInEuro(double) Revision 1.11 2007/05/15 13:29:28 jost Bugfix
  * Erweiterungsteile Revision 1.10 2007/03/19 14:59:04 jost Bugfix bei der
- * PrÃ¼fung der TextschlÃ¼ssel Revision 1.9 2007/03/19 08:53:35 jost
- * TextschlÃ¼ssel fÃ¼r Bankzwecke zugelassen. Revision 1.8 2007/02/22 18:39:39
+ * Prüfung der Textschlüssel Revision 1.9 2007/03/19 08:53:35 jost
+ * Textschlüssel für Bankzwecke zugelassen. Revision 1.8 2007/02/22 18:39:39
  * jost Implementierung der Erweiterungsteile 01 (Name
- * EmpfÃ¤nger/Zahlungspflichtiger 2) und 03 (Absender/ZahlungsempfÃ¤nger 2)
- * Revision 1.7 2007/01/07 20:42:18 jost Verwendungszwecke der LÃ¤nge 0
+ * Empfänger/Zahlungspflichtiger 2) und 03 (Absender/Zahlungsempfänger 2)
+ * Revision 1.7 2007/01/07 20:42:18 jost Verwendungszwecke der Länge 0
  * zugelassen.
  * 
  * Revision 1.6 2006/10/06 12:44:57 jost Optionale Fehlertoleranz Revision 1.5
