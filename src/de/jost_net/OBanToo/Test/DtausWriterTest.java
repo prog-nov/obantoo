@@ -46,6 +46,24 @@ public class DtausWriterTest
     dtausDateiWriter.addCVerwendungszweck("22222222222222");
     dtausDateiWriter.addCVerwendungszweck("33333333333333");
     dtausDateiWriter.writeCSatz();
+    
+    dtausDateiWriter.setCBLZEndbeguenstigt(80077711);
+    dtausDateiWriter.setCKonto(666);
+    dtausDateiWriter.setCTextschluessel(CSatz.TS_UEBERWEISUNGSGUTSCHRIFT);
+    dtausDateiWriter.setCInterneKundennummer(2);
+    dtausDateiWriter.setCBetragInEuro(1000);
+    dtausDateiWriter.setCName("Andrè-Gérard du Rhône-Hüslü");
+    dtausDateiWriter.setCName2("Bla Bla Bla");
+    dtausDateiWriter.addCVerwendungszweck("la li lu");
+    dtausDateiWriter.addCVerwendungszweck("nur der Mann im Mond ");
+    dtausDateiWriter.addCVerwendungszweck("schaut zu ");
+    dtausDateiWriter.addCVerwendungszweck("wenn die kleinen Kinder");
+    dtausDateiWriter.addCVerwendungszweck("schlafen");
+    dtausDateiWriter.addCVerwendungszweck("11111111111111");
+    dtausDateiWriter.addCVerwendungszweck("22222222222222");
+    dtausDateiWriter.addCVerwendungszweck("33333333333333");
+    dtausDateiWriter.writeCSatz();
+
     // E-Satz schreiben = Ende einer logischen Datei.<br>
     dtausDateiWriter.writeESatz();
 

@@ -9,6 +9,7 @@
  */
 package de.jost_net.OBanToo.Dtaus;
 
+import de.jost_net.OBanToo.Tools.Tr;
 import de.jost_net.OBanToo.Tools.Util;
 
 public class Satz
@@ -26,6 +27,7 @@ public class Satz
 
   protected String makeValid(String value)
   {
+    value = Tr.normalizeUTF8(value);
     value = value.replaceAll("a", "A");
     value = value.replaceAll("b", "B");
     value = value.replaceAll("c", "C");
@@ -55,9 +57,6 @@ public class Satz
     value = value.replaceAll("ä", "Ä");
     value = value.replaceAll("ö", "Ö");
     value = value.replaceAll("ü", "Ü");
-    value = value.replaceAll("é", "E");
-    value = value.replaceAll("è", "E");
-    value = value.replaceAll("É", "E");
     value = value.replaceAll("'", " ");
     return value;
   }
@@ -76,12 +75,10 @@ public class Satz
       }
       else
       {
-        throw new DtausException(DtausException.UNGUELTIGES_ZEICHEN, value
-            .substring(i, i + 1)
-            + "("
-            + Util.toHex(value.substring(i, i + 1))
-            + ")"
-            + " an Position " + i + ": " + value);
+        throw new DtausException(DtausException.UNGUELTIGES_ZEICHEN,
+            value.substring(i, i + 1) + "("
+                + Util.toHex(value.substring(i, i + 1)) + ")" + " an Position "
+                + i + ": " + value);
       }
     }
   }
@@ -147,10 +144,11 @@ public class Satz
 }
 /*
  * $Log$
- * Revision 1.11  2008/07/09 13:01:42  jost
- * Hochkomma durch Leerzeichen ersetzen
- * Revision 1.10 2008/05/07 15:57:40 jost e mit Accent grave
- * durch e ersetzt
+ * Revision 1.12  2009/06/04 08:30:21  jost
+ * Umsetzung Sonderzeichen erweitert.
+ * Revision 1.11 2008/07/09 13:01:42 jost Hochkomma durch
+ * Leerzeichen ersetzen Revision 1.10 2008/05/07 15:57:40 jost e mit Accent
+ * grave durch e ersetzt
  * 
  * Revision 1.9 2008/02/17 08:31:26 jost Neuer Toleranzlevel Revision 1.8
  * 2007/09/18 17:51:57 jost ÃœberflÃ¼ssige throws entfernt. Revision 1.7
