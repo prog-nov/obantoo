@@ -1,8 +1,10 @@
 <!--#include virtual="main.shtml"-->  
     <h2>Changelog</h2>
     <ul>
-      <li>Version 1.4.12 vom ??.??.2008</li>
+      <li>Version 1.4.12 vom 04.06.2009</li>
          <ul>
+         		 <li>Umstellung auf Java 1.5</li>
+         		 <li>Erweiterung der Sonderzeichenbehandlung</li>
              <li>Charset beim Einlesen der DTAUS-Datei per Default ISO-8859-1, explizit konfigurierbar</li>
          </ul>
       <li>Version 1.4.11 vom 09.07.2008</li>
