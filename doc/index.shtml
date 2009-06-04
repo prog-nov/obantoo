@@ -24,6 +24,6 @@ folgende Klassen realisiert:
 <p>OBanToo wird innerhalb von <a href='http://www.willuhn.de/projects/hibiscus/'>Hibiscus</a>  und 
 <a href='http://www.jverein.de'>JVerein</a> eingesetzt. Die <a href='http://gwvs.de'>GWVS Gesellschaft für Wirtschafts-
 und Verwaltungsservice mbH, Regensburg </a> setzt ebenfalls auf OBanToo.</p>
-<p>OBanToo benötigt minimal JDK 1.4 und steht unter LGPL. </p>
+<p>OBanToo benötigt minimal JDK 1.5 und steht unter LGPL. </p>
 <!--#include virtual="footer.shtml"-->  
 
