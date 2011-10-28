@@ -1,7 +1,7 @@
 <!--#include virtual="main.shtml"-->  
     <h2>Download</h2>
     <p>OBanToo kann von der 
-    <a href="http://developer.berlios.de/project/showfiles.php?group_id=6737"
+    <a href="http://sourceforge.net/projects/obantoo/files/"
        target=blank>Projekt-Seite</a>
     geladen werden.</p>
 <!--#include virtual="footer.shtml"-->  
