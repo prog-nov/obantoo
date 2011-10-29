@@ -66,7 +66,16 @@ public class ESatz extends Satz
   public ESatz(String satz, int toleranz) throws DtausException
   {
     satz = codingFromDtaus(satz, toleranz);
-    validCharacters(satz);
+    try
+    {
+      validCharacters(satz);
+    }
+    catch (DtausException e)
+    {
+      throw new DtausException(e.getMessage()
+          + " im E-Satz");
+    }
+
     if (!satz.substring(0, 4).equals(eSatzlaenge))
     {
       throw new DtausException(DtausException.E_SATZLAENGENFELD_FEHLERHAFT);
@@ -181,6 +190,9 @@ public class ESatz extends Satz
 }
 /*
  * $Log$
+ * Revision 1.8  2011/10/29 06:58:41  jverein
+ * deutlichere Fehlermeldung
+ *
  * Revision 1.7  2007/09/18 17:51:32  jost
  * Überflüssige throws entfernt.
  * Revision 1.6 2006/10/06 12:47:57 jost Optionale

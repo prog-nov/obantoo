@@ -101,7 +101,14 @@ public class ASatz extends Satz
   {
     this.toleranz = toleranz;
     satz = codingFromDtaus(satz, toleranz);
+    try
+    {
     validCharacters(satz);
+    }
+    catch (DtausException e)
+    {
+      throw new DtausException(e.getMessage() + " im A-Satz");
+    }
     if (!satz.substring(0, 4).equals(aSatzlaenge))
     {
       throw new DtausException(DtausException.A_SATZLAENGENFELD_FEHLERHAFT);
@@ -368,6 +375,9 @@ public class ASatz extends Satz
 }
 /*
  * $Log$
+ * Revision 1.12  2011/10/29 06:57:36  jverein
+ * deutlichere Fehlermeldung
+ *
  * Revision 1.11  2008/02/19 18:22:53  jost
  * Bugfix A-Satz
  * Revision 1.10 2008/02/17 08:30:18 jost Neuer
