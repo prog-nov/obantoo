@@ -90,7 +90,7 @@ public class DtausDateiParser
 
   private ESatz esatz = null;
 
-  private Vector logischeDateien;
+  private Vector<LogischeDatei> logischeDateien;
 
   private LogischeDatei logdat;
 
@@ -146,7 +146,7 @@ public class DtausDateiParser
       this.encoding = encoding;
     }
 
-    logischeDateien = new Vector();
+    logischeDateien = new Vector<LogischeDatei>();
     dtaus = is;
     while (is.available() > 0)
     {
@@ -355,13 +355,15 @@ public class DtausDateiParser
 }
 /*
  * $Log$
- * Revision 1.10  2008/08/23 12:18:30  jost
- * Encoding kann als Kommandozeilenparameter an die main-Methode 체bergeben werden.
- * Revision 1.9 2008/07/09 19:43:28 jost Patch
- * von Olaf Willuhn: Standardm채ssig wird das Encoding ISO-8859-1 verwendet.
- * Optional kann 체ber zus채tzliche Konstruktoren ein anderes Encoding
- * eingestellt werden. Revision 1.8 2008/02/17 08:30:46 jost Neuer Toleranzlevel
- * Neues Feld5 Revision 1.7 2007/02/14 14:42:54 jost javadoc
+ * Revision 1.11  2011/10/29 06:58:21  jverein
+ * Warnungen entfernt.
+ * Revision 1.10 2008/08/23 12:18:30 jost
+ * Encoding kann als Kommandozeilenparameter an die main-Methode 체bergeben
+ * werden. Revision 1.9 2008/07/09 19:43:28 jost Patch von Olaf Willuhn:
+ * Standardm채ssig wird das Encoding ISO-8859-1 verwendet. Optional kann 체ber
+ * zus채tzliche Konstruktoren ein anderes Encoding eingestellt werden. Revision
+ * 1.8 2008/02/17 08:30:46 jost Neuer Toleranzlevel Neues Feld5 Revision 1.7
+ * 2007/02/14 14:42:54 jost javadoc
  * 
  * Revision 1.6 2006/10/06 12:47:39 jost Optionale Fehlertoleranz Revision 1.5
  * 2006/06/04 12:23:51 jost Redaktionelle 훞derung

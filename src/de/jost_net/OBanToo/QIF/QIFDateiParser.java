@@ -47,7 +47,7 @@ import java.util.Vector;
 
 public class QIFDateiParser
 {
-  private Vector buchungen;
+  private Vector<QIFBuchung> buchungen;
 
   /**
    * Buchungsindex
@@ -61,7 +61,7 @@ public class QIFDateiParser
 
   public QIFDateiParser(InputStream is) throws IOException, QIFException
   {
-    buchungen = new Vector();
+    buchungen = new Vector<QIFBuchung>();
     BufferedReader br = new BufferedReader(new InputStreamReader(is));
     String line;
     line = br.readLine();
@@ -78,7 +78,6 @@ public class QIFDateiParser
       }
       else
       {
-        System.out.println(buchung);
         buchungen.addElement(buchung);
         buchung = new QIFBuchung();
       }
@@ -102,7 +101,8 @@ public class QIFDateiParser
 }
 /*
  * $Log$
- * Revision 1.1  2006/05/30 17:40:40  jost
- * *** empty log message ***
- *
+ * Revision 1.2  2011/10/29 06:59:22  jverein
+ * Warnungen entfernt.
+ * Revision 1.1 2006/05/30 17:40:40 jost *** empty
+ * log message ***
  */

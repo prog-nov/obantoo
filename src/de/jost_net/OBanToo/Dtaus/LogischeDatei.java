@@ -10,16 +10,18 @@
 package de.jost_net.OBanToo.Dtaus;
 
 import java.util.Vector;
+
 /**
  * Logische Datei innerhalb einer physikalischen DTAUS-Datei
+ * 
  * @author Heiner Jostkleigrewe
- *
+ * 
  */
 public class LogischeDatei
 {
   private ASatz asatz;
 
-  private Vector csaetze;
+  private Vector<CSatz> csaetze;
 
   private ESatz esatz;
 
@@ -28,7 +30,7 @@ public class LogischeDatei
   public LogischeDatei(ASatz asatz)
   {
     this.asatz = asatz;
-    csaetze = new Vector();
+    csaetze = new Vector<CSatz>();
   }
 
   public ASatz getASatz()
@@ -63,7 +65,9 @@ public class LogischeDatei
 }
 /*
  * $Log$
- * Revision 1.1  2006/05/28 09:07:31  jost
- * Neu: Logische Dateien innerhalb einer physikalischen Datei
- * Revision 1.2 2006/05/25 20:30:40 jost
+ * Revision 1.2  2011/10/29 06:59:00  jverein
+ * Warnungen entfernt.
+ * Revision 1.1 2006/05/28 09:07:31 jost Neu:
+ * Logische Dateien innerhalb einer physikalischen Datei Revision 1.2 2006/05/25
+ * 20:30:40 jost
  */
