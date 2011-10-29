@@ -16,7 +16,7 @@
               <span style="color: #3660AA; font-size: 27pt;">O&nbsp;</span><span style="color: #3660AA; font-size: 27pt;">B&nbsp;a&nbsp;n&nbsp;T&nbsp;o&nbsp;o</span><br />
               <span style="color: #000000; font-size: 14pt;">Open Banking Tools</span>
             </div>
-  <p id="Kopf">&nbsp;<!--#config timefmt="%d.%m.%Y %H:%M" --><!--#echo var="DATE_LOCAL" --></p>
+  <p id="Kopf">&nbsp;<!--#config timefmt="%d.%m.%Y" --><!--#echo var="DATE_LOCAL" --></p>
 
   <ul id="Navigation">
     <li><a href="index.shtml">Home</a></li>
