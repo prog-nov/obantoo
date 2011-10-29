@@ -150,14 +150,14 @@ public class CSatz extends Satz
    * Zahlungsempfänger bei Lastschriften benötigt, falls die Zahlung als
    * unbezahlt bzw. unanbringlich zurückgeleitet wird.
    */
-  private Vector cVerwendungszweck = null;
+  private Vector<String> cVerwendungszweck = null;
 
   private boolean cVerwendungszweckSet = false;
 
   private String cNameEmpfaenger2 = null;
 
   private String cNameAbsender2 = null;
-  
+
   /**
    * Feld 17, 1 Byte, alpha, Währungskennzeichen
    */
@@ -169,7 +169,7 @@ public class CSatz extends Satz
    */
   private int cErweiterungszeichen = 0;
 
-  private Vector cErweiterungsteile = null;
+  private Vector<String> cErweiterungsteile = null;
 
   public CSatz()
   {
@@ -182,13 +182,13 @@ public class CSatz extends Satz
   public CSatz(String satz, int toleranz) throws DtausException
   {
     satz = codingFromDtaus(satz, toleranz);
-    //validCharacters(satz);
+    // validCharacters(satz);
     init();
     checkSatzlaengenfeld(satz.substring(0, 4));
     if (!satz.substring(4, 5).equals(cSatzart))
     {
-      throw new DtausException(DtausException.C_SATZART_FEHLERHAFT, satz
-          .substring(4, 5));
+      throw new DtausException(DtausException.C_SATZART_FEHLERHAFT,
+          satz.substring(4, 5));
     }
     setBlzErstbeteiligt(satz.substring(5, 13));
     setBlzEndbeguenstigt(satz.substring(13, 21));
@@ -205,8 +205,8 @@ public class CSatz extends Satz
     setErweiterungskennzeichen(satz.substring(185, 187));
     if (getSatzlaenge() != 187 + (getErweiterungszeichen() * 29))
     {
-      throw new DtausException(DtausException.C_SATZLAENGE_FEHLERHAFT, satz
-          .substring(0, 4));
+      throw new DtausException(DtausException.C_SATZLAENGE_FEHLERHAFT,
+          satz.substring(0, 4));
     }
 
     // Startpositionen der Erweiterungsteile
@@ -221,7 +221,7 @@ public class CSatz extends Satz
 
   private void init()
   {
-    cVerwendungszweck = new Vector();
+    cVerwendungszweck = new Vector<String>();
   }
 
   private void checkSatzlaengenfeld(String value) throws DtausException
@@ -755,7 +755,15 @@ public class CSatz extends Satz
       throw new DtausException(DtausException.C_NAME_EMPFAENGER);
     }
     this.cNameEmpfaenger = makeValid(value);
-    validCharacters(this.cNameEmpfaenger);
+    try
+    {
+      validCharacters(this.cNameEmpfaenger);
+    }
+    catch (DtausException e)
+    {
+      throw new DtausException(e.getMessage()
+          + " im Feld NameEmpfänger des C-Satzes");
+    }
     this.cNameEmpfaengerSet = true;
   }
 
@@ -772,7 +780,15 @@ public class CSatz extends Satz
       throw new DtausException(DtausException.C_NAME_EMPFAENGER2, value);
     }
     this.cNameEmpfaenger2 = makeValid(value);
-    validCharacters(this.cNameEmpfaenger2);
+    try
+    {
+      validCharacters(this.cNameEmpfaenger2);
+    }
+    catch (DtausException e)
+    {
+      throw new DtausException(e.getMessage()
+          + " im Feld NameEmpfänger2 des C-Satzes");
+    }
   }
 
   public String getNameEmpfaenger2()
@@ -788,7 +804,17 @@ public class CSatz extends Satz
       throw new DtausException(DtausException.C_NAME_ABSENDER);
     }
     this.cNameAbsender = makeValid(value);
-    validCharacters(this.cNameAbsender);
+
+    try
+    {
+      validCharacters(this.cNameAbsender);
+    }
+    catch (DtausException e)
+    {
+      throw new DtausException(e.getMessage()
+          + " im Feld NameAbsender des C-Satzes");
+    }
+
     this.cNameAbsenderSet = true;
   }
 
@@ -805,7 +831,16 @@ public class CSatz extends Satz
       throw new DtausException(DtausException.C_NAME_ABSENDER2);
     }
     this.cNameAbsender2 = makeValid(value);
-    validCharacters(this.cNameAbsender2);
+    try
+    {
+      validCharacters(this.cNameAbsender2);
+    }
+    catch (DtausException e)
+    {
+      throw new DtausException(e.getMessage()
+          + " im Feld NameAbsender2 des C-Satzes");
+    }
+
   }
 
   public String getNameAbsender2()
@@ -813,18 +848,16 @@ public class CSatz extends Satz
     return cNameAbsender2;
   }
 
-  
-  public String getCWaehrungskennzeichen() 
+  public String getCWaehrungskennzeichen()
   {
     return cWaehrungskennzeichen;
   }
 
-
-  public void setCWaehrungskennzeichen(String value) 
+  public void setCWaehrungskennzeichen(String value)
   {
     this.cWaehrungskennzeichen = value;
   }
-  
+
   public void addVerwendungszweck(String value) throws DtausException
   {
     value = value.trim();
@@ -834,7 +867,16 @@ public class CSatz extends Satz
           value);
     }
     String vzw = makeValid(value);
-    validCharacters(vzw);
+    try
+    {
+      validCharacters(vzw);
+    }
+    catch (DtausException e)
+    {
+      throw new DtausException(e.getMessage()
+          + " im Verwendungszweck des C-Satzes");
+    }
+
     this.cVerwendungszweck.addElement(vzw);
     this.cVerwendungszweckSet = true;
   }
@@ -890,7 +932,15 @@ public class CSatz extends Satz
   {
     String val = value.substring(2).trim();
     val = makeValid(val);
-    validCharacters(val);
+    try
+    {
+      validCharacters(val);
+    }
+    catch (DtausException e)
+    {
+      throw new DtausException(e.getMessage()
+          + " im Erweiterungsteil des C-Satzes");
+    }
     if (value.startsWith("02"))
     {
       addVerwendungszweck(val);
@@ -964,7 +1014,7 @@ public class CSatz extends Satz
     // Feld 17b - Reserve
     dos.writeBytes(Tool.space(2));
     // Erweiterungsteile aufbauen
-    cErweiterungsteile = new Vector();
+    cErweiterungsteile = new Vector<String>();
     if (cNameEmpfaenger2 != null)
     {
       cErweiterungsteile.addElement("01" + make27(this.getNameEmpfaenger2()));
@@ -1098,26 +1148,26 @@ public class CSatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.18  2009/01/08 18:41:24  jost
- * Erweiterung um die Ausgabe des WÃ¤hrungskennzeichens durch el hassane ouardi
- *
- * Revision 1.17  2008/04/21 18:15:14  jost
- * Neue Textschluessel
- * Revision 1.16 2008/02/08 18:44:46 jost Bugfix
- * Erweiterungsteile Revision 1.15 2007/11/15 20:01:22 jost Prüfung der
- * Textschlüssel erweitert. Revision 1.14 2007/10/29 18:17:08 jost trim()
- * eingebaut
+ * Revision 1.19  2011/10/29 06:58:03  jverein
+ * deutlichere Fehlermeldung
+ * Warnungen entfernt.
+ * Revision 1.18 2009/01/08 18:41:24 jost Erweiterung um
+ * die Ausgabe des WÃ¤hrungskennzeichens durch el hassane ouardi
+ * 
+ * Revision 1.17 2008/04/21 18:15:14 jost Neue Textschluessel Revision 1.16
+ * 2008/02/08 18:44:46 jost Bugfix Erweiterungsteile Revision 1.15 2007/11/15
+ * 20:01:22 jost Prüfung der Textschlüssel erweitert. Revision 1.14 2007/10/29
+ * 18:17:08 jost trim() eingebaut
  * 
  * Revision 1.13 2007/09/18 17:49:47 jost Überflüssige throws und castings
  * entfernt. Revision 1.12 2007/07/17 19:24:43 jost Bugfix in der Methode
  * setBetragInEuro(double) Revision 1.11 2007/05/15 13:29:28 jost Bugfix
  * Erweiterungsteile Revision 1.10 2007/03/19 14:59:04 jost Bugfix bei der
- * Prüfung der Textschlüssel Revision 1.9 2007/03/19 08:53:35 jost
- * Textschlüssel für Bankzwecke zugelassen. Revision 1.8 2007/02/22 18:39:39
- * jost Implementierung der Erweiterungsteile 01 (Name
- * Empfänger/Zahlungspflichtiger 2) und 03 (Absender/Zahlungsempfänger 2)
- * Revision 1.7 2007/01/07 20:42:18 jost Verwendungszwecke der Länge 0
- * zugelassen.
+ * Prüfung der Textschlüssel Revision 1.9 2007/03/19 08:53:35 jost Textschlüssel
+ * für Bankzwecke zugelassen. Revision 1.8 2007/02/22 18:39:39 jost
+ * Implementierung der Erweiterungsteile 01 (Name Empfänger/Zahlungspflichtiger
+ * 2) und 03 (Absender/Zahlungsempfänger 2) Revision 1.7 2007/01/07 20:42:18
+ * jost Verwendungszwecke der Länge 0 zugelassen.
  * 
  * Revision 1.6 2006/10/06 12:44:57 jost Optionale Fehlertoleranz Revision 1.5
  * 2006/08/28 19:01:32 jost Korrekte Behandlung von Groß-Kleinschreibung und
@@ -1126,5 +1176,4 @@ public class CSatz extends Satz
  * Einsatz in Hibiscus Revision 1.2 2006/05/25 20:30:05 jost Alle
  * Erweiterungsteile können jetzt verarbeitet werden. Revision 1.1 2006/05/24
  * 16:24:44 jost Prerelease
- * 
  */
