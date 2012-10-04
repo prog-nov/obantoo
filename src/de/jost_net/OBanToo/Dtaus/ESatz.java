@@ -180,6 +180,7 @@ public class ESatz extends Satz
 
   }
 
+  @Override
   public String toString()
   {
     return "Satzlaenge=" + eSatzlaenge + ", Satzart=" + eSatzart
@@ -190,6 +191,9 @@ public class ESatz extends Satz
 }
 /*
  * $Log$
+ * Revision 1.9  2012/10/04 17:22:44  jverein
+ * Annotation
+ *
  * Revision 1.8  2011/10/29 06:58:41  jverein
  * deutlichere Fehlermeldung
  *

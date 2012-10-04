@@ -230,6 +230,7 @@ public class QIFBuchung
     dos.writeBytes("^\n");
   }
 
+  @Override
   public String toString()
   {
     String ret = "Datum=" + datum + ", Betrag=" + betrag + ", Empfänger="
@@ -245,6 +246,9 @@ public class QIFBuchung
 }
 /*
  * $Log$
+ * Revision 1.4  2012/10/04 17:23:09  jverein
+ * Annotation
+ *
  * Revision 1.3  2011/10/29 06:59:13  jverein
  * Warnungen entfernt.
  * Revision 1.2 2006/06/15 12:27:30 jost Erweiterung
