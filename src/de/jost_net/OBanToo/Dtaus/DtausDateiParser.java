@@ -10,6 +10,7 @@
 package de.jost_net.OBanToo.Dtaus;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -110,6 +111,12 @@ public class DtausDateiParser
         SPEZIFIKATIONSKONFORM);
   }
 
+  public DtausDateiParser(File file) throws IOException, DtausException
+  {
+    this(new BufferedInputStream(new FileInputStream(file)),
+        SPEZIFIKATIONSKONFORM);
+  }
+  
   /**
    * Konstruktor mit der Möglichkeit, die Fehlertoleranz einzustellen.
    */
@@ -195,12 +202,15 @@ public class DtausDateiParser
   private CSatz internNext() throws IOException, DtausException
   {
     String satz = lese();
-    if (satz.substring(4, 5).equals("C"))
-    {
-      return new CSatz(satz, toleranz);
+    if (satz != null ) {
+    	if  (satz.substring(4, 5).equals("C"))
+    		return new CSatz(satz, toleranz);
+    	else 
+    		esatz = new ESatz(satz, toleranz);
+    		return null;
+    } else {
+    	return null;
     }
-    esatz = new ESatz(satz, toleranz);
-    return null;
   }
 
   public ASatz getASatz()
@@ -274,8 +284,11 @@ public class DtausDateiParser
     }
     catch (NumberFormatException e)
     {
-      throw new DtausException(DtausException.SATZLAENGE_FEHLERHAFT,
-          satzlaengenfeld);
+    	if ( satzlaengenfeld == null 
+    		 || ( satzlaengenfeld != null && satzlaengenfeld.length() == 4  ))
+    		return 4;
+    	else 
+    		throw new DtausException(DtausException.SATZLAENGE_FEHLERHAFT, satzlaengenfeld);
     }
 
   }
@@ -355,6 +368,9 @@ public class DtausDateiParser
 }
 /*
  * $Log$
+ * Revision 1.12  2012/10/04 17:22:00  jverein
+ * Marginale Änderungen. Patch von Marcel Parau.
+ *
  * Revision 1.11  2011/10/29 06:58:21  jverein
  * Warnungen entfernt.
  * Revision 1.10 2008/08/23 12:18:30 jost

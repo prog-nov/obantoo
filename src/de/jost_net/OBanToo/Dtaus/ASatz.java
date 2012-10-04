@@ -222,6 +222,19 @@ public class ASatz extends Satz
     return aDateierstellungsdatum;
   }
 
+  public Date getDateierstellungsdatumAlsDatum() 
+  {
+	  Date erstellungsDatum;
+	  SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
+	  try {
+		  erstellungsDatum = sdf.parse(aDateierstellungsdatum);
+		  
+	  } catch (ParseException e) {
+		  erstellungsDatum = null;
+	  }
+    return erstellungsDatum;
+  }
+  
   public void setKonto(String value) throws DtausException
   {
     try
@@ -328,41 +341,43 @@ public class ASatz extends Satz
     // Feld 4 - Bankleitzahl der Bank, bei der die Diskette eingereicht wird
     dos.writeBytes(Tool.formatBLZ(aBlz));
     // Feld 5 - Konstant 0
-    dos.writeBytes("00000000");
+    if ( aFeld5 != 0 )
+    	dos.writeBytes(Long.toString(aFeld5));
+    else 
+    	dos.writeBytes("00000000");
     // Feld 6 - Auftraggeber
     dos.writeBytes(make27(aKundenname));
     // Feld 7 - Datum
-    if (aAusfuehrungsdatum == null)
-    {
-      aAusfuehrungsdatum = new Date();
-    }
-    SimpleDateFormat sdf6 = new SimpleDateFormat("ddMMyy");
-    dos.writeBytes(sdf6.format(new Date()));
+    if (aDateierstellungsdatum != null) 
+        dos.writeBytes(aDateierstellungsdatum);
+    else 
+        dos.writeBytes(Tool.space(6));
     // Feld 8 - Konstant 4 Leerzeichen
     dos.writeBytes(Tool.space(4));
     // Feld 9 - Kontonummer des Auftraggebers
     DecimalFormat dfKonto = new DecimalFormat("0000000000");
     dos.writeBytes(dfKonto.format(aKonto));
     // Feld 10 - Referenznummer des Einreichers
-    dos.writeBytes("0000000000");
+    if (aReferenz != null) 
+    	dos.writeBytes(aReferenz);
+    else
+    	dos.writeBytes("0000000000");
     // Feld 11a - Reserve
     dos.writeBytes(Tool.space(15));
     // Feld 11b - Ausführungsdatum
-    if (aAusfuehrungsdatum != null)
-    {
-      SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-      dos.writeBytes(sdf.format(aAusfuehrungsdatum));
-    }
-    else
-    {
+    if (aAusfuehrungsdatum != null) {
+      SimpleDateFormat sdf11 = new SimpleDateFormat("ddMMyyyy");
+      dos.writeBytes(sdf11.format(aAusfuehrungsdatum));
+    } else {
       dos.writeBytes(Tool.space(8));
     }
     // Feld 11c - Reserve
     dos.writeBytes(Tool.space(24));
     // Feld 12 - Währung
-    dos.writeBytes("1");
+    dos.writeBytes(aWaehrungskennzeichen);
   }
 
+  @Override
   public String toString()
   {
     return "Satzlaenge=" + aSatzlaenge + ", Satzart=" + aSatzart
@@ -375,6 +390,9 @@ public class ASatz extends Satz
 }
 /*
  * $Log$
+ * Revision 1.13  2012/10/04 17:20:23  jverein
+ * Marginale Änderungen. Patch von Marcel Parau.
+ *
  * Revision 1.12  2011/10/29 06:57:36  jverein
  * deutlichere Fehlermeldung
  *

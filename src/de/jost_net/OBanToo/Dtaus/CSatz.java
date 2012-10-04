@@ -18,7 +18,7 @@ import java.util.Vector;
 /**
  * C-Satz - Zahlungsaustauschsatz
  * 
- * @author Heiner Jostkleigrewe
+ * @author Heiner Jostkleigrewe 
  * 
  */
 // todo Sätze mit mehr als 3 Erweiterungsteilen testen
@@ -315,7 +315,9 @@ public class CSatz extends Satz
 
   public void setKontonummer(long value) throws DtausException
   {
-    if (value <= 0 || value >= 9999999999L)
+    // allow 0 ( ZERO ) for account numner  
+	// to comply with the Bank-Verlag specs for the DTAKMSR file	  
+    if (value < 0 || value > 9999999999L)
     {
       throw new DtausException(DtausException.C_KONTONUMMER_FEHLERHAFT);
     }
@@ -477,7 +479,8 @@ public class CSatz extends Satz
           || textschluesselergaenzung == 12 || textschluesselergaenzung == 13
           || textschluesselergaenzung == 84 || textschluesselergaenzung == 85
           || textschluesselergaenzung == 86 || textschluesselergaenzung == 87
-          || textschluesselergaenzung == 88 || textschluesselergaenzung == 89)
+          || textschluesselergaenzung == 88 || textschluesselergaenzung == 89
+          || textschluesselergaenzung == 999 )
       {
         zulässig = true;
       }
@@ -574,11 +577,13 @@ public class CSatz extends Satz
       zulässig = true;
     }
     else if (textschluessel == 63
-        && (textschluesselergaenzung == 0 || isEUStaat(textschluesselergaenzung)))
+        && (textschluesselergaenzung == 0 
+       		|| isEUStaat(textschluesselergaenzung) || isNonEUStaat(textschluesselergaenzung)))
     {
       zulässig = true;
     }
-    else if (textschluessel == 65 && isEUStaat(textschluesselergaenzung))
+    else if (textschluessel == 65 
+    		&& ( isEUStaat(textschluesselergaenzung) || isNonEUStaat(textschluesselergaenzung)))
     {
       zulässig = true;
     }
@@ -642,6 +647,12 @@ public class CSatz extends Satz
         || texterweiterung == 752 || texterweiterung == 756);
   }
 
+  private boolean isNonEUStaat(int texterweiterung)
+  {
+	  // texterweiterung 888 ist für Schweiz
+	  return (texterweiterung == 888);
+  }  
+  
   public long getTextschluessel()
   {
     return cTextschluessel;
@@ -691,7 +702,9 @@ public class CSatz extends Satz
 
   public void setKontoAuftraggeber(long value) throws DtausException
   {
-    if (value <= 0)
+    // allow 0 ( ZERO ) for account numner  
+	// to comply with the Bank-Verlag specs for the DTAKMSR file	    
+    if (value < 0)
     {
       throw new DtausException(DtausException.C_KONTOAUFTRAGGEBER_FEHLERHAFT,
           value + "");
@@ -1118,6 +1131,7 @@ public class CSatz extends Satz
     return true;
   }
 
+  @Override
   public String toString()
   {
     String ret = "Satzlänge=" + this.getSatzlaenge() + ", BLZ erstbeteiligt="
@@ -1148,6 +1162,9 @@ public class CSatz extends Satz
 }
 /*
  * $Log$
+ * Revision 1.20  2012/10/04 17:20:48  jverein
+ * Marginale Änderungen. Patch von Marcel Parau.
+ *
  * Revision 1.19  2011/10/29 06:58:03  jverein
  * deutlichere Fehlermeldung
  * Warnungen entfernt.
