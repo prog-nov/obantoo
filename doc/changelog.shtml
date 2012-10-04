@@ -1,6 +1,11 @@
 <!--#include virtual="main.shtml"-->  
     <h2>Changelog</h2>
     <ul>
+      <li>Version 1.5.2 vom 04.10.2012</li>
+         <ul>
+             <li>Marginale Änderungen. Patch von Marcel Parau.</li>
+             <li>Umstellung von iText 1.3.3 auf 5.3.3</li>
+         </ul>
       <li>Version 1.5.1 vom 29.10.2011</li>
          <ul>
              <li>Deutlichere Fehlermeldungen bei ungültigen Zeichen</li>
