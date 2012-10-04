@@ -9,24 +9,21 @@
  */
 package de.jost_net.OBanToo.Dtaus;
 
-import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.lowagie.text.Chunk;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Element;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.HeaderFooter;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import de.jost_net.OBanToo.Tools.Util;
 
@@ -64,18 +61,17 @@ public class Dtaus2Pdf
     Document doc = new Document();
     FileOutputStream out = new FileOutputStream(pdffile);
 
-    PdfWriter.getInstance(doc, out);
+    PdfWriter writer = PdfWriter.getInstance(doc, out);
     doc.setMargins(80, 30, 20, 30); // links, rechts, oben, unten
     doc.addAuthor("OBanToo");
     doc.addTitle("DTAUS2PDF");
 
     SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-    Chunk fuss = new Chunk("Ausgegeben am " + sdf.format(new Date())
-        + "           Seite:  ", FontFactory.getFont(FontFactory.HELVETICA, 8,
-        Font.BOLD));
-    HeaderFooter hf = new HeaderFooter(new Phrase(fuss), true);
-    hf.setAlignment(Element.ALIGN_CENTER);
-    doc.setFooter(hf);
+    String fuss = "Ausgegeben am " + sdf.format(new Date())
+        + "           Seite:  ";
+    HeaderFooter hf = new HeaderFooter();
+    hf.setFooter(fuss);
+    writer.setPageEvent(hf);
 
     doc.open();
 
@@ -105,15 +101,15 @@ public class Dtaus2Pdf
         empfzahl = "Empfänger";
       }
       table.addCell(getDetailCell(empfzahl, Element.ALIGN_CENTER,
-          Color.LIGHT_GRAY));
+          BaseColor.LIGHT_GRAY));
       table.addCell(getDetailCell("Verwendungszweck", Element.ALIGN_CENTER,
-          Color.LIGHT_GRAY));
+          BaseColor.LIGHT_GRAY));
       table.addCell(getDetailCell("Bankverbindung", Element.ALIGN_CENTER,
-          Color.LIGHT_GRAY));
+          BaseColor.LIGHT_GRAY));
       table.addCell(getDetailCell("Schl.", Element.ALIGN_CENTER,
-          Color.LIGHT_GRAY));
+          BaseColor.LIGHT_GRAY));
       table.addCell(getDetailCell("Betrag", Element.ALIGN_RIGHT,
-          Color.LIGHT_GRAY));
+          BaseColor.LIGHT_GRAY));
       table.setHeaderRows(1);
 
       CSatz c = in.next();
@@ -135,12 +131,14 @@ public class Dtaus2Pdf
           }
         }
         table.addCell(getDetailCell(vzweck, Element.ALIGN_LEFT));
-        table.addCell(getDetailCell(c.getBlzEndbeguenstigt() + "\n"
-            + c.getKontonummer(), Element.ALIGN_LEFT));
+        table.addCell(getDetailCell(
+            c.getBlzEndbeguenstigt() + "\n" + c.getKontonummer(),
+            Element.ALIGN_LEFT));
         table.addCell(getDetailCell(c.getTextschluessel() + "",
             Element.ALIGN_LEFT));
-        table.addCell(getDetailCell(de.jost_net.OBanToo.Tools.Util
-            .formatCurrency(c.getBetragInEuro()), Element.ALIGN_RIGHT));
+        table.addCell(getDetailCell(
+            de.jost_net.OBanToo.Tools.Util.formatCurrency(c.getBetragInEuro()),
+            Element.ALIGN_RIGHT));
         c = in.next();
       }
 
@@ -163,31 +161,32 @@ public class Dtaus2Pdf
     table.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
     table.addCell(getDetailCell("Logische Datei", Element.ALIGN_RIGHT,
-        Color.LIGHT_GRAY));
+        BaseColor.LIGHT_GRAY));
     table.addCell(getDetailCell(logischeDatei + "", Element.ALIGN_LEFT));
 
     table.addCell(getDetailCell("Kundenname", Element.ALIGN_RIGHT,
-        Color.LIGHT_GRAY));
+        BaseColor.LIGHT_GRAY));
     table.addCell(getDetailCell(in.getASatz().getKundenname(),
         Element.ALIGN_LEFT));
-    table.addCell(getDetailCell("BLZ", Element.ALIGN_RIGHT, Color.LIGHT_GRAY));
+    table.addCell(getDetailCell("BLZ", Element.ALIGN_RIGHT,
+        BaseColor.LIGHT_GRAY));
     table
         .addCell(getDetailCell(in.getASatz().getBlz() + "", Element.ALIGN_LEFT));
-    table
-        .addCell(getDetailCell("Konto", Element.ALIGN_RIGHT, Color.LIGHT_GRAY));
+    table.addCell(getDetailCell("Konto", Element.ALIGN_RIGHT,
+        BaseColor.LIGHT_GRAY));
     table.addCell(getDetailCell(in.getASatz().getKonto() + "",
         Element.ALIGN_LEFT));
     table.addCell(getDetailCell(
         "Gutschrift (G)/Lastschrift(L)/Bank(B)/Kunde(K)", Element.ALIGN_RIGHT,
-        Color.LIGHT_GRAY));
+        BaseColor.LIGHT_GRAY));
     table.addCell(getDetailCell(in.getASatz().getGutschriftLastschrift(),
         Element.ALIGN_LEFT));
     table.addCell(getDetailCell("Ausführungsdatum", Element.ALIGN_RIGHT,
-        Color.LIGHT_GRAY));
+        BaseColor.LIGHT_GRAY));
     table.addCell(getDetailCell(in.getASatz().getAusfuehrungsdatumString(),
         Element.ALIGN_LEFT));
     table.addCell(getDetailCell("Erstellungsdatum", Element.ALIGN_RIGHT,
-        Color.LIGHT_GRAY));
+        BaseColor.LIGHT_GRAY));
     table.addCell(getDetailCell(in.getASatz().getDateierstellungsdatum(),
         Element.ALIGN_LEFT));
     doc.add(table);
@@ -205,19 +204,19 @@ public class Dtaus2Pdf
     table.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
     table.addCell(getDetailCell("Summe Beträge", Element.ALIGN_RIGHT,
-        Color.LIGHT_GRAY));
+        BaseColor.LIGHT_GRAY));
     table.addCell(getDetailCell(Util.formatCurrency(in.getESatz()
         .getSummeBetraege().doubleValue() / 100), Element.ALIGN_RIGHT));
     table.addCell(getDetailCell("Anzahl Datensätze", Element.ALIGN_RIGHT,
-        Color.LIGHT_GRAY));
+        BaseColor.LIGHT_GRAY));
     table.addCell(getDetailCell(in.getESatz().getAnzahlDatensaetze() + "",
         Element.ALIGN_RIGHT));
     table.addCell(getDetailCell("Summe Bankleitzahlen", Element.ALIGN_RIGHT,
-        Color.LIGHT_GRAY));
+        BaseColor.LIGHT_GRAY));
     table.addCell(getDetailCell(in.getESatz().getSummeBankleitzahlen() + "",
         Element.ALIGN_RIGHT));
     table.addCell(getDetailCell("Summe Kontonummern", Element.ALIGN_RIGHT,
-        Color.LIGHT_GRAY));
+        BaseColor.LIGHT_GRAY));
     table.addCell(getDetailCell(in.getESatz().getSummeKontonummern() + "",
         Element.ALIGN_RIGHT));
     doc.add(table);
@@ -234,7 +233,7 @@ public class Dtaus2Pdf
    */
   private PdfPCell getDetailCell(String text, int align)
   {
-    return getDetailCell(text, align, Color.WHITE);
+    return getDetailCell(text, align, BaseColor.WHITE);
   }
 
   /**
@@ -248,7 +247,8 @@ public class Dtaus2Pdf
    *          die Hintergundfarbe.
    * @return die erzeugte Zelle.
    */
-  private PdfPCell getDetailCell(String text, int align, Color backgroundcolor)
+  private PdfPCell getDetailCell(String text, int align,
+      BaseColor backgroundcolor)
   {
     PdfPCell cell = new PdfPCell(new Phrase(notNull(text), FontFactory.getFont(
         FontFactory.HELVETICA, 8)));
@@ -264,19 +264,19 @@ public class Dtaus2Pdf
    *          die Zahl.
    * @return die erzeugte Zelle.
    */
-//  private PdfPCell getDetailCell(double value)
-//  {
-//    Font f = null;
-//    if (value >= 0)
-//      f = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL,
-//          Color.BLACK);
-//    else
-//      f = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, Color.RED);
-//    PdfPCell cell = new PdfPCell(new Phrase(new DecimalFormat("###,###,##0.00")
-//        .format(value), f));
-//    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-//    return cell;
-//  }
+  // private PdfPCell getDetailCell(double value)
+  // {
+  // Font f = null;
+  // if (value >= 0)
+  // f = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL,
+  // Color.BLACK);
+  // else
+  // f = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, Color.RED);
+  // PdfPCell cell = new PdfPCell(new Phrase(new DecimalFormat("###,###,##0.00")
+  // .format(value), f));
+  // cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+  // return cell;
+  // }
 
   /**
    * Gibt einen Leerstring aus, falls der Text null ist.
