@@ -11,6 +11,8 @@
 		<property name="deploy" value="deploy" />
         <property environment="env"/>
         <property file="lib.props"/>
+		<property environment="env"/>
+		<property name="xjc" value="${env.JAVA_HOME}/bin/xjc.exe"/>	
 		<property name="jar.file" value="${build.dir}/obantoo-bin-${version}.jar" />
 		<property name="zip.file" value="${deploy}/obantoo-${version}.zip" />
 	</target>
@@ -79,6 +81,17 @@
 		<delete dir="${build.dir}" />
 		<delete dir="${deploy}"/>
         <delete dir="${javadoc.dir}"/>
+	</target>
+	
+	<target name="xsd2java" depends="init">
+		<echo>${xjc}</echo>
+		<exec executable="${xjc}">
+		    <arg value="-d"/>
+		    <arg value="${src.dir}"/>
+		    <arg value="-p"/>
+		    <arg value="de.jost_net.OBanToo.SEPA.Basislastschrift"/>
+		    <arg value="xsd/pain.008.002.02.xsd"/>
+		  </exec>
 	</target>
 
 </project>
