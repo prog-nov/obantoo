@@ -12,7 +12,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import de.jost_net.OBanToo.SEPA.Basislastschrift.AccountIdentificationSEPA;
 import de.jost_net.OBanToo.SEPA.Basislastschrift.BranchAndFinancialInstitutionIdentificationSEPA1;
 import de.jost_net.OBanToo.SEPA.Basislastschrift.CashAccountSEPA1;
-import de.jost_net.OBanToo.SEPA.Basislastschrift.ChargeBearerTypeSEPACode;
 import de.jost_net.OBanToo.SEPA.Basislastschrift.CustomerDirectDebitInitiationV02;
 import de.jost_net.OBanToo.SEPA.Basislastschrift.Document;
 import de.jost_net.OBanToo.SEPA.Basislastschrift.FinancialInstitutionIdentificationSEPA1;
