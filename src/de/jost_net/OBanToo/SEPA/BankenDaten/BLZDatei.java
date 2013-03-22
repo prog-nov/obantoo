@@ -17,7 +17,7 @@ public class BLZDatei
 {
   private BufferedInputStream bin;
 
-  public BLZDatei(InputStream is) throws IOException
+  public BLZDatei(InputStream is)
   {
     bin = new BufferedInputStream(is);
   }
