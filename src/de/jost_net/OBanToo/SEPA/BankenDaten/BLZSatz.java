@@ -133,7 +133,7 @@ public class BLZSatz
     aenderungskennzeichen = getString(1);
     hinweisloeschung = getString(1);
     nachfolgeblz = getString(8);
-    getString(1);// CRLF überlesen
+    getString(2);// CRLF überlesen
   }
 
   private String getString(int len) throws IOException
