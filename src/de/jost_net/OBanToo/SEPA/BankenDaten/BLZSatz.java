@@ -10,6 +10,7 @@
 package de.jost_net.OBanToo.SEPA.BankenDaten;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 
 public class BLZSatz
@@ -113,13 +114,17 @@ public class BLZSatz
    */
   private String nachfolgeblz = null;
 
-  public BLZSatz(BufferedInputStream bin) throws IOException
+  private String zeile;
+
+  private int pos = 0;
+
+  public BLZSatz(BufferedReader br) throws IOException
   {
-    if (bin.available() == 0)
+    zeile = br.readLine();
+    if (zeile == null)
     {
       return;
     }
-    this.bi = bin;
     blz = getString(8);
     zahlungsdienstleister = getString(1);
     bezeichnung = getString(58);
@@ -133,14 +138,13 @@ public class BLZSatz
     aenderungskennzeichen = getString(1);
     hinweisloeschung = getString(1);
     nachfolgeblz = getString(8);
-    getString(2);// CRLF überlesen
   }
 
   private String getString(int len) throws IOException
   {
-    byte[] b = new byte[len];
-    bi.read(b);
-    return new String(b);
+    String ret = zeile.substring(pos, pos + len);
+    pos += len;
+    return ret;
   }
 
   public String getBlz()

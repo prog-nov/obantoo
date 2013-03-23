@@ -29,6 +29,7 @@ public class Banken
       // Deutschland
       InputStream is = Banken.class.getClassLoader().getResourceAsStream(
           "BLZ.txt");
+      
       BLZDatei blz = new BLZDatei(is);
       BLZSatz blzs = blz.getNext();
       while (blzs.getBic() != null)

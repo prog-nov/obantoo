@@ -9,22 +9,23 @@
  */
 package de.jost_net.OBanToo.SEPA.BankenDaten;
 
-import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class BLZDatei
 {
-  private BufferedInputStream bin;
+  private BufferedReader br;
 
   public BLZDatei(InputStream is)
   {
-    bin = new BufferedInputStream(is);
+    br = new BufferedReader(new InputStreamReader(is));
   }
 
   public BLZSatz getNext() throws IOException
   {
-    BLZSatz blz = new BLZSatz(bin);
+    BLZSatz blz = new BLZSatz(br);
     return blz;
   }
 }
