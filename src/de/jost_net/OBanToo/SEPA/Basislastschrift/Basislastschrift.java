@@ -254,8 +254,7 @@ public class Basislastschrift
     LocalInstrumentSEPA lis = new LocalInstrumentSEPA();
     lis.setCd(LocalInstrumentSEPACode.CORE);
     pti.setLclInstrm(lis);
-    pti.setSeqTp(SequenceType1Code.FRST); // TODO Erste, einmalige, folge oder
-                                          // letzte Lastschrift
+    pti.setSeqTp(SequenceType1Code.OOFF);
     return pti;
   }
 
@@ -373,6 +372,7 @@ public class Basislastschrift
       Basislastschrift bl = new Basislastschrift();
       bl.setMessageID("123"); // Z. B. Buchungslaufnummer
       bl.setBIC("WELADED1WDB");
+      bl.setFaelligskeitsdatum(new Date());
       bl.setIBAN("DE61478535200001861889");
       bl.setName("Fa. SEPA GmbH und Co. Testenhausen");
       bl.setGlaeubigerID("DE98ZZZ0912345678");
