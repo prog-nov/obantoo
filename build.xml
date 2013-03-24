@@ -19,19 +19,28 @@
 
 	<target name="compile" depends="init" description="Compilieren">
 		<mkdir dir="${classes.dir}" />
-		<javac source="1.5"
+		<javac source="1.6"
 			     classpath="lib/itextpdf-5.3.3.jar"
-			     target="1.5" 
+			     target="1.6" 
 			     debug="true" 
 			     debuglevel="lines,vars,source" 
 			     deprecation="true" 
 			     destdir="${classes.dir}" 
 			     srcdir="${src.dir}"
-			     encoding="ISO-8859-15">
+			     encoding="ISO-8859-15"
+			     includeJavaRuntime="no"
+			     includeAntRuntime="no">
 		</javac>
-	</target>
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}">
+				<include name="*.csv"/>
+				<include name="*.txt"/>
+			</fileset>
+		</copy>
 
-	<target name="jar" depends="compile" description="Jar-File erzeugen">
+ 	</target>
+
+	<target name="jar" depends="init,compile" description="Jar-File erzeugen">
 		<tstamp/>
 		<jar destfile="${jar.file}">
 			<manifest>
