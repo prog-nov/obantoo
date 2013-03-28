@@ -14,6 +14,7 @@ import java.util.Locale;
 
 public class Util
 {
+
   public static String toHex(String val)
   {
     String ret = "0x";
@@ -31,7 +32,7 @@ public class Util
 
   public static String toHex(char c, int width)
   {
-    int i = (int) c;
+    int i = c;
     return toHex(i, width);
   }
 
@@ -48,9 +49,10 @@ public class Util
 }
 /*
  * $Log$
- * Revision 1.3  2007/02/14 14:43:56  jost
- * Neue Methode: formatCurrency(double)
- * Revision 1.2 2006/09/25 18:29:24 jost Sichtbarkeit der
+ * Revision 1.4  2013/03/28 12:30:54  jverein
+ * Überflüssiges Casting entfernt.
+ * Revision 1.3 2007-02-14 14:43:56 jost Neue Methode:
+ * formatCurrency(double) Revision 1.2 2006/09/25 18:29:24 jost Sichtbarkeit der
  * Methoden auf public erweitert Revision 1.1 2006/09/25 18:16:21 jost Neu
  * Revision 1.4 2006/06/05 09:35:13 jost
  */

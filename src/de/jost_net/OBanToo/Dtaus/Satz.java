@@ -20,11 +20,6 @@ public class Satz
     //
   }
 
-  public Satz(String value)
-  {
-    //
-  }
-
   protected String makeValid(String value)
   {
     value = Tr.normalizeUTF8(value);
@@ -144,11 +139,12 @@ public class Satz
 }
 /*
  * $Log$
- * Revision 1.12  2009/06/04 08:30:21  jost
- * Umsetzung Sonderzeichen erweitert.
- * Revision 1.11 2008/07/09 13:01:42 jost Hochkomma durch
- * Leerzeichen ersetzen Revision 1.10 2008/05/07 15:57:40 jost e mit Accent
- * grave durch e ersetzt
+ * Revision 1.13  2013/03/28 12:29:41  jverein
+ * Überflüssiges Casting entfernt.
+ * Revision 1.12 2009-06-04 08:30:21 jost Umsetzung
+ * Sonderzeichen erweitert. Revision 1.11 2008/07/09 13:01:42 jost Hochkomma
+ * durch Leerzeichen ersetzen Revision 1.10 2008/05/07 15:57:40 jost e mit
+ * Accent grave durch e ersetzt
  * 
  * Revision 1.9 2008/02/17 08:31:26 jost Neuer Toleranzlevel Revision 1.8
  * 2007/09/18 17:51:57 jost ÃœberflÃ¼ssige throws entfernt. Revision 1.7
@@ -162,5 +158,4 @@ public class Satz
  * Groß-Kleinschreibung und ÄÖÜß Revision 1.2 2006/06/05 09:35:59 jost
  * Erweiterungen f. d. DtausDateiWriter Revision 1.1 2006/05/24 16:24:44 jost
  * Prerelease
- * 
  */

@@ -83,6 +83,7 @@ import java.util.Vector;
  */
 public class DtausDateiParser
 {
+
   private String encoding = "ISO-8859-1";
 
   private InputStream dtaus;
@@ -116,7 +117,7 @@ public class DtausDateiParser
     this(new BufferedInputStream(new FileInputStream(file)),
         SPEZIFIKATIONSKONFORM);
   }
-  
+
   /**
    * Konstruktor mit der Möglichkeit, die Fehlertoleranz einzustellen.
    */
@@ -168,7 +169,7 @@ public class DtausDateiParser
       logdat.setESatz(esatz);
       logischeDateien.addElement(logdat);
     }
-    this.logdat = (LogischeDatei) logischeDateien.elementAt(0);
+    this.logdat = logischeDateien.elementAt(0);
   }
 
   public int getAnzahlLogischerDateien()
@@ -185,7 +186,7 @@ public class DtausDateiParser
   {
     if (nr <= logischeDateien.size())
     {
-      this.logdat = (LogischeDatei) logischeDateien.elementAt(nr - 1);
+      this.logdat = logischeDateien.elementAt(nr - 1);
     }
     else
     {
@@ -196,20 +197,23 @@ public class DtausDateiParser
 
   public LogischeDatei getLogischeDatei(int nr)
   {
-    return (LogischeDatei) logischeDateien.elementAt(nr - 1);
+    return logischeDateien.elementAt(nr - 1);
   }
 
   private CSatz internNext() throws IOException, DtausException
   {
     String satz = lese();
-    if (satz != null ) {
-    	if  (satz.substring(4, 5).equals("C"))
-    		return new CSatz(satz, toleranz);
-    	else 
-    		esatz = new ESatz(satz, toleranz);
-    		return null;
-    } else {
-    	return null;
+    if (satz != null)
+    {
+      if (satz.substring(4, 5).equals("C"))
+        return new CSatz(satz, toleranz);
+      else
+        esatz = new ESatz(satz, toleranz);
+      return null;
+    }
+    else
+    {
+      return null;
     }
   }
 
@@ -284,11 +288,11 @@ public class DtausDateiParser
     }
     catch (NumberFormatException e)
     {
-    	if ( satzlaengenfeld == null 
-    		 || ( satzlaengenfeld != null && satzlaengenfeld.length() == 4  ))
-    		return 4;
-    	else 
-    		throw new DtausException(DtausException.SATZLAENGE_FEHLERHAFT, satzlaengenfeld);
+      if (satzlaengenfeld == null || satzlaengenfeld.length() == 4)
+        return 4;
+      else
+        throw new DtausException(DtausException.SATZLAENGE_FEHLERHAFT,
+            satzlaengenfeld);
     }
 
   }
@@ -299,11 +303,10 @@ public class DtausDateiParser
     String encoding = null;
     if (args.length < 1 || args.length > 3)
     {
-      System.err
-          .println("Argumente für den Aufruf: dateiname [toleranz] [encoding]\n"
-              + "toleranz = 0 Spezifikationskonform\n"
-              + "toleranz = 1 DOS-Umlaute umwandeln\n"
-              + "toleranz = 2 Zeichencode 00 in Space umwandeln");
+      System.err.println("Argumente für den Aufruf: dateiname [toleranz] [encoding]\n"
+          + "toleranz = 0 Spezifikationskonform\n"
+          + "toleranz = 1 DOS-Umlaute umwandeln\n"
+          + "toleranz = 2 Zeichencode 00 in Space umwandeln");
       System.exit(1);
     }
     if (args.length >= 2)
@@ -368,18 +371,18 @@ public class DtausDateiParser
 }
 /*
  * $Log$
- * Revision 1.12  2012/10/04 17:22:00  jverein
+ * Revision 1.13  2013/03/28 12:29:15  jverein
+ * Überflüssiges Casting entfernt.
+ * Revision 1.12 2012/10/04 17:22:00 jverein
  * Marginale Änderungen. Patch von Marcel Parau.
- *
- * Revision 1.11  2011/10/29 06:58:21  jverein
- * Warnungen entfernt.
- * Revision 1.10 2008/08/23 12:18:30 jost
- * Encoding kann als Kommandozeilenparameter an die main-Methode Ã¼bergeben
- * werden. Revision 1.9 2008/07/09 19:43:28 jost Patch von Olaf Willuhn:
- * StandardmÃ¤ssig wird das Encoding ISO-8859-1 verwendet. Optional kann Ã¼ber
- * zusÃ¤tzliche Konstruktoren ein anderes Encoding eingestellt werden. Revision
- * 1.8 2008/02/17 08:30:46 jost Neuer Toleranzlevel Neues Feld5 Revision 1.7
- * 2007/02/14 14:42:54 jost javadoc
+ * 
+ * Revision 1.11 2011/10/29 06:58:21 jverein Warnungen entfernt. Revision 1.10
+ * 2008/08/23 12:18:30 jost Encoding kann als Kommandozeilenparameter an die
+ * main-Methode Ã¼bergeben werden. Revision 1.9 2008/07/09 19:43:28 jost Patch
+ * von Olaf Willuhn: StandardmÃ¤ssig wird das Encoding ISO-8859-1 verwendet.
+ * Optional kann Ã¼ber zusÃ¤tzliche Konstruktoren ein anderes Encoding
+ * eingestellt werden. Revision 1.8 2008/02/17 08:30:46 jost Neuer Toleranzlevel
+ * Neues Feld5 Revision 1.7 2007/02/14 14:42:54 jost javadoc
  * 
  * Revision 1.6 2006/10/06 12:47:39 jost Optionale Fehlertoleranz Revision 1.5
  * 2006/06/04 12:23:51 jost Redaktionelle Änderung

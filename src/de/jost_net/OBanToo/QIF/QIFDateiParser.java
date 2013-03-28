@@ -47,6 +47,7 @@ import java.util.Vector;
 
 public class QIFDateiParser
 {
+
   private Vector<QIFBuchung> buchungen;
 
   /**
@@ -96,13 +97,14 @@ public class QIFDateiParser
     {
       return null;
     }
-    return (QIFBuchung) buchungen.elementAt(bi);
+    return buchungen.elementAt(bi);
   }
 }
 /*
  * $Log$
- * Revision 1.2  2011/10/29 06:59:22  jverein
- * Warnungen entfernt.
- * Revision 1.1 2006/05/30 17:40:40 jost *** empty
- * log message ***
+ * Revision 1.3  2013/03/28 12:30:04  jverein
+ * Überflüssiges Casting entfernt.
+ * Revision 1.2 2011/10/29 06:59:22 jverein
+ * Warnungen entfernt. Revision 1.1 2006/05/30 17:40:40 jost *** empty log
+ * message ***
  */

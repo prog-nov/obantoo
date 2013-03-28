@@ -25,6 +25,7 @@ import de.jost_net.OBanToo.Dtaus.Tool;
  */
 public class QIFBuchung
 {
+
   private Date datum = null;
 
   private double betrag = 0;
@@ -72,6 +73,7 @@ public class QIFBuchung
       }
       catch (ParseException e)
       {
+        //
       }
       throw new QIFException(QIFException.UNGUELTIGES_DATUM, line.substring(1));
     }
@@ -187,7 +189,7 @@ public class QIFBuchung
     {
       return null;
     }
-    return (String) adresse.elementAt(ai);
+    return adresse.elementAt(ai);
   }
 
   public void addAdresse(String value)
@@ -239,19 +241,18 @@ public class QIFBuchung
         + ", Adresse=";
     for (int i = 0; i < adresse.size(); i++)
     {
-      ret += (String) adresse.elementAt(i) + ", ";
+      ret += adresse.elementAt(i) + ", ";
     }
     return ret;
   }
 }
 /*
  * $Log$
- * Revision 1.4  2012/10/04 17:23:09  jverein
- * Annotation
- *
- * Revision 1.3  2011/10/29 06:59:13  jverein
- * Warnungen entfernt.
- * Revision 1.2 2006/06/15 12:27:30 jost Erweiterung
- * um QIFDateiWriter Revision 1.1 2006/05/30 17:40:40 jost *** empty log message
- * ***
+ * Revision 1.5  2013/03/28 12:29:55  jverein
+ * Überflüssiges Casting entfernt.
+ * Revision 1.4 2012/10/04 17:23:09 jverein Annotation
+ * 
+ * Revision 1.3 2011/10/29 06:59:13 jverein Warnungen entfernt. Revision 1.2
+ * 2006/06/15 12:27:30 jost Erweiterung um QIFDateiWriter Revision 1.1
+ * 2006/05/30 17:40:40 jost *** empty log message ***
  */

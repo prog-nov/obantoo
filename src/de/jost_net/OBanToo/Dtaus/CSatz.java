@@ -18,7 +18,7 @@ import java.util.Vector;
 /**
  * C-Satz - Zahlungsaustauschsatz
  * 
- * @author Heiner Jostkleigrewe 
+ * @author Heiner Jostkleigrewe
  * 
  */
 // todo Sätze mit mehr als 3 Erweiterungsteilen testen
@@ -211,7 +211,7 @@ public class CSatz extends Satz
 
     // Startpositionen der Erweiterungsteile
     int[] pos = { 187, 216, 256, 285, 314, 343, 384, 413, 442, 471, 512, 541,
-        570, 599 };
+        570, 599};
     for (int i = 0; i < this.getErweiterungszeichen(); i++)
     {
       int p = pos[i];
@@ -315,8 +315,8 @@ public class CSatz extends Satz
 
   public void setKontonummer(long value) throws DtausException
   {
-    // allow 0 ( ZERO ) for account numner  
-	// to comply with the Bank-Verlag specs for the DTAKMSR file	  
+    // allow 0 ( ZERO ) for account numner
+    // to comply with the Bank-Verlag specs for the DTAKMSR file
     if (value < 0 || value > 9999999999L)
     {
       throw new DtausException(DtausException.C_KONTONUMMER_FEHLERHAFT);
@@ -379,8 +379,7 @@ public class CSatz extends Satz
     String textschluesselStr = valueStr.substring(0, 2);
     int textschluessel = Integer.parseInt(textschluesselStr);
     String textschluesselergaenzungStr = valueStr.substring(2);
-    int textschluesselergaenzung = Integer
-        .parseInt(textschluesselergaenzungStr);
+    int textschluesselergaenzung = Integer.parseInt(textschluesselergaenzungStr);
 
     boolean zulässig = false;
 
@@ -440,8 +439,7 @@ public class CSatz extends Satz
           || textschluesselergaenzung == 242
           || textschluesselergaenzung == 444
           || textschluesselergaenzung == 888
-          || (textschluesselergaenzungStr.length() == 3 && textschluesselergaenzungStr
-              .endsWith("9")))
+          || (textschluesselergaenzungStr.length() == 3 && textschluesselergaenzungStr.endsWith("9")))
       {
         zulässig = true;
       }
@@ -480,7 +478,7 @@ public class CSatz extends Satz
           || textschluesselergaenzung == 84 || textschluesselergaenzung == 85
           || textschluesselergaenzung == 86 || textschluesselergaenzung == 87
           || textschluesselergaenzung == 88 || textschluesselergaenzung == 89
-          || textschluesselergaenzung == 999 )
+          || textschluesselergaenzung == 999)
       {
         zulässig = true;
       }
@@ -538,8 +536,7 @@ public class CSatz extends Satz
           || textschluesselergaenzung == 573
           || textschluesselergaenzung == 888
           || textschluesselergaenzung == 990
-          || (textschluesselergaenzungStr.length() == 3 && textschluesselergaenzungStr
-              .endsWith("9")))
+          || (textschluesselergaenzungStr.length() == 3 && textschluesselergaenzungStr.endsWith("9")))
       {
         zulässig = true;
       }
@@ -577,13 +574,13 @@ public class CSatz extends Satz
       zulässig = true;
     }
     else if (textschluessel == 63
-        && (textschluesselergaenzung == 0 
-       		|| isEUStaat(textschluesselergaenzung) || isNonEUStaat(textschluesselergaenzung)))
+        && (textschluesselergaenzung == 0
+            || isEUStaat(textschluesselergaenzung) || isNonEUStaat(textschluesselergaenzung)))
     {
       zulässig = true;
     }
-    else if (textschluessel == 65 
-    		&& ( isEUStaat(textschluesselergaenzung) || isNonEUStaat(textschluesselergaenzung)))
+    else if (textschluessel == 65
+        && (isEUStaat(textschluesselergaenzung) || isNonEUStaat(textschluesselergaenzung)))
     {
       zulässig = true;
     }
@@ -649,10 +646,10 @@ public class CSatz extends Satz
 
   private boolean isNonEUStaat(int texterweiterung)
   {
-	  // texterweiterung 888 ist für Schweiz
-	  return (texterweiterung == 888);
-  }  
-  
+    // texterweiterung 888 ist für Schweiz
+    return (texterweiterung == 888);
+  }
+
   public long getTextschluessel()
   {
     return cTextschluessel;
@@ -702,8 +699,8 @@ public class CSatz extends Satz
 
   public void setKontoAuftraggeber(long value) throws DtausException
   {
-    // allow 0 ( ZERO ) for account numner  
-	// to comply with the Bank-Verlag specs for the DTAKMSR file	    
+    // allow 0 ( ZERO ) for account numner
+    // to comply with the Bank-Verlag specs for the DTAKMSR file
     if (value < 0)
     {
       throw new DtausException(DtausException.C_KONTOAUFTRAGGEBER_FEHLERHAFT,
@@ -898,7 +895,7 @@ public class CSatz extends Satz
   {
     if (nr <= getAnzahlVerwendungszwecke())
     {
-      return (String) cVerwendungszweck.elementAt(nr - 1);
+      return cVerwendungszweck.elementAt(nr - 1);
     }
     else
     {
@@ -910,7 +907,7 @@ public class CSatz extends Satz
   {
     if (nr <= cErweiterungszeichen)
     {
-      return (String) cErweiterungsteile.elementAt(nr - 1);
+      return cErweiterungsteile.elementAt(nr - 1);
     }
     else
     {
@@ -1162,14 +1159,14 @@ public class CSatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.20  2012/10/04 17:20:48  jverein
- * Marginale Änderungen. Patch von Marcel Parau.
- *
- * Revision 1.19  2011/10/29 06:58:03  jverein
- * deutlichere Fehlermeldung
- * Warnungen entfernt.
- * Revision 1.18 2009/01/08 18:41:24 jost Erweiterung um
- * die Ausgabe des WÃ¤hrungskennzeichens durch el hassane ouardi
+ * Revision 1.21  2013/03/28 12:29:04  jverein
+ * Überflüssiges Casting entfernt.
+ * Revision 1.20 2012/10/04 17:20:48 jverein Marginale
+ * Änderungen. Patch von Marcel Parau.
+ * 
+ * Revision 1.19 2011/10/29 06:58:03 jverein deutlichere Fehlermeldung Warnungen
+ * entfernt. Revision 1.18 2009/01/08 18:41:24 jost Erweiterung um die Ausgabe
+ * des WÃ¤hrungskennzeichens durch el hassane ouardi
  * 
  * Revision 1.17 2008/04/21 18:15:14 jost Neue Textschluessel Revision 1.16
  * 2008/02/08 18:44:46 jost Bugfix Erweiterungsteile Revision 1.15 2007/11/15
