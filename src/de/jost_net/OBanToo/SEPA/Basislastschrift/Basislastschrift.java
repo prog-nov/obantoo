@@ -48,6 +48,7 @@ import de.jost_net.OBanToo.SEPA.Nachricht.pain_008_002_02.ServiceLevelSEPACode;
 
 public class Basislastschrift
 {
+
   /**
    * Message-ID für die Prüfung auf Doppeleinreichung
    */
@@ -125,8 +126,8 @@ public class Basislastschrift
   {
     GroupHeaderSDD grH = new GroupHeaderSDD();
     // aktuelles Datum und Uhrzeit
-    XMLGregorianCalendar creDtTm = DatatypeFactory.newInstance()
-        .newXMLGregorianCalendar(new GregorianCalendar());
+    XMLGregorianCalendar creDtTm = DatatypeFactory.newInstance().newXMLGregorianCalendar(
+        new GregorianCalendar());
     grH.setCreDtTm(creDtTm);
     // Kontrollsumme
     grH.setCtrlSum(kontrollsumme);
@@ -185,8 +186,8 @@ public class Basislastschrift
 
     GregorianCalendar gc = new GregorianCalendar();
     gc.setTime(getFaelligkeitsdatum());
-    XMLGregorianCalendar faelligkeitsdatum = DatatypeFactory.newInstance()
-        .newXMLGregorianCalendar(gc);
+    XMLGregorianCalendar faelligkeitsdatum = DatatypeFactory.newInstance().newXMLGregorianCalendar(
+        gc);
     pii.setReqdColltnDt(faelligkeitsdatum);
 
     for (Zahler z : zahlerarray)
@@ -197,7 +198,7 @@ public class Basislastschrift
   }
 
   private DirectDebitTransactionInformationSDD getDirectDebitTransactionInformationSDD(
-      Zahler z) throws SEPAException, DatatypeConfigurationException
+      Zahler z) throws DatatypeConfigurationException
   {
     DirectDebitTransactionInformationSDD ddti = new DirectDebitTransactionInformationSDD();
     PaymentIdentificationSEPA pis = new PaymentIdentificationSEPA();
@@ -214,8 +215,8 @@ public class Basislastschrift
 
     GregorianCalendar gc = new GregorianCalendar();
     gc.setTime(z.getMandatdatum());// Datum des Mandats.
-    XMLGregorianCalendar dtofsigntr = DatatypeFactory.newInstance()
-        .newXMLGregorianCalendar(gc);
+    XMLGregorianCalendar dtofsigntr = DatatypeFactory.newInstance().newXMLGregorianCalendar(
+        gc);
     mri.setDtOfSgntr(dtofsigntr);
     mri.setAmdmntInd(false);
 

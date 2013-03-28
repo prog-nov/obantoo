@@ -169,7 +169,7 @@ public class BIC
     return iban.substring(4, land.getBankIdentifierLength() + 4);
   }
 
-  public String getKonto() throws SEPAException
+  public String getKonto()
   {
     if (iban.length() == 0)
     {

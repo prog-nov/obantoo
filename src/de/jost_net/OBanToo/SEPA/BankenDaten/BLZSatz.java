@@ -15,6 +15,7 @@ import java.io.IOException;
 
 public class BLZSatz
 {
+
   private BufferedInputStream bi;
 
   /**
@@ -140,7 +141,7 @@ public class BLZSatz
     nachfolgeblz = getString(8);
   }
 
-  private String getString(int len) throws IOException
+  private String getString(int len)
   {
     String ret = zeile.substring(pos, pos + len);
     pos += len;

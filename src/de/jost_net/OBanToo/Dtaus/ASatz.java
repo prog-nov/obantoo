@@ -103,7 +103,7 @@ public class ASatz extends Satz
     satz = codingFromDtaus(satz, toleranz);
     try
     {
-    validCharacters(satz);
+      validCharacters(satz);
     }
     catch (DtausException e)
     {
@@ -179,7 +179,7 @@ public class ASatz extends Satz
     return aBlz;
   }
 
-  public void setFeld5(String value) throws DtausException
+  public void setFeld5(String value)
   {
     try
     {
@@ -222,19 +222,22 @@ public class ASatz extends Satz
     return aDateierstellungsdatum;
   }
 
-  public Date getDateierstellungsdatumAlsDatum() 
+  public Date getDateierstellungsdatumAlsDatum()
   {
-	  Date erstellungsDatum;
-	  SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
-	  try {
-		  erstellungsDatum = sdf.parse(aDateierstellungsdatum);
-		  
-	  } catch (ParseException e) {
-		  erstellungsDatum = null;
-	  }
+    Date erstellungsDatum;
+    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
+    try
+    {
+      erstellungsDatum = sdf.parse(aDateierstellungsdatum);
+
+    }
+    catch (ParseException e)
+    {
+      erstellungsDatum = null;
+    }
     return erstellungsDatum;
   }
-  
+
   public void setKonto(String value) throws DtausException
   {
     try
@@ -341,34 +344,37 @@ public class ASatz extends Satz
     // Feld 4 - Bankleitzahl der Bank, bei der die Diskette eingereicht wird
     dos.writeBytes(Tool.formatBLZ(aBlz));
     // Feld 5 - Konstant 0
-    if ( aFeld5 != 0 )
-    	dos.writeBytes(Long.toString(aFeld5));
-    else 
-    	dos.writeBytes("00000000");
+    if (aFeld5 != 0)
+      dos.writeBytes(Long.toString(aFeld5));
+    else
+      dos.writeBytes("00000000");
     // Feld 6 - Auftraggeber
     dos.writeBytes(make27(aKundenname));
     // Feld 7 - Datum
-    if (aDateierstellungsdatum != null) 
-        dos.writeBytes(aDateierstellungsdatum);
-    else 
-        dos.writeBytes(Tool.space(6));
+    if (aDateierstellungsdatum != null)
+      dos.writeBytes(aDateierstellungsdatum);
+    else
+      dos.writeBytes(Tool.space(6));
     // Feld 8 - Konstant 4 Leerzeichen
     dos.writeBytes(Tool.space(4));
     // Feld 9 - Kontonummer des Auftraggebers
     DecimalFormat dfKonto = new DecimalFormat("0000000000");
     dos.writeBytes(dfKonto.format(aKonto));
     // Feld 10 - Referenznummer des Einreichers
-    if (aReferenz != null) 
-    	dos.writeBytes(aReferenz);
+    if (aReferenz != null)
+      dos.writeBytes(aReferenz);
     else
-    	dos.writeBytes("0000000000");
+      dos.writeBytes("0000000000");
     // Feld 11a - Reserve
     dos.writeBytes(Tool.space(15));
     // Feld 11b - Ausführungsdatum
-    if (aAusfuehrungsdatum != null) {
+    if (aAusfuehrungsdatum != null)
+    {
       SimpleDateFormat sdf11 = new SimpleDateFormat("ddMMyyyy");
       dos.writeBytes(sdf11.format(aAusfuehrungsdatum));
-    } else {
+    }
+    else
+    {
       dos.writeBytes(Tool.space(8));
     }
     // Feld 11c - Reserve
@@ -390,25 +396,23 @@ public class ASatz extends Satz
 }
 /*
  * $Log$
- * Revision 1.13  2012/10/04 17:20:23  jverein
- * Marginale Änderungen. Patch von Marcel Parau.
- *
- * Revision 1.12  2011/10/29 06:57:36  jverein
- * deutlichere Fehlermeldung
- *
- * Revision 1.11  2008/02/19 18:22:53  jost
- * Bugfix A-Satz
- * Revision 1.10 2008/02/17 08:30:18 jost Neuer
- * Toleranzlevel Neues Feld5 Revision 1.9 2008/02/01 17:07:50 jost Bugfix
- * AusfÃ¼hrungsdatum Revision 1.8 2007/09/18 17:48:39 jost ÃœberflÃ¼ssige throws
- * entfernt. Revision 1.7 2007/03/19 08:53:15 jost Bankdaten zugelassen Revision
- * 1.6 2007/02/14 14:42:06 jost NPE verhindert. Revision 1.5 2006/10/08 18:39:10
- * jost Zusätzliche Debug-Ausgabe
+ * Revision 1.14  2013/03/28 12:28:40  jverein
+ * Überflüssige "throws" entfernt.
+ * Revision 1.13 2012/10/04 17:20:23 jverein Marginale
+ * Änderungen. Patch von Marcel Parau.
+ * 
+ * Revision 1.12 2011/10/29 06:57:36 jverein deutlichere Fehlermeldung
+ * 
+ * Revision 1.11 2008/02/19 18:22:53 jost Bugfix A-Satz Revision 1.10 2008/02/17
+ * 08:30:18 jost Neuer Toleranzlevel Neues Feld5 Revision 1.9 2008/02/01
+ * 17:07:50 jost Bugfix AusfÃ¼hrungsdatum Revision 1.8 2007/09/18 17:48:39 jost
+ * ÃœberflÃ¼ssige throws entfernt. Revision 1.7 2007/03/19 08:53:15 jost
+ * Bankdaten zugelassen Revision 1.6 2007/02/14 14:42:06 jost NPE verhindert.
+ * Revision 1.5 2006/10/08 18:39:10 jost Zusätzliche Debug-Ausgabe
  * 
  * Revision 1.4 2006/10/06 12:44:38 jost Optionale Fehlertoleranz Revision 1.3
  * 2006/08/28 19:01:00 jost Korrekte Behandlung von Groß-Kleinschreibung und
  * ÄÖÜß Revision 1.2 2006/06/05 09:34:06 jost Erweiterungen f. d.
  * DtausDateiWriter Revision 1.1 2006/05/24 16:24:44 jost Prerelease
- * 
  */
 

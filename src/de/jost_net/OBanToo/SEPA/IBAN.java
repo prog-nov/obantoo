@@ -18,21 +18,22 @@ import de.jost_net.OBanToo.SEPA.Land.SEPALand;
 
 public class IBAN
 {
+
   private String iban;
 
   private SEPALand land;
 
   private static final String[] ALPHABET = new String[] { "A", "B", "C", "D",
       "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
-      "S", "T", "U", "V", "W", "X", "Y", "Z" };
+      "S", "T", "U", "V", "W", "X", "Y", "Z"};
 
   /**
    * Konstruktor mit Übergabe der IBAN als String
    * 
    * @param iban
-   *          IBAN
+   *        IBAN
    * @throws SEPAException
-   *           wenn die IBAN nicht den Konventionen entspricht.
+   *         wenn die IBAN nicht den Konventionen entspricht.
    */
   public IBAN(String iban) throws SEPAException
   {
@@ -128,11 +129,10 @@ public class IBAN
     if (blz.length() != land.getBankIdentifierLength().intValue())
     {
       throw new SEPAException(
-          MessageFormat
-              .format(
-                  "Bankleitzahl hat falsche Länge für {0}. Maximal {1,number, integer} Stellen.",
-                  new Object[] { land.getBezeichnung(),
-                      new Integer(land.getBankIdentifierLength()) }));
+          MessageFormat.format(
+              "Bankleitzahl hat falsche Länge für {0}. Maximal {1,number, integer} Stellen.",
+              new Object[] { land.getBezeichnung(),
+                  new Integer(land.getBankIdentifierLength())}));
     }
 
     if (kontoNr.length() > land.getAccountLength().intValue())
@@ -171,7 +171,7 @@ public class IBAN
     return iban.substring(4, land.getBankIdentifierLength() + 4);
   }
 
-  public String getKonto() throws SEPAException
+  public String getKonto()
   {
     if (iban.length() == 0)
     {
