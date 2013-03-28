@@ -93,7 +93,6 @@
 	</target>
 	
 	<target name="xsd2java" depends="init">
-		<echo>${xjc}</echo>
 		<exec executable="${xjc}">
 		    <arg value="-d"/>
 		    <arg value="${src.dir}"/>

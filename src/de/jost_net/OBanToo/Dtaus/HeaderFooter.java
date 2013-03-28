@@ -19,6 +19,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  */
 class HeaderFooter extends PdfPageEventHelper
 {
+
   String footer = null;
 
   int pagenumber;
@@ -31,6 +32,7 @@ class HeaderFooter extends PdfPageEventHelper
   @Override
   public void onOpenDocument(PdfWriter writer, Document document)
   {
+    //
   }
 
   @Override
@@ -64,15 +66,15 @@ class HeaderFooter extends PdfPageEventHelper
     Rectangle rect = document.getPageSize();
     switch (writer.getPageNumber() % 2)
     {
-    case 0:
-      // ColumnText.showTextAligned(writer.getDirectContent(),
-      // Element.ALIGN_RIGHT, header[0], rect.getRight(), rect.getTop(), 0);
-      break;
-    case 1:
-      // ColumnText.showTextAligned(writer.getDirectContent(),
-      // Element.ALIGN_LEFT,
-      // header[1], rect.getLeft(), rect.getTop(), 0);
-      break;
+      case 0:
+        // ColumnText.showTextAligned(writer.getDirectContent(),
+        // Element.ALIGN_RIGHT, header[0], rect.getRight(), rect.getTop(), 0);
+        break;
+      case 1:
+        // ColumnText.showTextAligned(writer.getDirectContent(),
+        // Element.ALIGN_LEFT,
+        // header[1], rect.getLeft(), rect.getTop(), 0);
+        break;
     }
     float left = rect.getLeft() + document.leftMargin();
     float right = rect.getRight() - document.rightMargin();
