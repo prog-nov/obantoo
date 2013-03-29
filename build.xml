@@ -92,12 +92,12 @@
         <delete dir="${javadoc.dir}"/>
 	</target>
 	
-	<target name="xsd2java" depends="init">
+	<target name="xsd2java" depends="init" description="Java aus XSD erzeugen">
 		<exec executable="${xjc}">
 		    <arg value="-d"/>
 		    <arg value="${src.dir}"/>
 		    <arg value="-p"/>
-		    <arg value="de.jost_net.OBanToo.SEPA.Basislastschrift"/>
+		    <arg value="de.jost_net.OBanToo.SEPA.Nachricht.pain_008_002_02"/>
 		    <arg value="xsd/pain.008.002.02.xsd"/>
 		  </exec>
 	</target>
