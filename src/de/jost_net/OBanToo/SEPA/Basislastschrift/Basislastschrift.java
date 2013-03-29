@@ -3,10 +3,13 @@ package de.jost_net.OBanToo.SEPA.Basislastschrift;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -99,13 +102,37 @@ public class Basislastschrift
   }
 
   public void create(String filename) throws DatatypeConfigurationException,
-      SEPAException
+      SEPAException, JAXBException
   {
     Document doc = new Document();
     doc.setCstmrDrctDbtInitn(getCustumerDirectDebitInitiationV02());
 
-    JAXB.marshal(doc, new File(filename));
-    JAXB.marshal(doc, System.out);
+    // JAXB.marshal(doc, new File(filename));
+    // JAXB.marshal(doc, System.out);
+
+    /*
+     * Die standardmäßig von xjc erzeugte Document-Klasse erzeugt beim
+     * marshall-Aufruf immer einen "ns2"-Zusatz. Durch hinzufügen eines
+     * 
+     * @XmlRootElementes in die Klasse document wird das vermieden.
+     * 
+     * @XmlRootElement
+     * 
+     * @XmlAccessorType(XmlAccessType.FIELD)
+     * 
+     * @XmlType(name = "Document", propOrder = {"cstmrDrctDbtInitn"
+     * 
+     * public class Document
+     */
+
+    JAXBContext context = JAXBContext.newInstance(Document.class);
+    Marshaller m = context.createMarshaller();
+    m.setProperty(Marshaller.JAXB_SCHEMA_LOCATION,
+        "urn:iso:std:iso:20022:tech:xsd:pain.008.002.02 pain.008.002.02.xsd");
+    m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+    m.marshal(doc, System.out);
+    m.marshal(doc, new File(filename));
+
   }
 
   private CustomerDirectDebitInitiationV02 getCustumerDirectDebitInitiationV02()
@@ -126,8 +153,8 @@ public class Basislastschrift
   {
     GroupHeaderSDD grH = new GroupHeaderSDD();
     // aktuelles Datum und Uhrzeit
-    XMLGregorianCalendar creDtTm = DatatypeFactory.newInstance().newXMLGregorianCalendar(
-        new GregorianCalendar());
+    XMLGregorianCalendar creDtTm = DatatypeFactory.newInstance()
+        .newXMLGregorianCalendar(new GregorianCalendar());
     grH.setCreDtTm(creDtTm);
     // Kontrollsumme
     grH.setCtrlSum(kontrollsumme);
@@ -183,18 +210,29 @@ public class Basislastschrift
     pii.setPmtInfId(getMessageID());
     pii.setPmtMtd(PaymentMethod2Code.DD); // Direct Debit
     pii.setPmtTpInf(getPaymentTypeInformationSDD());
-
-    GregorianCalendar gc = new GregorianCalendar();
-    gc.setTime(getFaelligkeitsdatum());
-    XMLGregorianCalendar faelligkeitsdatum = DatatypeFactory.newInstance().newXMLGregorianCalendar(
-        gc);
-    pii.setReqdColltnDt(faelligkeitsdatum);
+    pii.setReqdColltnDt(getYYYMMDD(getFaelligkeitsdatum()));
 
     for (Zahler z : zahlerarray)
     {
       pii.getDrctDbtTxInf().add(getDirectDebitTransactionInformationSDD(z));
     }
     return pii;
+  }
+
+  private static XMLGregorianCalendar getYYYMMDD(Date date)
+      throws DatatypeConfigurationException
+  {
+    GregorianCalendar gc = new GregorianCalendar();
+    gc.setTime(date);
+    XMLGregorianCalendar xmlgc = DatatypeFactory.newInstance()
+        .newXMLGregorianCalendar(gc);
+
+    XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance()
+        .newXMLGregorianCalendar();
+    xmlGregorianCalendar.setDay(xmlgc.getDay());
+    xmlGregorianCalendar.setMonth(xmlgc.getMonth());
+    xmlGregorianCalendar.setYear(xmlgc.getYear());
+    return xmlGregorianCalendar;
   }
 
   private DirectDebitTransactionInformationSDD getDirectDebitTransactionInformationSDD(
@@ -212,12 +250,7 @@ public class Basislastschrift
     DirectDebitTransactionSDD ddt = new DirectDebitTransactionSDD();
     MandateRelatedInformationSDD mri = new MandateRelatedInformationSDD();
     mri.setMndtId(z.getMandatid());
-
-    GregorianCalendar gc = new GregorianCalendar();
-    gc.setTime(z.getMandatdatum());// Datum des Mandats.
-    XMLGregorianCalendar dtofsigntr = DatatypeFactory.newInstance().newXMLGregorianCalendar(
-        gc);
-    mri.setDtOfSgntr(dtofsigntr);
+    mri.setDtOfSgntr(getYYYMMDD(z.getMandatdatum()));
     mri.setAmdmntInd(false);
 
     ddt.setMndtRltdInf(mri);
@@ -366,14 +399,19 @@ public class Basislastschrift
     return faelligkeitsdatum;
   }
 
-  public static void main(String[] args) throws DatatypeConfigurationException
+  public static void main(String[] args) throws DatatypeConfigurationException,
+      JAXBException
   {
     try
     {
       Basislastschrift bl = new Basislastschrift();
       bl.setMessageID("123"); // Z. B. Buchungslaufnummer
       bl.setBIC("WELADED1WDB");
-      bl.setFaelligskeitsdatum(new Date());
+      Calendar cal = Calendar.getInstance();
+      cal.set(Calendar.YEAR, 2013);
+      cal.set(Calendar.MONTH, 04);
+      cal.set(Calendar.DAY_OF_MONTH, 15);
+      bl.setFaelligskeitsdatum(cal.getTime());
       bl.setIBAN("DE61478535200001861889");
       bl.setName("Fa. SEPA GmbH und Co. Testenhausen");
       bl.setGlaeubigerID("DE98ZZZ0912345678");
@@ -382,7 +420,9 @@ public class Basislastschrift
       z1.setBetrag(new BigDecimal("100.00"));
       z1.setBic("DORTDE33XXX");
       z1.setIban("DE15440501990001052500");
-      z1.setMandatdatum(new Date());
+      cal.set(Calendar.MONTH, 1);
+      cal.set(Calendar.DAY_OF_MONTH, 22);
+      z1.setMandatdatum(cal.getTime());
       z1.setMandatid("4711");
       z1.setName("Meier und Co.");
       z1.setVerwendungszweck("Beitrag 2013");
@@ -392,9 +432,10 @@ public class Basislastschrift
       z2.setBetrag(new BigDecimal("200.00"));
       z2.setBic("WELADED1HER");
       z2.setIban("DE36450514850000000034");
-      z2.setMandatdatum(new Date());
+      cal.set(Calendar.YEAR, 2001);
+      z2.setMandatdatum(cal.getTime());
       z2.setMandatid("0815");
-      z2.setName("Fritz Müller");
+      z2.setName("Fritz Mueller");
       z2.setVerwendungszweck("Beitrag 2013");
       bl.add(z2);
 
