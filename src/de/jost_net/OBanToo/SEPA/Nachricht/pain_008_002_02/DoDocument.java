@@ -11,20 +11,21 @@ package de.jost_net.OBanToo.SEPA.Nachricht.pain_008_002_02;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for RestrictedFinancialIdentificationSEPA complex type.
+ * <p>Java class for Document complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="RestrictedFinancialIdentificationSEPA">
+ * &lt;complexType name="Document">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="Id" type="{urn:iso:std:iso:20022:tech:xsd:pain.008.002.02}RestrictedSMNDACode"/>
+ *         &lt;element name="CstmrDrctDbtInitn" type="{urn:iso:std:iso:20022:tech:xsd:pain.008.002.02}CustomerDirectDebitInitiationV02"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -33,37 +34,38 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RestrictedFinancialIdentificationSEPA", propOrder = {
-    "id"
+@XmlType(name = "Document", propOrder = {
+    "cstmrDrctDbtInitn"
 })
-public class RestrictedFinancialIdentificationSEPA {
+public class DoDocument {
 
-    @XmlElement(name = "Id", required = true)
-    protected RestrictedSMNDACode id;
+    @XmlElement(name = "CstmrDrctDbtInitn", required = true)
+    protected CustomerDirectDebitInitiationV02 cstmrDrctDbtInitn;
 
     /**
-     * Gets the value of the id property.
+     * Gets the value of the cstmrDrctDbtInitn property.
      * 
      * @return
      *     possible object is
-     *     {@link RestrictedSMNDACode }
+     *     {@link CustomerDirectDebitInitiationV02 }
      *     
      */
-    public RestrictedSMNDACode getId() {
-        return id;
+    public CustomerDirectDebitInitiationV02 getCstmrDrctDbtInitn() {
+        return cstmrDrctDbtInitn;
     }
 
     /**
-     * Sets the value of the id property.
+     * Sets the value of the cstmrDrctDbtInitn property.
      * 
      * @param value
      *     allowed object is
-     *     {@link RestrictedSMNDACode }
+     *     {@link CustomerDirectDebitInitiationV02 }
      *     
      */
-    public void setId(RestrictedSMNDACode value) {
-        this.id = value;
+    public void setCstmrDrctDbtInitn(CustomerDirectDebitInitiationV02 value) {
+        this.cstmrDrctDbtInitn = value;
     }
 
 }
