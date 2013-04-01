@@ -129,7 +129,7 @@ public class Basislastschrift
     }
   }
 
-  public void create(String filename) throws DatatypeConfigurationException,
+  public void create(File file) throws DatatypeConfigurationException,
       SEPAException, JAXBException
   {
     if (komprimiert)
@@ -167,8 +167,8 @@ public class Basislastschrift
     m.setProperty(Marshaller.JAXB_SCHEMA_LOCATION,
         "urn:iso:std:iso:20022:tech:xsd:pain.008.002.02 pain.008.002.02.xsd");
     m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-    m.marshal(doc, System.out);
-    m.marshal(doc, new File(filename));
+    // m.marshal(doc, System.out);
+    m.marshal(doc, file);
   }
 
   private CustomerDirectDebitInitiationV02 getCustumerDirectDebitInitiationV02()
@@ -445,6 +445,11 @@ public class Basislastschrift
     this.komprimiert = komprimiert;
   }
 
+  public BigDecimal getKontrollsumme()
+  {
+    return kontrollsumme;
+  }
+
   public static void main(String[] args) throws DatatypeConfigurationException,
       JAXBException
   {
@@ -461,7 +466,7 @@ public class Basislastschrift
       bl.setFaelligskeitsdatum(cal.getTime());
       bl.setIBAN("DE61478535200001861889");
       bl.setName("Fa. SEPA GmbH und Co. Testenhausen");
-      bl.setGlaeubigerID("DE98ZZZ0912345678");
+      bl.setGlaeubigerID("DE98ZZZ09999999999");
 
       Zahler z1 = new Zahler();
       z1.setBetrag(new BigDecimal("100.00"));
@@ -498,7 +503,7 @@ public class Basislastschrift
       z2.setVerwendungszweck("Beitrag 2013");
       bl.add(z2);
 
-      bl.create("test.xml");
+      bl.create(new File("test.xml"));
     }
     catch (SEPAException e)
     {
