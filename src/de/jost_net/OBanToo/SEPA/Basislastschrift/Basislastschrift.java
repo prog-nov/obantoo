@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -88,22 +91,56 @@ public class Basislastschrift
   private ArrayList<Zahler> zahlerarray = new ArrayList<Zahler>();
 
   /**
+   * Map der Zahler
+   */
+  private HashMap<String, Zahler> zahlermap = new HashMap<String, Zahler>();
+
+  /**
    * Kontrollsumme
    */
   private BigDecimal kontrollsumme = new BigDecimal(0);
+
+  /**
+   * Komprimiert. Buchungen mit gleicher Mandat-ID werden zusammengefügt
+   */
+  private boolean komprimiert = false;
 
   public Basislastschrift()
   {
   }
 
-  public void add(Zahler zahler)
+  public void add(Zahler zahler) throws SEPAException
   {
-    zahlerarray.add(zahler);
+    if (komprimiert)
+    {
+      Zahler z = zahlermap.get(zahler.getMandatid());
+      if (z == null)
+      {
+        zahlermap.put(zahler.getMandatid(), zahler);
+      }
+      else
+      {
+        z.add(zahler);
+      }
+    }
+    else
+    {
+      zahlerarray.add(zahler);
+    }
   }
 
   public void create(String filename) throws DatatypeConfigurationException,
       SEPAException, JAXBException
   {
+    if (komprimiert)
+    {
+      Iterator<Entry<String, Zahler>> es = zahlermap.entrySet().iterator();
+      while (es.hasNext())
+      {
+        Zahler zahler = es.next().getValue();
+        zahlerarray.add(zahler);
+      }
+    }
     Document doc = new Document();
     doc.setCstmrDrctDbtInitn(getCustumerDirectDebitInitiationV02());
 
@@ -132,7 +169,6 @@ public class Basislastschrift
     m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
     m.marshal(doc, System.out);
     m.marshal(doc, new File(filename));
-
   }
 
   private CustomerDirectDebitInitiationV02 getCustumerDirectDebitInitiationV02()
@@ -236,7 +272,7 @@ public class Basislastschrift
   }
 
   private DirectDebitTransactionInformationSDD getDirectDebitTransactionInformationSDD(
-      Zahler z) throws DatatypeConfigurationException
+      Zahler z) throws DatatypeConfigurationException, SEPAException
   {
     DirectDebitTransactionInformationSDD ddti = new DirectDebitTransactionInformationSDD();
     PaymentIdentificationSEPA pis = new PaymentIdentificationSEPA();
@@ -399,12 +435,23 @@ public class Basislastschrift
     return faelligkeitsdatum;
   }
 
+  public void setKomprimiert(boolean komprimiert) throws SEPAException
+  {
+    if (zahlerarray.size() > 0)
+    {
+      throw new SEPAException(
+          "Komprimierung kann nicht gesetzt werden, wenn schon Zahlungen übergeben wurden.");
+    }
+    this.komprimiert = komprimiert;
+  }
+
   public static void main(String[] args) throws DatatypeConfigurationException,
       JAXBException
   {
     try
     {
       Basislastschrift bl = new Basislastschrift();
+      bl.setKomprimiert(true);
       bl.setMessageID("123"); // Z. B. Buchungslaufnummer
       bl.setBIC("WELADED1WDB");
       Calendar cal = Calendar.getInstance();
@@ -428,8 +475,20 @@ public class Basislastschrift
       z1.setVerwendungszweck("Beitrag 2013");
       bl.add(z1);
 
+      Zahler z11 = new Zahler();
+      z11.setBetrag(new BigDecimal("100.00"));
+      z11.setBic("DORTDE33XXX");
+      z11.setIban("DE15440501990001052500");
+      cal.set(Calendar.MONTH, 1);
+      cal.set(Calendar.DAY_OF_MONTH, 22);
+      z11.setMandatdatum(cal.getTime());
+      z11.setMandatid("4711");
+      z11.setName("Meier und Co.");
+      z11.setVerwendungszweck("Zusatzbetrag 2013");
+      bl.add(z11);
+
       Zahler z2 = new Zahler();
-      z2.setBetrag(new BigDecimal("200.00"));
+      z2.setBetrag(new BigDecimal("50.00"));
       z2.setBic("WELADED1HER");
       z2.setIban("DE36450514850000000034");
       cal.set(Calendar.YEAR, 2001);
