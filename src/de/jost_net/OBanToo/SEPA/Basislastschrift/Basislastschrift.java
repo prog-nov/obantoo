@@ -3,20 +3,22 @@ package de.jost_net.OBanToo.SEPA.Basislastschrift;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import de.jost_net.OBanToo.SEPA.IBAN;
 import de.jost_net.OBanToo.SEPA.SEPAException;
 import de.jost_net.OBanToo.SEPA.Nachricht.pain_008_002_02.AccountIdentificationSEPA;
 import de.jost_net.OBanToo.SEPA.Nachricht.pain_008_002_02.ActiveOrHistoricCurrencyAndAmountSEPA;
@@ -52,6 +54,66 @@ import de.jost_net.OBanToo.SEPA.Nachricht.pain_008_002_02.SequenceType1Code;
 import de.jost_net.OBanToo.SEPA.Nachricht.pain_008_002_02.ServiceLevelSEPA;
 import de.jost_net.OBanToo.SEPA.Nachricht.pain_008_002_02.ServiceLevelSEPACode;
 
+/**
+ * <h1>SEPA-Basislastschriften</h1> <h2>Dateien erstellen</h2>
+ * <p>
+ * Beispiel für die Erstellung einer SEPA-Basislastschrift-Datei: <code>
+   Basislastschrift bl = new Basislastschrift();
+   bl.setKomprimiert(true);
+   bl.setMessageID("123"); // Z. B. Buchungslaufnummer
+   bl.setBIC("WELADED1WDB");
+   Calendar cal = Calendar.getInstance();
+   cal.set(Calendar.YEAR, 2013);
+   cal.set(Calendar.MONTH, 04);
+   cal.set(Calendar.DAY_OF_MONTH, 15);
+   bl.setFaelligskeitsdatum(cal.getTime());
+   bl.setIBAN("DE61478535200001861889");
+   bl.setName("Fa. SEPA GmbH und Co. Testenhausen");
+   bl.setGlaeubigerID("DE98ZZZ09999999999");
+   Zahler z1 = new Zahler();
+   z1.setBetrag(new BigDecimal("100.00"));
+   z1.setBic("DORTDE33XXX");
+   z1.setIban("DE15440501990001052500");
+   cal.set(Calendar.MONTH, 1);
+   cal.set(Calendar.DAY_OF_MONTH, 22);
+   z1.setMandatdatum(cal.getTime());
+   z1.setMandatid("4711");
+   z1.setName("Meier und Co.");
+   z1.setVerwendungszweck("Beitrag 2013");
+   bl.add(z1);
+   Zahler z11 = new Zahler();
+   z11.setBetrag(new BigDecimal("100.00"));
+   z11.setBic("DORTDE33XXX");
+   z11.setIban("DE15440501990001052500");
+   cal.set(Calendar.MONTH, 1);
+   cal.set(Calendar.DAY_OF_MONTH, 22);
+   z11.setMandatdatum(cal.getTime());
+   z11.setMandatid("4711");
+   z11.setName("Meier und Co.");
+   z11.setVerwendungszweck("Zusatzbetrag 2013");
+   bl.add(z11);
+   Zahler z2 = new Zahler();
+   z2.setBetrag(new BigDecimal("50.00"));
+   z2.setBic("WELADED1HER");
+   z2.setIban("DE36450514850000000034");
+   cal.set(Calendar.YEAR, 2001);
+   z2.setMandatdatum(cal.getTime());
+   z2.setMandatid("0815");
+   z2.setName("Fritz Mueller");
+   z2.setVerwendungszweck("Beitrag 2013");
+   bl.add(z2);
+   bl.write(new File("test.xml"));
+ * </code>
+ * </p>
+ * <h2>Dateien einlesen</h2> <code>
+    Basislastschrift bl = new Basislastschrift();
+   bl.read(new File("test.xml"));
+   // jetzt können über die get-Methoden alle Werte abgefragt werden
+ * </code>
+ * 
+ * @author heiner
+ * 
+ */
 public class Basislastschrift
 {
 
@@ -105,10 +167,26 @@ public class Basislastschrift
    */
   private boolean komprimiert = false;
 
+  /**
+   * Anzahl Buchungen (read-only)
+   */
+  private String anzahlbuchungen;
+
+  /**
+   * Datum und Uhrzeit der Erzeugung der Datei
+   */
+  private Date creationdatetime;
+
   public Basislastschrift()
   {
   }
 
+  /**
+   * Für jede Buchung wird ein Zahler-Object übergeben
+   * 
+   * @param zahler
+   * @throws SEPAException
+   */
   public void add(Zahler zahler) throws SEPAException
   {
     if (komprimiert)
@@ -129,7 +207,16 @@ public class Basislastschrift
     }
   }
 
-  public void create(File file) throws DatatypeConfigurationException,
+  /**
+   * Schreibt die SEPA-Datei. Vorher sind alle Werte über die set-Methoden sowie
+   * die add(Zahler)-Methode übergeben werden.
+   * 
+   * @param file
+   * @throws DatatypeConfigurationException
+   * @throws SEPAException
+   * @throws JAXBException
+   */
+  public void write(File file) throws DatatypeConfigurationException,
       SEPAException, JAXBException
   {
     if (komprimiert)
@@ -143,9 +230,6 @@ public class Basislastschrift
     }
     Document doc = new Document();
     doc.setCstmrDrctDbtInitn(getCustumerDirectDebitInitiationV02());
-
-    // JAXB.marshal(doc, new File(filename));
-    // JAXB.marshal(doc, System.out);
 
     /*
      * Die standardmäßig von xjc erzeugte Document-Klasse erzeugt beim
@@ -169,6 +253,53 @@ public class Basislastschrift
     m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
     // m.marshal(doc, System.out);
     m.marshal(doc, file);
+  }
+
+  /**
+   * SEPA-Datei einlesen. Nach dem Methodenaufruf können die Werte über die
+   * get-Methoden abgefragt werden.
+   * 
+   * @param file
+   * @throws JAXBException
+   * @throws SEPAException
+   */
+  public void read(File file) throws JAXBException, SEPAException
+  {
+    JAXBContext jc = JAXBContext.newInstance(Document.class);
+    Unmarshaller u = jc.createUnmarshaller();
+    Document doc = (Document) u.unmarshal(file);
+    setMessageID(doc.getCstmrDrctDbtInitn().getGrpHdr().getMsgId());
+    setName(doc.getCstmrDrctDbtInitn().getPmtInf().get(0).getCdtr().getNm());
+    setIBAN(doc.getCstmrDrctDbtInitn().getPmtInf().get(0).getCdtrAcct().getId()
+        .getIBAN());
+    setAnzahlBuchungen(doc.getCstmrDrctDbtInitn().getPmtInf().get(0)
+        .getNbOfTxs());
+    setBIC(doc.getCstmrDrctDbtInitn().getPmtInf().get(0).getCdtrAgt()
+        .getFinInstnId().getBIC());
+    setKontrollsumme(doc.getCstmrDrctDbtInitn().getPmtInf().get(0).getCtrlSum());
+    setCreationDateTime(doc.getCstmrDrctDbtInitn().getGrpHdr().getCreDtTm()
+        .toGregorianCalendar().getTime());
+    setFaelligskeitsdatum(doc.getCstmrDrctDbtInitn().getPmtInf().get(0)
+        .getReqdColltnDt().toGregorianCalendar().getTime());
+    setGlaeubigerID(doc.getCstmrDrctDbtInitn().getPmtInf().get(0)
+        .getCdtrSchmeId().getId().getPrvtId().getOthr().getId());
+
+    List<DirectDebitTransactionInformationSDD> liste = doc
+        .getCstmrDrctDbtInitn().getPmtInf().get(0).getDrctDbtTxInf();
+    for (DirectDebitTransactionInformationSDD ddti : liste)
+    {
+      Zahler z = new Zahler();
+      z.setBetrag(ddti.getInstdAmt().getValue());
+      z.setBic(ddti.getDbtrAgt().getFinInstnId().getBIC());
+      z.setIban(ddti.getDbtrAcct().getId().getIBAN());
+      z.setMandatdatum(ddti.getDrctDbtTx().getMndtRltdInf().getDtOfSgntr()
+          .toGregorianCalendar().getTime());
+      z.setMandatid(ddti.getPmtId().getEndToEndId());
+      z.setName(ddti.getDbtr().getNm());
+      z.setVerwendungszweck(ddti.getRmtInf().getUstrd());
+      zahlerarray.add(z);
+      zahlermap.put(z.getMandatid(), z);
+    }
   }
 
   private CustomerDirectDebitInitiationV02 getCustumerDirectDebitInitiationV02()
@@ -328,6 +459,12 @@ public class Basislastschrift
     return pti;
   }
 
+  /**
+   * Message-ID. Z. B. Buchungslaufnummer. Max. 35 Stellen.
+   * 
+   * @param messageid
+   * @throws SEPAException
+   */
   public void setMessageID(String messageid) throws SEPAException
   {
     if (messageid == null || messageid.length() == 0 || messageid.length() > 35)
@@ -347,9 +484,15 @@ public class Basislastschrift
     return messageID;
   }
 
+  /**
+   * BIC. Länge 8 oder 11 Stellen.
+   * 
+   * @param bic
+   * @throws SEPAException
+   */
   public void setBIC(String bic) throws SEPAException
   {
-    if (bic == null || bic.length() == 0 || bic.length() > 11)
+    if (bic == null || (bic.length() != 8 && bic.length() != 11))
     {
       throw new SEPAException("BIC nicht korrekt gefüllt");
     }
@@ -365,12 +508,15 @@ public class Basislastschrift
     return bic;
   }
 
+  /**
+   * IBAN. Länge in Abhängigkeit vom Land.
+   * 
+   * @param iban
+   * @throws SEPAException
+   */
   public void setIBAN(String iban) throws SEPAException
   {
-    if (iban == null || iban.length() == 0 || iban.length() > 35)
-    {
-      throw new SEPAException("IBAN nicht korrekt gefüllt");
-    }
+    new IBAN(iban);
     this.iban = iban;
   }
 
@@ -383,6 +529,12 @@ public class Basislastschrift
     return iban;
   }
 
+  /**
+   * Name des Zahlungspflichtigen. Länge max. 70 Stellen.
+   * 
+   * @param name
+   * @throws SEPAException
+   */
   public void setName(String name) throws SEPAException
   {
     if (name == null || name.length() == 0 || name.length() > 70)
@@ -403,6 +555,12 @@ public class Basislastschrift
     return name;
   }
 
+  /**
+   * Gläubiger-ID
+   * 
+   * @param glaeubigerid
+   * @throws SEPAException
+   */
   public void setGlaeubigerID(String glaeubigerid) throws SEPAException
   {
     if (glaeubigerid == null || glaeubigerid.length() == 0)
@@ -421,6 +579,11 @@ public class Basislastschrift
     return glaeubigerid;
   }
 
+  /**
+   * Fälligkeitsdatum
+   * 
+   * @param faelligkeitsdatum
+   */
   public void setFaelligskeitsdatum(Date faelligkeitsdatum)
   {
     this.faelligkeitsdatum = faelligkeitsdatum;
@@ -435,6 +598,14 @@ public class Basislastschrift
     return faelligkeitsdatum;
   }
 
+  /**
+   * Komprimiert. Muss gesetzt werden, bevor der erste Zähler übergeben wird.
+   * 
+   * @param komprimiert
+   *          true: Zahlungen mit gleicher Mandanten-ID werden zusammengefasst,
+   *          false: keine Zusammenfassung.
+   * @throws SEPAException
+   */
   public void setKomprimiert(boolean komprimiert) throws SEPAException
   {
     if (zahlerarray.size() > 0)
@@ -445,69 +616,150 @@ public class Basislastschrift
     this.komprimiert = komprimiert;
   }
 
+  /**
+   * Wird nur intern beim einlesen einer Datei genutzt.
+   * 
+   * @param kontrollsumme
+   */
+  void setKontrollsumme(BigDecimal kontrollsumme)
+  {
+    this.kontrollsumme = kontrollsumme;
+  }
+
+  /**
+   * Kontrollsumme aller Buchungen. Steht nach dem Einlesen einer Datei zur
+   * Verfügung.
+   * 
+   * @return Kontrollsumme
+   */
   public BigDecimal getKontrollsumme()
   {
     return kontrollsumme;
   }
 
-  public static void main(String[] args) throws DatatypeConfigurationException,
-      JAXBException
+  /**
+   * Anzahl der Buchungen. Steht nach dem Einlesen einer Datei zur Verfügung.
+   * 
+   * @return Anzahl Buchungen
+   */
+  public String getAnzahlBuchungen()
   {
-    try
-    {
-      Basislastschrift bl = new Basislastschrift();
-      bl.setKomprimiert(true);
-      bl.setMessageID("123"); // Z. B. Buchungslaufnummer
-      bl.setBIC("WELADED1WDB");
-      Calendar cal = Calendar.getInstance();
-      cal.set(Calendar.YEAR, 2013);
-      cal.set(Calendar.MONTH, 04);
-      cal.set(Calendar.DAY_OF_MONTH, 15);
-      bl.setFaelligskeitsdatum(cal.getTime());
-      bl.setIBAN("DE61478535200001861889");
-      bl.setName("Fa. SEPA GmbH und Co. Testenhausen");
-      bl.setGlaeubigerID("DE98ZZZ09999999999");
-
-      Zahler z1 = new Zahler();
-      z1.setBetrag(new BigDecimal("100.00"));
-      z1.setBic("DORTDE33XXX");
-      z1.setIban("DE15440501990001052500");
-      cal.set(Calendar.MONTH, 1);
-      cal.set(Calendar.DAY_OF_MONTH, 22);
-      z1.setMandatdatum(cal.getTime());
-      z1.setMandatid("4711");
-      z1.setName("Meier und Co.");
-      z1.setVerwendungszweck("Beitrag 2013");
-      bl.add(z1);
-
-      Zahler z11 = new Zahler();
-      z11.setBetrag(new BigDecimal("100.00"));
-      z11.setBic("DORTDE33XXX");
-      z11.setIban("DE15440501990001052500");
-      cal.set(Calendar.MONTH, 1);
-      cal.set(Calendar.DAY_OF_MONTH, 22);
-      z11.setMandatdatum(cal.getTime());
-      z11.setMandatid("4711");
-      z11.setName("Meier und Co.");
-      z11.setVerwendungszweck("Zusatzbetrag 2013");
-      bl.add(z11);
-
-      Zahler z2 = new Zahler();
-      z2.setBetrag(new BigDecimal("50.00"));
-      z2.setBic("WELADED1HER");
-      z2.setIban("DE36450514850000000034");
-      cal.set(Calendar.YEAR, 2001);
-      z2.setMandatdatum(cal.getTime());
-      z2.setMandatid("0815");
-      z2.setName("Fritz Mueller");
-      z2.setVerwendungszweck("Beitrag 2013");
-      bl.add(z2);
-
-      bl.create(new File("test.xml"));
-    }
-    catch (SEPAException e)
-    {
-      e.printStackTrace();
-    }
+    return anzahlbuchungen;
   }
+
+  void setAnzahlBuchungen(String anzahlbuchungen)
+  {
+    this.anzahlbuchungen = anzahlbuchungen;
+  }
+
+  /**
+   * Datum der Erzeugung der Datei. Steht nach dem Einlesen einer Datei zur
+   * Verfügung.
+   * 
+   * @return Erzeugungsdatum
+   */
+  public Date getCreationDateTime()
+  {
+    return creationdatetime;
+  }
+
+  /**
+   * Datum der Erzeugung der Datei. Wird beim Einlesen einer Datei genutzt.
+   * 
+   * @param creationdatetime
+   */
+  void setCreationDateTime(Date creationdatetime)
+  {
+    this.creationdatetime = creationdatetime;
+  }
+
+  /**
+   * Gibt die Zahler nach dem Einlesen zurück.
+   * 
+   * @return
+   */
+  public ArrayList<Zahler> getZahler()
+  {
+    return zahlerarray;
+  }
+
+  // public static void main(String[] args) throws
+  // DatatypeConfigurationException,
+  // JAXBException
+  // {
+  // try
+  // {
+  // Basislastschrift bl = new Basislastschrift();
+  // bl.setKomprimiert(true);
+  // bl.setMessageID("123"); // Z. B. Buchungslaufnummer
+  // bl.setBIC("WELADED1WDB");
+  // Calendar cal = Calendar.getInstance();
+  // cal.set(Calendar.YEAR, 2013);
+  // cal.set(Calendar.MONTH, 04);
+  // cal.set(Calendar.DAY_OF_MONTH, 15);
+  // bl.setFaelligskeitsdatum(cal.getTime());
+  // bl.setIBAN("DE61478535200001861889");
+  // bl.setName("Fa. SEPA GmbH und Co. Testenhausen");
+  // bl.setGlaeubigerID("DE98ZZZ09999999999");
+  //
+  // Zahler z1 = new Zahler();
+  // z1.setBetrag(new BigDecimal("100.00"));
+  // z1.setBic("DORTDE33XXX");
+  // z1.setIban("DE15440501990001052500");
+  // cal.set(Calendar.MONTH, 1);
+  // cal.set(Calendar.DAY_OF_MONTH, 22);
+  // z1.setMandatdatum(cal.getTime());
+  // z1.setMandatid("4711");
+  // z1.setName("Meier und Co.");
+  // z1.setVerwendungszweck("Beitrag 2013");
+  // bl.add(z1);
+  //
+  // Zahler z11 = new Zahler();
+  // z11.setBetrag(new BigDecimal("100.00"));
+  // z11.setBic("DORTDE33XXX");
+  // z11.setIban("DE15440501990001052500");
+  // cal.set(Calendar.MONTH, 1);
+  // cal.set(Calendar.DAY_OF_MONTH, 22);
+  // z11.setMandatdatum(cal.getTime());
+  // z11.setMandatid("4711");
+  // z11.setName("Meier und Co.");
+  // z11.setVerwendungszweck("Zusatzbetrag 2013");
+  // bl.add(z11);
+  //
+  // Zahler z2 = new Zahler();
+  // z2.setBetrag(new BigDecimal("50.00"));
+  // z2.setBic("WELADED1HER");
+  // z2.setIban("DE36450514850000000034");
+  // cal.set(Calendar.YEAR, 2001);
+  // z2.setMandatdatum(cal.getTime());
+  // z2.setMandatid("0815");
+  // z2.setName("Fritz Mueller");
+  // z2.setVerwendungszweck("Beitrag 2013");
+  // bl.add(z2);
+  //
+  // // bl.write(new File("test.xml"));
+  //
+  // bl = new Basislastschrift();
+  // bl.read(new File("test.xml"));
+  // ArrayList<Zahler> zahlerarray = bl.getZahler();
+  // System.out.println(zahlerarray.size());
+  // for (Zahler z : zahlerarray)
+  // {
+  // System.out.println(z);
+  // }
+  // System.out.println(bl.getMessageID());
+  // System.out.println(bl.getName());
+  // System.out.println(bl.getIBAN());
+  // System.out.println(bl.getBIC());
+  // System.out.println(bl.getAnzahlBuchungen());
+  // System.out.println(bl.getKontrollsumme());
+  // System.out.println(bl.getCreationDateTime());
+  // System.out.println(bl.getFaelligkeitsdatum());
+  // System.out.println(bl.getGlaeubigerID());
+  // }
+  // catch (SEPAException e)
+  // {
+  // e.printStackTrace();
+  // }
+  // }
 }
