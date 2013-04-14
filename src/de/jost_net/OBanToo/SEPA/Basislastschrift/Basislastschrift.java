@@ -322,6 +322,7 @@ public class Basislastschrift
     // aktuelles Datum und Uhrzeit
     XMLGregorianCalendar creDtTm = DatatypeFactory.newInstance()
         .newXMLGregorianCalendar(new GregorianCalendar());
+    creationdatetime = creDtTm.toGregorianCalendar().getTime();
     grH.setCreDtTm(creDtTm);
     // Kontrollsumme
     grH.setCtrlSum(kontrollsumme);
@@ -332,6 +333,7 @@ public class Basislastschrift
     grH.setInitgPty(partyid1);
     grH.setMsgId(getMessageID());
     grH.setNbOfTxs(zahlerarray.size() + "");
+    anzahlbuchungen = zahlerarray.size() + "";
     return grH;
   }
 
