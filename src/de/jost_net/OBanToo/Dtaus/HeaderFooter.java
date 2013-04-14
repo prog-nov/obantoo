@@ -17,7 +17,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  * Ersatz für die HeaderFooter-Klasse, die es bis iText 1.x gab. Wird zur Zeit
  * nur für den Footer gebraucht.
  */
-class HeaderFooter extends PdfPageEventHelper
+public class HeaderFooter extends PdfPageEventHelper
 {
 
   String footer = null;
