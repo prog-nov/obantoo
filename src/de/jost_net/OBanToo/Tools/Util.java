@@ -9,11 +9,16 @@
  */
 package de.jost_net.OBanToo.Tools;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class Util
 {
+  static DecimalFormat DECIMALFORMAT = new DecimalFormat("###,##0.00");
 
   public static String toHex(String val)
   {
@@ -28,6 +33,11 @@ public class Util
   public static String formatCurrency(double value)
   {
     return NumberFormat.getCurrencyInstance(Locale.GERMANY).format(value);
+  }
+
+  public static String formatCurrency(BigDecimal value)
+  {
+    return DECIMALFORMAT.format(value);
   }
 
   public static String toHex(char c, int width)
@@ -46,13 +56,10 @@ public class Util
     return s;
   }
 
+  public static String DateTTMMJJJJ(Date date)
+  {
+    SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+    return sdf.format(date);
+  }
+
 }
-/*
- * $Log$
- * Revision 1.4  2013/03/28 12:30:54  jverein
- * Überflüssiges Casting entfernt.
- * Revision 1.3 2007-02-14 14:43:56 jost Neue Methode:
- * formatCurrency(double) Revision 1.2 2006/09/25 18:29:24 jost Sichtbarkeit der
- * Methoden auf public erweitert Revision 1.1 2006/09/25 18:16:21 jost Neu
- * Revision 1.4 2006/06/05 09:35:13 jost
- */
