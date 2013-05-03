@@ -19,9 +19,13 @@ public class Zahler
 
   private String name;
 
+  private String nameorig;
+
   private String iban;
 
   private String verwendungszweck;
+
+  private String verwendungszweckorig;
 
   private BigDecimal betrag;
 
@@ -132,6 +136,12 @@ public class Zahler
     return name;
   }
 
+  public String getNameOrig() throws SEPAException
+  {
+    checkName(nameorig);
+    return nameorig;
+  }
+
   /**
    * Name des Zahlungspflichtigen setzen. Länge max. 70 Stellen.
    * 
@@ -143,6 +153,7 @@ public class Zahler
     String tmpName = Zeichen.convert(name);
     checkName(tmpName);
     this.name = tmpName;
+    this.nameorig = name;
   }
 
   private void checkName(String name) throws SEPAException
@@ -189,6 +200,12 @@ public class Zahler
     return verwendungszweck;
   }
 
+  public String getVerwendungszweckOrig() throws SEPAException
+  {
+    checkVerwendungszweck(verwendungszweckorig);
+    return verwendungszweckorig;
+  }
+
   /**
    * Unstrukturierten Verwendungszweck setzen. Länge max. 70 Stellen.
    * 
@@ -200,6 +217,7 @@ public class Zahler
     String tmpVerwendungszweck = Zeichen.convert(verwendungszweck);
     checkVerwendungszweck(tmpVerwendungszweck);
     this.verwendungszweck = tmpVerwendungszweck;
+    this.verwendungszweckorig = verwendungszweck;
   }
 
   private void checkVerwendungszweck(String verwendungszweck)
@@ -257,6 +275,7 @@ public class Zahler
     if (verwendungszweck == null)
     {
       verwendungszweck = "";
+      verwendungszweckorig = "";
     }
     String tmpverwendungszweck = verwendungszweck + " " + betrag.toString()
         + ", " + zahler.getVerwendungszweck() + " " + zahler.getBetrag();
