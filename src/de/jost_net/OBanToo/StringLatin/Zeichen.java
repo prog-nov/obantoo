@@ -402,7 +402,7 @@ public class Zeichen
     z.put("Ẽ", "E");
     z.put("Ề", "E");
     z.put("ề", "E");
-    z.put("z.put(Ế", "E");
+    z.put("Ế", "E");
     z.put("ế", "E");
     z.put("Ệ", "E");
     z.put("ệ", "E");
@@ -436,7 +436,7 @@ public class Zeichen
     z.put("Ỷ", "Y");
     z.put("ỷ", "Y");
   }
-
+  
   public static String convert(String value)
   {
     StringBuffer sb = new StringBuffer();
