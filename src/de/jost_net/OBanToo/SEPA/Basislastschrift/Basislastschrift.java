@@ -53,6 +53,7 @@ import de.jost_net.OBanToo.SEPA.Nachricht.pain_008_002_02.RestrictedPersonIdenti
 import de.jost_net.OBanToo.SEPA.Nachricht.pain_008_002_02.SequenceType1Code;
 import de.jost_net.OBanToo.SEPA.Nachricht.pain_008_002_02.ServiceLevelSEPA;
 import de.jost_net.OBanToo.SEPA.Nachricht.pain_008_002_02.ServiceLevelSEPACode;
+import de.jost_net.OBanToo.StringLatin.Zeichen;
 
 /**
  * <h1>SEPA-Basislastschriften</h1> <h2>Dateien erstellen</h2>
@@ -237,7 +238,7 @@ public class Basislastschrift
      * 
      * @XmlRootElementes in die Klasse document wird das vermieden.
      * 
-     * @XmlRootElement
+     * @XmlRootElement(name="Document")
      * 
      * @XmlAccessorType(XmlAccessType.FIELD)
      * 
@@ -320,15 +321,15 @@ public class Basislastschrift
   {
     GroupHeaderSDD grH = new GroupHeaderSDD();
     // aktuelles Datum und Uhrzeit
-    XMLGregorianCalendar creDtTm = DatatypeFactory.newInstance()
-        .newXMLGregorianCalendar(new GregorianCalendar());
-    creationdatetime = creDtTm.toGregorianCalendar().getTime();
-    grH.setCreDtTm(creDtTm);
+    // XMLGregorianCalendar creDtTm = DatatypeFactory.newInstance()
+    // .newXMLGregorianCalendar(new GregorianCalendar());
+    // creationdatetime = creDtTm.toGregorianCalendar().getTime();
+    grH.setCreDtTm(getYYYMMDDHHMMSS(new Date()));
     // Kontrollsumme
     grH.setCtrlSum(kontrollsumme);
 
     PartyIdentificationSEPA1 partyid1 = new PartyIdentificationSEPA1();
-    partyid1.setNm(getName());
+    partyid1.setNm(Zeichen.convert(getName()));
 
     grH.setInitgPty(partyid1);
     grH.setMsgId(getMessageID());
@@ -344,7 +345,7 @@ public class Basislastschrift
     pii.setBtchBookg(true); // true=Sammelbuchung, false=Einzelbuchung
 
     PartyIdentificationSEPA5 pi5 = new PartyIdentificationSEPA5();
-    pi5.setNm(getName());
+    pi5.setNm(Zeichen.convert(getName()));
     pii.setCdtr(pi5);
 
     CashAccountSEPA1 ca1 = new CashAccountSEPA1();
@@ -369,9 +370,9 @@ public class Basislastschrift
     pi2.setOthr(rpi);
     p2.setPrvtId(pi2);
 
-    PartyIdentificationSEPA3 pi3 = new PartyIdentificationSEPA3();
-    pi3.setId(p2);
-    pii.setCdtrSchmeId(pi3);
+    // PartyIdentificationSEPA3 pi3 = new PartyIdentificationSEPA3();
+    // pi3.setId(p2);
+    // pii.setCdtrSchmeId(pi3);
 
     pii.setChrgBr(ChargeBearerTypeSEPACode.SLEV);
     pii.setCtrlSum(kontrollsumme); // Transaktionen
@@ -404,6 +405,25 @@ public class Basislastschrift
     return xmlGregorianCalendar;
   }
 
+  private static XMLGregorianCalendar getYYYMMDDHHMMSS(Date date)
+      throws DatatypeConfigurationException
+  {
+    GregorianCalendar gc = new GregorianCalendar();
+    gc.setTime(date);
+    XMLGregorianCalendar xmlgc = DatatypeFactory.newInstance()
+        .newXMLGregorianCalendar(gc);
+
+    XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance()
+        .newXMLGregorianCalendar();
+    xmlGregorianCalendar.setDay(xmlgc.getDay());
+    xmlGregorianCalendar.setMonth(xmlgc.getMonth());
+    xmlGregorianCalendar.setYear(xmlgc.getYear());
+    xmlGregorianCalendar.setHour(xmlgc.getHour());
+    xmlGregorianCalendar.setMinute(xmlgc.getMinute());
+    xmlGregorianCalendar.setSecond(xmlgc.getSecond());
+    return xmlGregorianCalendar;
+  }
+
   private DirectDebitTransactionInformationSDD getDirectDebitTransactionInformationSDD(
       Zahler z) throws DatatypeConfigurationException, SEPAException
   {
@@ -422,6 +442,21 @@ public class Basislastschrift
     mri.setDtOfSgntr(getYYYMMDD(z.getMandatdatum()));
     mri.setAmdmntInd(false);
 
+    RestrictedPersonIdentificationSchemeNameSEPA rpisn = new RestrictedPersonIdentificationSchemeNameSEPA();
+    rpisn.setPrtry(IdentificationSchemeNameSEPA.SEPA);
+    RestrictedPersonIdentificationSEPA rpi = new RestrictedPersonIdentificationSEPA();
+    rpi.setId(getGlaeubigerID());
+    rpi.setSchmeNm(rpisn);
+    PersonIdentificationSEPA2 pi2 = new PersonIdentificationSEPA2();
+    pi2.setOthr(rpi);
+    PartySEPA2 p2 = new PartySEPA2();
+    p2.setPrvtId(pi2);
+
+    PartyIdentificationSEPA3 pi3 = new PartyIdentificationSEPA3();
+
+    pi3.setId(p2);
+    ddt.setCdtrSchmeId(pi3);
+
     ddt.setMndtRltdInf(mri);
     ddti.setDrctDbtTx(ddt);
 
@@ -432,9 +467,9 @@ public class Basislastschrift
 
     ddti.setDbtrAgt(bafiis);
 
-    PartyIdentificationSEPA2 pi2 = new PartyIdentificationSEPA2();
-    pi2.setNm(z.getName());
-    ddti.setDbtr(pi2);
+    PartyIdentificationSEPA2 pi22 = new PartyIdentificationSEPA2();
+    pi22.setNm(Zeichen.convert(z.getName()));
+    ddti.setDbtr(pi22);
 
     CashAccountSEPA2 ca2 = new CashAccountSEPA2();
     AccountIdentificationSEPA ais = new AccountIdentificationSEPA();
@@ -457,7 +492,7 @@ public class Basislastschrift
     LocalInstrumentSEPA lis = new LocalInstrumentSEPA();
     lis.setCd(LocalInstrumentSEPACode.CORE);
     pti.setLclInstrm(lis);
-    pti.setSeqTp(SequenceType1Code.OOFF);
+    pti.setSeqTp(SequenceType1Code.RCUR);
     return pti;
   }
 
@@ -701,7 +736,7 @@ public class Basislastschrift
   // cal.set(Calendar.DAY_OF_MONTH, 15);
   // bl.setFaelligskeitsdatum(cal.getTime());
   // bl.setIBAN("DE61478535200001861889");
-  // bl.setName("Fa. SEPA GmbH und Co. Testenhausen");
+  // bl.setName("Fa. SEPA-Empfänger GmbH und Co. Testenhausen");
   // bl.setGlaeubigerID("DE98ZZZ09999999999");
   //
   // Zahler z1 = new Zahler();
@@ -715,7 +750,7 @@ public class Basislastschrift
   // z1.setName("Meier und Co.");
   // z1.setVerwendungszweck("Beitrag 2013");
   // bl.add(z1);
-  //
+
   // Zahler z11 = new Zahler();
   // z11.setBetrag(new BigDecimal("100.00"));
   // z11.setBic("DORTDE33XXX");
@@ -727,7 +762,7 @@ public class Basislastschrift
   // z11.setName("Meier und Co.");
   // z11.setVerwendungszweck("Zusatzbetrag 2013");
   // bl.add(z11);
-  //
+
   // Zahler z2 = new Zahler();
   // z2.setBetrag(new BigDecimal("50.00"));
   // z2.setBic("WELADED1HER");
@@ -739,8 +774,8 @@ public class Basislastschrift
   // z2.setVerwendungszweck("Beitrag 2013");
   // bl.add(z2);
   //
-  // // bl.write(new File("test.xml"));
-  //
+  // bl.write(new File("C:/tmp/test.xml"));
+
   // bl = new Basislastschrift();
   // bl.read(new File("test.xml"));
   // ArrayList<Zahler> zahlerarray = bl.getZahler();

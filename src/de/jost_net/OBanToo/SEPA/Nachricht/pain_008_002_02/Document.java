@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
-@XmlRootElement
+@XmlRootElement(name="Document")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Document", propOrder = {
     "cstmrDrctDbtInitn"
