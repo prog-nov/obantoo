@@ -1,6 +1,11 @@
 <!--#include virtual="main.shtml"-->  
     <h2>Changelog</h2>
     <ul>
+      <li>Version 2.0.0 vom 20.05.2013</li>
+         <ul>
+             <li>Neue Klassen IBAN und BIC zur Konvertierung von BLZ/Konto und zur Überprüfung von IBAN und BIC.</li>
+             <li>Neue Klasse Basislastschrift zur Generierung von SEPA-Basis-Lastschriften.</li>
+         </ul>
       <li>Version 1.5.2 vom 04.10.2012</li>
          <ul>
              <li>Marginale Änderungen. Patch von Marcel Parau.</li>

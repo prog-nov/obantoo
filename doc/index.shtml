@@ -5,6 +5,9 @@
 Bei OBanToo handelt es sich um eine Bibliothek mit Tools für das Banking. Zur Zeit sind 
 folgende Klassen realisiert:
 <ul>
+  <li><b>Basislastschrift</b><br>
+      Ab Version 2.0.0 beherrscht OBanToo die SEPA-Basislastschrift sowie die Konvertierung
+      von BLZ/Konto zu BIC/IBAN.</li>
   <li><b>DTAUS-Parser</b><br>
       DTAUS-Dateien parsen für die Weiterverarbeitung. Seit Version 0.3 werden auch
       mehrere logische Dateien pro physikalischer Datei unterstützt. Ab Version 0.8 kann
@@ -25,6 +28,6 @@ folgende Klassen realisiert:
 <p>OBanToo wird innerhalb von <a href='http://www.willuhn.de/projects/hibiscus/'>Hibiscus</a>  und 
 <a href='http://www.jverein.de'>JVerein</a> eingesetzt. Die <a href='http://gwvs.de'>GWVS Gesellschaft für Wirtschafts-
 und Verwaltungsservice mbH, Regensburg </a> setzt ebenfalls auf OBanToo.</p>
-<p>OBanToo benötigt minimal JDK 1.5 und steht unter LGPL. </p>
+<p>OBanToo benötigt minimal JDK 1.6 und steht unter LGPL. </p>
 <!--#include virtual="footer.shtml"-->  
 
