@@ -282,8 +282,15 @@ public class Basislastschrift
         .toGregorianCalendar().getTime());
     setFaelligskeitsdatum(doc.getCstmrDrctDbtInitn().getPmtInf().get(0)
         .getReqdColltnDt().toGregorianCalendar().getTime());
+
+    // TODO
     setGlaeubigerID(doc.getCstmrDrctDbtInitn().getPmtInf().get(0)
         .getCdtrSchmeId().getId().getPrvtId().getOthr().getId());
+
+    System.out.println(doc.getCstmrDrctDbtInitn().getGrpHdr().getInitgPty()
+        .getId().getPrvtId().getOthr().getId());
+    setGlaeubigerID(doc.getCstmrDrctDbtInitn().getGrpHdr().getInitgPty()
+        .getId().getPrvtId().getOthr().getId());
 
     List<DirectDebitTransactionInformationSDD> liste = doc
         .getCstmrDrctDbtInitn().getPmtInf().get(0).getDrctDbtTxInf();
@@ -323,8 +330,8 @@ public class Basislastschrift
     // aktuelles Datum und Uhrzeit
     // XMLGregorianCalendar creDtTm = DatatypeFactory.newInstance()
     // .newXMLGregorianCalendar(new GregorianCalendar());
-    // creationdatetime = creDtTm.toGregorianCalendar().getTime();
-    grH.setCreDtTm(getYYYMMDDHHMMSS(new Date()));
+    creationdatetime = new Date();
+    grH.setCreDtTm(getYYYMMDDHHMMSS(creationdatetime));
     // Kontrollsumme
     grH.setCtrlSum(kontrollsumme);
 
