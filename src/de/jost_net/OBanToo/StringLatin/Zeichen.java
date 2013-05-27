@@ -436,7 +436,7 @@ public class Zeichen
     z.put("Ỷ", "Y");
     z.put("ỷ", "Y");
   }
-  
+
   public static String convert(String value)
   {
     StringBuffer sb = new StringBuffer();
