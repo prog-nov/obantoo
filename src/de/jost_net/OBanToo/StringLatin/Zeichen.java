@@ -7,434 +7,434 @@ public class Zeichen
   public static HashMap<String, String> z = new HashMap<String, String>();
   static
   {
-    z.put(" ", " ");
-    z.put("'", "'");
-    z.put("(", "(");
-    z.put(")", ")");
-    z.put("+", "+");
-    z.put(",", ",");
-    z.put("-", "-");
-    z.put(".", ".");
-    z.put("/", "/");
-    z.put("0", "0");
-    z.put("1", "1");
-    z.put("2", "2");
-    z.put("3", "3");
-    z.put("4", "4");
-    z.put("5", "5");
-    z.put("6", "6");
-    z.put("7", "7");
-    z.put("8", "8");
-    z.put("9", "9");
-    z.put(":", ":");
-    z.put("?", "?");
-    z.put("A", "A");
-    z.put("B", "B");
-    z.put("C", "C");
-    z.put("D", "D");
-    z.put("E", "E");
-    z.put("F", "F");
-    z.put("G", "G");
-    z.put("H", "H");
-    z.put("I", "I");
-    z.put("J", "J");
-    z.put("K", "K");
-    z.put("L", "L");
-    z.put("M", "M");
-    z.put("M̂", "M");
-    z.put("N", "N");
-    z.put("N̂", "N");
-    z.put("O", "O");
-    z.put("P", "P");
-    z.put("Q", "Q");
-    z.put("R", "R");
-    z.put("S", "S");
-    z.put("T", "T");
-    z.put("U", "U");
-    z.put("V", "V");
-    z.put("W", "W");
-    z.put("X", "X");
-    z.put("Y", "Y");
-    z.put("Z", "Z");
-    z.put("a", "A");
-    z.put("b", "B");
-    z.put("c", "C");
-    z.put("d", "D");
-    z.put("e", "E");
-    z.put("f", "F");
-    z.put("g", "G");
-    z.put("h", "H");
-    z.put("i", "I");
-    z.put("j", "J");
-    z.put("k", "K");
-    z.put("l", "L");
-    z.put("m", "M");
-    z.put("m̂", "M");
-    z.put("n", "N");
-    z.put("n̂", "N");
-    z.put("o", "O");
-    z.put("p", "P");
-    z.put("q", "Q");
-    z.put("r", "R");
-    z.put("s", "S");
-    z.put("t", "T");
-    z.put("u", "U");
-    z.put("v", "V");
-    z.put("w", "W");
-    z.put("x", "X");
-    z.put("y", "Y");
-    z.put("z", "Z");
-    z.put("À", "A");
-    z.put("Á", "A");
-    z.put("Â", "A");
-    z.put("Ã", "A");
-    z.put("Ä", "AE");
-    z.put("Å", "AA");
-    z.put("Æ", "AE");
-    z.put("Ç", "C");
-    z.put("È", "E");
-    z.put("É", "E");
-    z.put("Ê", "E");
-    z.put("Ë", "E");
-    z.put("Ì", "I");
-    z.put("Í", "I");
-    z.put("Î", "I");
-    z.put("Ï", "I");
-    z.put("Ð", "D");
-    z.put("Ñ", "N");
-    z.put("Ò", "O");
-    z.put("Ó", "O");
-    z.put("Ô", "O");
-    z.put("Õ", "O");
-    z.put("Ö", "OE");
-    z.put("Ø", "OE");
-    z.put("Ù", "U");
-    z.put("Ú", "U");
-    z.put("Û", "U");
-    z.put("Ü", "UE");
-    z.put("Ý", "Y");
-    z.put("Þ", "TH");
-    z.put("ß", "SS");
-    z.put("à", "A");
-    z.put("á", "A");
-    z.put("â", "A");
-    z.put("ã", "A");
-    z.put("ä", "AE");
-    z.put("å", "AA");
-    z.put("æ", "AE");
-    z.put("ç", "C");
-    z.put("è", "E");
-    z.put("é", "E");
-    z.put("ê", "E");
-    z.put("ë", "E");
-    z.put("ì", "I");
-    z.put("í", "I");
-    z.put("î", "I");
-    z.put("ï", "I");
-    z.put("ð", "D");
-    z.put("ñ", "N");
-    z.put("ò", "O");
-    z.put("ó", "O");
-    z.put("ô", "O");
-    z.put("õ", "O");
-    z.put("ö", "OE");
-    z.put("ø", "OE");
-    z.put("ù", "U");
-    z.put("ú", "U");
-    z.put("û", "U");
-    z.put("ü", "UE");
-    z.put("ý", "Y");
-    z.put("þ", "TH");
-    z.put("ÿ", "Y");
-    z.put("Ā", "A");
-    z.put("ā", "A");
-    z.put("Ă", "A");
-    z.put("ă", "A");
-    z.put("Ą", "A");
-    z.put("ą", "A");
-    z.put("Ć", "C");
-    z.put("ć", "C");
-    z.put("Ċ", "C");
-    z.put("ċ", "C");
-    z.put("Č", "C");
-    z.put("č", "C");
-    z.put("Ď", "D");
-    z.put("ď", "D");
-    z.put("Đ", "D");
-    z.put("đ", "D");
-    z.put("Ē", "E");
-    z.put("ē", "E");
-    z.put("Ĕ", "E");
-    z.put("ĕ", "E");
-    z.put("Ė", "E");
-    z.put("ė", "E");
-    z.put("Ę", "E");
-    z.put("ę", "E");
-    z.put("Ě", "E");
-    z.put("ě", "E");
-    z.put("Ğ", "G");
-    z.put("ğ", "G");
-    z.put("Ġ", "G");
-    z.put("ġ", "G");
-    z.put("Ģ", "G");
-    z.put("ģ", "G");
-    z.put("Ħ", "H");
-    z.put("ħ", "H");
-    z.put("Ĩ", "I");
-    z.put("ĩ", "I");
-    z.put("Ī", "I");
-    z.put("ī", "I");
-    z.put("Ĭ", "I");
-    z.put("ĭ", "I");
-    z.put("Į", "I");
-    z.put("į", "I");
-    z.put("İ", "I");
-    z.put("ı", "I");
-    z.put("Ĵ", "J");
-    z.put("ĵ", "J");
-    z.put("Ķ", "K");
-    z.put("ķ", "K");
-    z.put("ĸ", "K");
-    z.put("Ĺ", "L");
-    z.put("ĺ", "L");
-    z.put("Ļ", "L");
-    z.put("ļ", "L");
-    z.put("Ľ", "L");
-    z.put("ľ", "L");
-    z.put("Ŀ", "L");
-    z.put("ŀ", "L");
-    z.put("Ł", "L");
-    z.put("ł", "L");
-    z.put("Ń", "N");
-    z.put("ń", "N");
-    z.put("Ņ", "N");
-    z.put("ņ", "N");
-    z.put("Ň", "N");
-    z.put("ň", "N");
-    z.put("ŉ", "N");
-    z.put("Ŋ", "N");
-    z.put("ŋ", "N");
-    z.put("Ō", "O");
-    z.put("ō", "O");
-    z.put("Ŏ", "O");
-    z.put("ŏ", "O");
-    z.put("Ő", "O");
-    z.put("ő", "O");
-    z.put("Œ", "OE");
-    z.put("œ", "OE");
-    z.put("Ŕ", "R");
-    z.put("ŕ", "R");
-    z.put("Ŗ", "R");
-    z.put("ŗ", "R");
-    z.put("Ř", "R");
-    z.put("ř", "R");
-    z.put("Ś", "S");
-    z.put("ś", "S");
-    z.put("Ş", "S");
-    z.put("ş", "S");
-    z.put("Š", "S");
-    z.put("š", "S");
-    z.put("Ţ", "T");
-    z.put("ţ", "T");
-    z.put("Ť", "T");
-    z.put("ť", "T");
-    z.put("Ŧ", "T");
-    z.put("ŧ", "T");
-    z.put("Ũ", "U");
-    z.put("ũ", "U");
-    z.put("Ū", "U");
-    z.put("ū", "U");
-    z.put("Ů", "U");
-    z.put("ů", "U");
-    z.put("Ű", "U");
-    z.put("ű", "U");
-    z.put("Ų", "U");
-    z.put("ų", "U");
-    z.put("Ŵ", "W");
-    z.put("ŵ", "W");
-    z.put("Ŷ", "Y");
-    z.put("ŷ", "Y");
-    z.put("Ÿ", "Y");
-    z.put("Ź", "Z");
-    z.put("ź", "Z");
-    z.put("Ż", "Z");
-    z.put("ż", "Z");
-    z.put("Ž", "Z");
-    z.put("ž", "Z");
-    z.put("Ə", "E");
-    z.put("Ơ", "O");
-    z.put("ơ", "O");
-    z.put("Ư", "U");
-    z.put("ư", "U");
-    z.put("Ʒ", "Y");
-    z.put("Ǎ", "A");
-    z.put("ǎ", "A");
-    z.put("Ǐ", "I");
-    z.put("ǐ", "I");
-    z.put("Ǒ", "O");
-    z.put("ǒ", "O");
-    z.put("Ǔ", "U");
-    z.put("ǔ", "U");
-    z.put("Ǟ", "A");
-    z.put("ǟ", "A");
-    z.put("Ǥ", "G");
-    z.put("ǥ", "G");
-    z.put("Ǧ", "G");
-    z.put("ǧ", "G");
-    z.put("Ǩ", "K");
-    z.put("ǩ", "K");
-    z.put("Ǫ", "O");
-    z.put("ǫ", "O");
-    z.put("Ǭ", "O");
-    z.put("ǭ", "O");
-    z.put("Ǯ", "Y");
-    z.put("ǯ", "Y");
-    z.put("Ǵ", "G");
-    z.put("ǵ", "G");
-    z.put("Ǻ", "A");
-    z.put("ǻ", "A");
-    z.put("Ǽ", "AE");
-    z.put("ǽ", "AE");
-    z.put("Ǿ", "O");
-    z.put("ǿ", "O");
-    z.put("Ș", "S");
-    z.put("ș", "S");
-    z.put("Ț", "T");
-    z.put("ț", "T");
-    z.put("Ȟ", "H");
-    z.put("ȟ", "H");
-    z.put("Ȫ", "O");
-    z.put("ȫ", "O");
-    z.put("Ȯ", "O");
-    z.put("ȯ", "O");
-    z.put("Ȱ", "O");
-    z.put("ȱ", "O");
-    z.put("Ȳ", "Y");
-    z.put("ȳ", "Y");
-    z.put("ə", "E");
-    z.put("ʒ", "Y");
-    z.put("Ḃ", "B");
-    z.put("ḃ", "B");
-    z.put("Ḋ", "D");
-    z.put("ḋ", "D");
-    z.put("Ḑ", "D");
-    z.put("ḑ", "D");
-    z.put("Ḟ", "F");
-    z.put("ḟ", "F");
-    z.put("Ḡ", "G");
-    z.put("ḡ", "G");
-    z.put("Ḥ", "H");
-    z.put("ḥ", "H");
-    z.put("Ḧ", "H");
-    z.put("ḧ", "H");
-    z.put("Ḱ", "K");
-    z.put("ḱ", "K");
-    z.put("Ṁ", "M");
-    z.put("ṁ", "M");
-    z.put("Ṅ", "N");
-    z.put("ṅ", "N");
-    z.put("Ṗ", "P");
-    z.put("ṗ", "P");
-    z.put("Ṡ", "S");
-    z.put("ṡ", "S");
-    z.put("Ṣ", "S");
-    z.put("ṣ", "S");
-    z.put("Ṫ", "T");
-    z.put("ṫ", "T");
-    z.put("Ẁ", "W");
-    z.put("ẁ", "W");
-    z.put("Ẃ", "W");
-    z.put("ẃ", "W");
-    z.put("Ẅ", "W");
-    z.put("ẅ", "W");
-    z.put("Ẍ", "X");
-    z.put("ẍ", "X");
-    z.put("Ẏ", "Y");
-    z.put("ẏ", "Y");
-    z.put("Ẑ", "Z");
-    z.put("ẑ", "Z");
-    z.put("Ẓ", "Z");
-    z.put("ẓ", "Z");
-    z.put("ẞ", "SS");
-    z.put("Ạ", "A");
-    z.put("ạ", "A");
-    z.put("Ẫ", "A");
-    z.put("ẫ", "A");
-    z.put("Ậ", "A");
-    z.put("ẽ", "E");
-    z.put("Ễ", "E");
-    z.put("ễ", "E");
-    z.put("Ị", "I");
-    z.put("ị", "I");
-    z.put("Ọ", "O");
-    z.put("ọ", "O");
-    z.put("Ỏ", "O");
-    z.put("ỏ", "O");
-    z.put("Ỗ", "O");
-    z.put("ỗ", "O");
-    z.put("Ụ", "U");
-    z.put("ụ", "U");
-    z.put("Ỳ", "Y");
-    z.put("ỳ", "Y");
-    z.put("Ỹ", "Y");
-    z.put("ỹ", "Y");
-    z.put("ª", "A");
-    z.put("Ả", "A");
-    z.put("ả", "A");
-    z.put("Ấ", "A");
-    z.put("ấ", "A");
-    z.put("Ầ", "A");
-    z.put("ầ", "A");
-    z.put("Ắ", "A");
-    z.put("ắ", "A");
-    z.put("Ằ", "A");
-    z.put("ằ", "A");
-    z.put("Ẳ", "A");
-    z.put("ẳ", "A");
-    z.put("Ẵ", "A");
-    z.put("ẵ", "A");
-    z.put("Ặ", "A");
-    z.put("ặ", "A");
-    z.put("Ẹ", "E");
-    z.put("ẹ", "E");
-    z.put("Ẻ", "E");
-    z.put("ẻ", "E");
-    z.put("Ẽ", "E");
-    z.put("Ề", "E");
-    z.put("ề", "E");
-    z.put("Ế", "E");
-    z.put("ế", "E");
-    z.put("Ệ", "E");
-    z.put("ệ", "E");
-    z.put("Ỉ", "I");
-    z.put("ỉ", "I");
-    z.put("Ồ", "O");
-    z.put("ồ", "O");
-    z.put("Ố", "O");
-    z.put("ố", "O");
-    z.put("Ộ", "O");
-    z.put("ộ", "O");
-    z.put("Ờ", "O");
-    z.put("ờ", "O");
-    z.put("Ủ", "U");
-    z.put("ủ", "U");
-    z.put("Ứ", "U");
-    z.put("Ớ", "O");
-    z.put("ớ", "O");
-    z.put("ứ", "U");
-    z.put("Ừ", "U");
-    z.put("ừ", "U");
-    z.put("Ử", "U");
-    z.put("ử", "U");
-    z.put("Ữ", "U");
-    z.put("ữ", "U");
-    z.put("Ự", "U");
-    z.put("ự", "U");
-    z.put("ǰ", "J");
-    z.put("Ỵ", "Y");
-    z.put("ỵ", "Y");
-    z.put("Ỷ", "Y");
-    z.put("ỷ", "Y");
+    z.put(" ", " "); // " "
+    z.put("'", "'"); // "'"
+    z.put("(", "("); // "("
+    z.put(")", ")"); // ")"
+    z.put("+", "+"); // "+"
+    z.put(",", ","); // ","
+    z.put("-", "-"); // "-"
+    z.put(".", "."); // "."
+    z.put("/", "/"); // "/"
+    z.put("0", "0"); // "0"
+    z.put("1", "1"); // "1"
+    z.put("2", "2"); // "2"
+    z.put("3", "3"); // "3"
+    z.put("4", "4"); // "4"
+    z.put("5", "5"); // "5"
+    z.put("6", "6"); // "6"
+    z.put("7", "7"); // "7"
+    z.put("8", "8"); // "8"
+    z.put("9", "9"); // "9"
+    z.put(":", ":"); // ":"
+    z.put("?", "?"); // "?"
+    z.put("A", "A"); // "A"
+    z.put("B", "B"); // "B"
+    z.put("C", "C"); // "C"
+    z.put("D", "D"); // "D"
+    z.put("E", "E"); // "E"
+    z.put("F", "F"); // "F"
+    z.put("G", "G"); // "G"
+    z.put("H", "H"); // "H"
+    z.put("I", "I"); // "I"
+    z.put("J", "J"); // "J"
+    z.put("K", "K"); // "K"
+    z.put("L", "L"); // "L"
+    z.put("M", "M"); // "M"
+    z.put("M\u0302", "M"); // "M̂ "
+    z.put("N", "N"); // "N"
+    z.put("N\u0302", "N"); // "N̂ "
+    z.put("O", "O"); // "O"
+    z.put("P", "P"); // "P"
+    z.put("Q", "Q"); // "Q"
+    z.put("R", "R"); // "R"
+    z.put("S", "S"); // "S"
+    z.put("T", "T"); // "T"
+    z.put("U", "U"); // "U"
+    z.put("V", "V"); // "V"
+    z.put("W", "W"); // "W"
+    z.put("X", "X"); // "X"
+    z.put("Y", "Y"); // "Y"
+    z.put("Z", "Z"); // "Z"
+    z.put("a", "A"); // "a"
+    z.put("b", "B"); // "b"
+    z.put("c", "C"); // "c"
+    z.put("d", "D"); // "d"
+    z.put("e", "E"); // "e"
+    z.put("f", "F"); // "f"
+    z.put("g", "G"); // "g"
+    z.put("h", "H"); // "h"
+    z.put("i", "I"); // "i"
+    z.put("j", "J"); // "j"
+    z.put("k", "K"); // "k"
+    z.put("l", "L"); // "l"
+    z.put("m", "M"); // "m"
+    z.put("m\u0302", "M"); // "m̂ "
+    z.put("n", "N"); // "n"
+    z.put("n\u0302", "N"); // "n̂ "
+    z.put("o", "O"); // "o"
+    z.put("p", "P"); // "p"
+    z.put("q", "Q"); // "q"
+    z.put("r", "R"); // "r"
+    z.put("s", "S"); // "s"
+    z.put("t", "T"); // "t"
+    z.put("u", "U"); // "u"
+    z.put("v", "V"); // "v"
+    z.put("w", "W"); // "w"
+    z.put("x", "X"); // "x"
+    z.put("y", "Y"); // "y"
+    z.put("z", "Z"); // "z"
+    z.put("\u00C0", "A"); // "À"
+    z.put("\u00C1", "A"); // "Á"
+    z.put("\u00C2", "A"); // "Â"
+    z.put("\u00C3", "A"); // "Ã"
+    z.put("\u00C4", "AE"); // "Ä"
+    z.put("\u00C5", "AA"); // "Å"
+    z.put("\u00C6", "AE"); // "Æ"
+    z.put("\u00C7", "C"); // "Ç"
+    z.put("\u00C8", "E"); // "È"
+    z.put("\u00C9", "E"); // "É"
+    z.put("\u00CA", "E"); // "Ê"
+    z.put("\u00CB", "E"); // "Ë"
+    z.put("\u00CC", "I"); // "Ì"
+    z.put("\u00CD", "I"); // "Í"
+    z.put("\u00CE", "I"); // "Î"
+    z.put("\u00CF", "I"); // "Ï"
+    z.put("\u00D0", "D"); // "Ð"
+    z.put("\u00D1", "N"); // "Ñ"
+    z.put("\u00D2", "O"); // "Ò"
+    z.put("\u00D3", "O"); // "Ó"
+    z.put("\u00D4", "O"); // "Ô"
+    z.put("\u00D5", "O"); // "Õ"
+    z.put("\u00D6", "OE"); // "Ö"
+    z.put("\u00D8", "OE"); // "Ø"
+    z.put("\u00D9", "U"); // "Ù"
+    z.put("\u00DA", "U"); // "Ú"
+    z.put("\u00DB", "U"); // "Û"
+    z.put("\u00DC", "UE"); // "Ü"
+    z.put("\u00DD", "Y"); // "Ý"
+    z.put("\u00DE", "TH"); // "Þ"
+    z.put("\u00DF", "SS"); // "ß"
+    z.put("\u00E0", "A"); // "à"
+    z.put("\u00E1", "A"); // "á"
+    z.put("\u00E2", "A"); // "â"
+    z.put("\u00E3", "A"); // "ã"
+    z.put("\u00E4", "AE"); // "ä"
+    z.put("\u00E5", "AA"); // "å"
+    z.put("\u00E6", "AE"); // "æ"
+    z.put("\u00E7", "C"); // "ç"
+    z.put("\u00E8", "E"); // "è"
+    z.put("\u00E9", "E"); // "é"
+    z.put("\u00EA", "E"); // "ê"
+    z.put("\u00EB", "E"); // "ë"
+    z.put("\u00EC", "I"); // "ì"
+    z.put("\u00ED", "I"); // "í"
+    z.put("\u00EE", "I"); // "î"
+    z.put("\u00EF", "I"); // "ï"
+    z.put("\u00F0", "D"); // "ð"
+    z.put("\u00F1", "N"); // "ñ"
+    z.put("\u00F2", "O"); // "ò"
+    z.put("\u00F3", "O"); // "ó"
+    z.put("\u00F4", "O"); // "ô"
+    z.put("\u00F5", "O"); // "õ"
+    z.put("\u00F6", "OE"); // "ö"
+    z.put("\u00F8", "OE"); // "ø"
+    z.put("\u00F9", "U"); // "ù"
+    z.put("\u00FA", "U"); // "ú"
+    z.put("\u00FB", "U"); // "û"
+    z.put("\u00FC", "UE"); // "ü"
+    z.put("\u00FD", "Y"); // "ý"
+    z.put("\u00FE", "TH"); // "þ"
+    z.put("\u00FF", "Y"); // "ÿ"
+    z.put("\u0100", "A"); // "Ā"
+    z.put("\u0101", "A"); // "ā"
+    z.put("\u0102", "A"); // "Ă"
+    z.put("\u0103", "A"); // "ă"
+    z.put("\u0104", "A"); // "Ą"
+    z.put("\u0105", "A"); // "ą"
+    z.put("\u0106", "C"); // "Ć"
+    z.put("\u0107", "C"); // "ć"
+    z.put("\u010A", "C"); // "Ċ"
+    z.put("\u010B", "C"); // "ċ"
+    z.put("\u010C", "C"); // "Č"
+    z.put("\u010D", "C"); // "č"
+    z.put("\u010E", "D"); // "Ď"
+    z.put("\u010F", "D"); // "ď"
+    z.put("\u0110", "D"); // "Đ"
+    z.put("\u0111", "D"); // "đ"
+    z.put("\u0112", "E"); // "Ē"
+    z.put("\u0113", "E"); // "ē"
+    z.put("\u0114", "E"); // "Ĕ"
+    z.put("\u0115", "E"); // "ĕ"
+    z.put("\u0116", "E"); // "Ė"
+    z.put("\u0117", "E"); // "ė"
+    z.put("\u0118", "E"); // "Ę"
+    z.put("\u0119", "E"); // "ę"
+    z.put("\u011A", "E"); // "Ě"
+    z.put("\u011B", "E"); // "ě"
+    z.put("\u011E", "G"); // "Ğ"
+    z.put("\u011F", "G"); // "ğ"
+    z.put("\u0120", "G"); // "Ġ"
+    z.put("\u0121", "G"); // "ġ"
+    z.put("\u0122", "G"); // "Ģ"
+    z.put("\u0123", "G"); // "ģ"
+    z.put("\u0126", "H"); // "Ħ"
+    z.put("\u0127", "H"); // "ħ"
+    z.put("\u0128", "I"); // "Ĩ"
+    z.put("\u0129", "I"); // "ĩ"
+    z.put("\u012A", "I"); // "Ī"
+    z.put("\u012B", "I"); // "ī"
+    z.put("\u012C", "I"); // "Ĭ"
+    z.put("\u012D", "I"); // "ĭ"
+    z.put("\u012E", "I"); // "Į"
+    z.put("\u012F", "I"); // "į"
+    z.put("\u0130", "I"); // "İ"
+    z.put("\u0131", "I"); // "ı"
+    z.put("\u0134", "J"); // "Ĵ"
+    z.put("\u0135", "J"); // "ĵ"
+    z.put("\u0136", "K"); // "Ķ"
+    z.put("\u0137", "K"); // "ķ"
+    z.put("\u0138", "K"); // "ĸ"
+    z.put("\u0139", "L"); // "Ĺ"
+    z.put("\u013A", "L"); // "ĺ"
+    z.put("\u013B", "L"); // "Ļ"
+    z.put("\u013C", "L"); // "ļ"
+    z.put("\u013D", "L"); // "Ľ"
+    z.put("\u013E", "L"); // "ľ"
+    z.put("\u013F", "L"); // "Ŀ"
+    z.put("\u0140", "L"); // "ŀ"
+    z.put("\u0141", "L"); // "Ł"
+    z.put("\u0142", "L"); // "ł"
+    z.put("\u0143", "N"); // "Ń"
+    z.put("\u0144", "N"); // "ń"
+    z.put("\u0145", "N"); // "Ņ"
+    z.put("\u0146", "N"); // "ņ"
+    z.put("\u0147", "N"); // "Ň"
+    z.put("\u0148", "N"); // "ň"
+    z.put("\u0149", "N"); // "ŉ"
+    z.put("\u014A", "N"); // "Ŋ"
+    z.put("\u014B", "N"); // "ŋ"
+    z.put("\u014C", "O"); // "Ō"
+    z.put("\u014D", "O"); // "ō"
+    z.put("\u014E", "O"); // "Ŏ"
+    z.put("\u014F", "O"); // "ŏ"
+    z.put("\u0150", "O"); // "Ő"
+    z.put("\u0151", "O"); // "ő"
+    z.put("\u0152", "OE"); // "Œ"
+    z.put("\u0153", "OE"); // "œ"
+    z.put("\u0154", "R"); // "Ŕ"
+    z.put("\u0155", "R"); // "ŕ"
+    z.put("\u0156", "R"); // "Ŗ"
+    z.put("\u0157", "R"); // "ŗ"
+    z.put("\u0158", "R"); // "Ř"
+    z.put("\u0159", "R"); // "ř"
+    z.put("\u015A", "S"); // "Ś"
+    z.put("\u015B", "S"); // "ś"
+    z.put("\u015E", "S"); // "Ş"
+    z.put("\u015F", "S"); // "ş"
+    z.put("\u0160", "S"); // "Š"
+    z.put("\u0161", "S"); // "š"
+    z.put("\u0162", "T"); // "Ţ"
+    z.put("\u0163", "T"); // "ţ"
+    z.put("\u0164", "T"); // "Ť"
+    z.put("\u0165", "T"); // "ť"
+    z.put("\u0166", "T"); // "Ŧ"
+    z.put("\u0167", "T"); // "ŧ"
+    z.put("\u0168", "U"); // "Ũ"
+    z.put("\u0169", "U"); // "ũ"
+    z.put("\u016A", "U"); // "Ū"
+    z.put("\u016B", "U"); // "ū"
+    z.put("\u016E", "U"); // "Ů"
+    z.put("\u016F", "U"); // "ů"
+    z.put("\u0170", "U"); // "Ű"
+    z.put("\u0171", "U"); // "ű"
+    z.put("\u0172", "U"); // "Ų"
+    z.put("\u0173", "U"); // "ų"
+    z.put("\u0174", "W"); // "Ŵ"
+    z.put("\u0175", "W"); // "ŵ"
+    z.put("\u0176", "Y"); // "Ŷ"
+    z.put("\u0177", "Y"); // "ŷ"
+    z.put("\u0178", "Y"); // "Ÿ"
+    z.put("\u0179", "Z"); // "Ź"
+    z.put("\u017A", "Z"); // "ź"
+    z.put("\u017B", "Z"); // "Ż"
+    z.put("\u017C", "Z"); // "ż"
+    z.put("\u017D", "Z"); // "Ž"
+    z.put("\u017E", "Z"); // "ž"
+    z.put("\u018F", "E"); // "Ə"
+    z.put("\u01A0", "O"); // "Ơ"
+    z.put("\u01A1", "O"); // "ơ"
+    z.put("\u01AF", "U"); // "Ư"
+    z.put("\u01B0", "U"); // "ư"
+    z.put("\u01B7", "Y"); // "Ʒ"
+    z.put("\u01CD", "A"); // "Ǎ"
+    z.put("\u01CE", "A"); // "ǎ"
+    z.put("\u01CF", "I"); // "Ǐ"
+    z.put("\u01D0", "I"); // "ǐ"
+    z.put("\u01D1", "O"); // "Ǒ"
+    z.put("\u01D2", "O"); // "ǒ"
+    z.put("\u01D3", "U"); // "Ǔ"
+    z.put("\u01D4", "U"); // "ǔ"
+    z.put("\u01DE", "A"); // "Ǟ"
+    z.put("\u01DF", "A"); // "ǟ"
+    z.put("\u01E4", "G"); // "Ǥ"
+    z.put("\u01E5", "G"); // "ǥ"
+    z.put("\u01E6", "G"); // "Ǧ"
+    z.put("\u01E7", "G"); // "ǧ"
+    z.put("\u01E8", "K"); // "Ǩ"
+    z.put("\u01E9", "K"); // "ǩ"
+    z.put("\u01EA", "O"); // "Ǫ"
+    z.put("\u01EB", "O"); // "ǫ"
+    z.put("\u01EC", "O"); // "Ǭ"
+    z.put("\u01ED", "O"); // "ǭ"
+    z.put("\u01EE", "Y"); // "Ǯ"
+    z.put("\u01EF", "Y"); // "ǯ"
+    z.put("\u01F4", "G"); // "Ǵ"
+    z.put("\u01F5", "G"); // "ǵ"
+    z.put("\u01FA", "A"); // "Ǻ"
+    z.put("\u01FB", "A"); // "ǻ"
+    z.put("\u01FC", "AE"); // "Ǽ"
+    z.put("\u01FD", "AE"); // "ǽ"
+    z.put("\u01FE", "O"); // "Ǿ"
+    z.put("\u01FF", "O"); // "ǿ"
+    z.put("\u0218", "S"); // "Ș"
+    z.put("\u0219", "S"); // "ș"
+    z.put("\u021A", "T"); // "Ț"
+    z.put("\u021B", "T"); // "ț"
+    z.put("\u021E", "H"); // "Ȟ"
+    z.put("\u021F", "H"); // "ȟ"
+    z.put("\u022A", "O"); // "Ȫ"
+    z.put("\u022B", "O"); // "ȫ"
+    z.put("\u022E", "O"); // "Ȯ"
+    z.put("\u022F", "O"); // "ȯ"
+    z.put("\u0230", "O"); // "Ȱ"
+    z.put("\u0231", "O"); // "ȱ"
+    z.put("\u0232", "Y"); // "Ȳ"
+    z.put("\u0233", "Y"); // "ȳ"
+    z.put("\u0259", "E"); // "ə"
+    z.put("\u0292", "Y"); // "ʒ"
+    z.put("\u1E02", "B"); // "Ḃ"
+    z.put("\u1E03", "B"); // "ḃ"
+    z.put("\u1E0A", "D"); // "Ḋ"
+    z.put("\u1E0B", "D"); // "ḋ"
+    z.put("\u1E10", "D"); // "Ḑ"
+    z.put("\u1E11", "D"); // "ḑ"
+    z.put("\u1E1E", "F"); // "Ḟ"
+    z.put("\u1E1F", "F"); // "ḟ"
+    z.put("\u1E20", "G"); // "Ḡ"
+    z.put("\u1E21", "G"); // "ḡ"
+    z.put("\u1E24", "H"); // "Ḥ"
+    z.put("\u1E25", "H"); // "ḥ"
+    z.put("\u1E26", "H"); // "Ḧ"
+    z.put("\u1E27", "H"); // "ḧ"
+    z.put("\u1E30", "K"); // "Ḱ"
+    z.put("\u1E31", "K"); // "ḱ"
+    z.put("\u1E40", "M"); // "Ṁ"
+    z.put("\u1E41", "M"); // "ṁ"
+    z.put("\u1E44", "N"); // "Ṅ"
+    z.put("\u1E45", "N"); // "ṅ"
+    z.put("\u1E56", "P"); // "Ṗ"
+    z.put("\u1E57", "P"); // "ṗ"
+    z.put("\u1E60", "S"); // "Ṡ"
+    z.put("\u1E61", "S"); // "ṡ"
+    z.put("\u1E62", "S"); // "Ṣ"
+    z.put("\u1E63", "S"); // "ṣ"
+    z.put("\u1E6A", "T"); // "Ṫ"
+    z.put("\u1E6B", "T"); // "ṫ"
+    z.put("\u1E80", "W"); // "Ẁ"
+    z.put("\u1E81", "W"); // "ẁ"
+    z.put("\u1E82", "W"); // "Ẃ"
+    z.put("\u1E83", "W"); // "ẃ"
+    z.put("\u1E84", "W"); // "Ẅ"
+    z.put("\u1E85", "W"); // "ẅ"
+    z.put("\u1E8C", "X"); // "Ẍ"
+    z.put("\u1E8D", "X"); // "ẍ"
+    z.put("\u1E8E", "Y"); // "Ẏ"
+    z.put("\u1E8F", "Y"); // "ẏ"
+    z.put("\u1E90", "Z"); // "Ẑ"
+    z.put("\u1E91", "Z"); // "ẑ"
+    z.put("\u1E92", "Z"); // "Ẓ"
+    z.put("\u1E93", "Z"); // "ẓ"
+    z.put("\u1E9E", "SS"); // "ẞ"
+    z.put("\u1EA0", "A"); // "Ạ"
+    z.put("\u1EA1", "A"); // "ạ"
+    z.put("\u1EAA", "A"); // "Ẫ"
+    z.put("\u1EAB", "A"); // "ẫ"
+    z.put("\u1EAC", "A"); // "Ậ"
+    z.put("\u1EBD", "E"); // "ẽ"
+    z.put("\u1EC4", "E"); // "Ễ"
+    z.put("\u1EC5", "E"); // "ễ"
+    z.put("\u1ECA", "I"); // "Ị"
+    z.put("\u1ECB", "I"); // "ị"
+    z.put("\u1ECC", "O"); // "Ọ"
+    z.put("\u1ECD", "O"); // "ọ"
+    z.put("\u1ECE", "O"); // "Ỏ"
+    z.put("\u1ECF", "O"); // "ỏ"
+    z.put("\u1ED6", "O"); // "Ỗ"
+    z.put("\u1ED7", "O"); // "ỗ"
+    z.put("\u1EE4", "U"); // "Ụ"
+    z.put("\u1EE5", "U"); // "ụ"
+    z.put("\u1EF2", "Y"); // "Ỳ"
+    z.put("\u1EF3", "Y"); // "ỳ"
+    z.put("\u1EF8", "Y"); // "Ỹ"
+    z.put("\u1EF9", "Y"); // "ỹ"
+    z.put("\u00AA", "A"); // "ª"
+    z.put("\u1EA2", "A"); // "Ả"
+    z.put("\u1EA3", "A"); // "ả"
+    z.put("\u1EA4", "A"); // "Ấ"
+    z.put("\u1EA5", "A"); // "ấ"
+    z.put("\u1EA6", "A"); // "Ầ"
+    z.put("\u1EA7", "A"); // "ầ"
+    z.put("\u1EAE", "A"); // "Ắ"
+    z.put("\u1EAF", "A"); // "ắ"
+    z.put("\u1EB0", "A"); // "Ằ"
+    z.put("\u1EB1", "A"); // "ằ"
+    z.put("\u1EB2", "A"); // "Ẳ"
+    z.put("\u1EB3", "A"); // "ẳ"
+    z.put("\u1EB4", "A"); // "Ẵ"
+    z.put("\u1EB5", "A"); // "ẵ"
+    z.put("\u1EB6", "A"); // "Ặ"
+    z.put("\u1EB7", "A"); // "ặ"
+    z.put("\u1EB8", "E"); // "Ẹ"
+    z.put("\u1EB9", "E"); // "ẹ"
+    z.put("\u1EBA", "E"); // "Ẻ"
+    z.put("\u1EBB", "E"); // "ẻ"
+    z.put("\u1EBC", "E"); // "Ẽ"
+    z.put("\u1EC0", "E"); // "Ề"
+    z.put("\u1EC1", "E"); // "ề"
+    z.put("\u1EBE", "E"); // "Ế"
+    z.put("\u1EBF", "E"); // "ế"
+    z.put("\u1EC6", "E"); // "Ệ"
+    z.put("\u1EC7", "E"); // "ệ"
+    z.put("\u1EC8", "I"); // "Ỉ"
+    z.put("\u1EC9", "I"); // "ỉ"
+    z.put("\u1ED2", "O"); // "Ồ"
+    z.put("\u1ED3", "O"); // "ồ"
+    z.put("\u1ED0", "O"); // "Ố"
+    z.put("\u1ED1", "O"); // "ố"
+    z.put("\u1ED8", "O"); // "Ộ"
+    z.put("\u1ED9", "O"); // "ộ"
+    z.put("\u1EDC", "O"); // "Ờ"
+    z.put("\u1EDD", "O"); // "ờ"
+    z.put("\u1EE6", "U"); // "Ủ"
+    z.put("\u1EE7", "U"); // "ủ"
+    z.put("\u1EE8", "U"); // "Ứ"
+    z.put("\u1EDA", "O"); // "Ớ"
+    z.put("\u1EDB", "O"); // "ớ"
+    z.put("\u1EE9", "U"); // "ứ"
+    z.put("\u1EEA", "U"); // "Ừ"
+    z.put("\u1EEB", "U"); // "ừ"
+    z.put("\u1EEC", "U"); // "Ử"
+    z.put("\u1EED", "U"); // "ử"
+    z.put("\u1EEE", "U"); // "Ữ"
+    z.put("\u1EEF", "U"); // "ữ"
+    z.put("\u1EF0", "U"); // "Ự"
+    z.put("\u1EF1", "U"); // "ự"
+    z.put("\u01F0", "J"); // "ǰ"
+    z.put("\u1EF4", "Y"); // "Ỵ"
+    z.put("\u1EF5", "Y"); // "ỵ"
+    z.put("\u1EF6", "Y"); // "Ỷ"
+    z.put("\u1EF7", "Y"); // "ỷ"
   }
 
   public static String convert(String value)
@@ -442,7 +442,12 @@ public class Zeichen
     StringBuffer sb = new StringBuffer();
     for (int i = 0; i < value.length(); i++)
     {
-      String repl = z.get(value.substring(i, i + 1));
+      String ch = value.substring(i, i + 1);
+      if (ch.codePointAt(0) == 770)
+      {
+        continue;
+      }
+      String repl = z.get(ch);
       if (repl != null)
       {
         sb.append(repl);
