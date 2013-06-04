@@ -54,6 +54,10 @@ public class BIC
       return;
     }
     Bank b = Banken.getBankByBLZ(blz);
+    if (b == null)
+    {
+      throw new SEPAException("BLZ nicht im Datenbestand vorhanden");
+    }
     bic = b.getBIC();
   }
 
