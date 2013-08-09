@@ -42,6 +42,7 @@ public class BIC
       {
         throw new SEPAException("BIC nicht in der Banken-Datenbank enthalten");
       }
+      bic = b.getBIC();
     }
   }
 
