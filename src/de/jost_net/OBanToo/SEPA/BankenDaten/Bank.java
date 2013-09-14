@@ -19,12 +19,22 @@ public class Bank
 
   private String bic;
 
-  public Bank(String land, String bezeichnung, String blz, String bic)
+  private String pruefziffernmethode;
+
+  private String ibanregel;
+  
+  private String hinweisloeschung;
+
+  public Bank(String land, String bezeichnung, String blz, String bic,
+      String pruefziffernmethode, String ibanregel, String hinweisloeschung)
   {
     this.land = land;
     this.bezeichnung = bezeichnung;
     this.blz = blz;
     this.bic = bic;
+    this.pruefziffernmethode = pruefziffernmethode;
+    this.ibanregel = ibanregel;
+    this.hinweisloeschung=hinweisloeschung;
   }
 
   public String getLand()
@@ -45,6 +55,21 @@ public class Bank
   public String getBIC()
   {
     return bic;
+  }
+
+  public String getPruefziffernmethode()
+  {
+    return pruefziffernmethode;
+  }
+
+  public String getIBANRegel()
+  {
+    return ibanregel;
+  }
+  
+  public String getHinweisloeschung()
+  {
+    return hinweisloeschung;
   }
 
   @Override

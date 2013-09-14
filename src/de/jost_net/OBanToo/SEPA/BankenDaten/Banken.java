@@ -29,7 +29,7 @@ public class Banken
       // Deutschland
       InputStream is = Banken.class.getClassLoader().getResourceAsStream(
           "BLZ.txt");
-      
+
       BLZDatei blz = new BLZDatei(is);
       BLZSatz blzs = blz.getNext();
       while (blzs.getBic() != null)
@@ -37,7 +37,9 @@ public class Banken
         if (blzs.getZahlungsdienstleister().equals("1")
             && blzs.getBic().trim().length() > 0)
         {
-          add("DE", blzs.getBezeichnung(), blzs.getBlz(), blzs.getBic());
+          add("DE", blzs.getBezeichnung(), blzs.getBlz(), blzs.getBic(),
+              blzs.getPruefziffernmethode(), blzs.getIBANRegel(),
+              blzs.getHinweisloeschung());
         }
         blzs = blz.getNext();
       }
@@ -58,7 +60,7 @@ public class Banken
         {
           continue;
         }
-        add("AT", atb.getName(), atb.getBlz(), atb.getBic());
+        add("AT", atb.getName(), atb.getBlz(), atb.getBic(), null, "000000", "");
       }
     }
     catch (IOException e)
@@ -78,11 +80,41 @@ public class Banken
   }
 
   private static void add(String kennzeichen, String name, String blz,
-      String bic)
+      String bic, String pruefziffernmethode, String ibanregel,
+      String hinweisloeschung)
   {
-    Bank b = new Bank(kennzeichen, name, blz, bic);
+    Bank b = new Bank(kennzeichen, name, blz, bic, pruefziffernmethode,
+        ibanregel, hinweisloeschung);
     banken.add(b);
     bankcodealt.put(b.getBLZ(), b);
     bankcodeneu.put(b.getBIC(), b);
   }
+
+  public static ArrayList<Bank> getByPruefziffernMethode(String methode)
+  {
+    ArrayList<Bank> ret = new ArrayList<Bank>();
+    for (Bank b : banken)
+    {
+      if (b.getLand().equals("DE")
+          && b.getPruefziffernmethode().equals(methode))
+      {
+        ret.add(b);
+      }
+    }
+    return ret;
+  }
+
+  public static ArrayList<Bank> getByGruppe(String gruppe)
+  {
+    ArrayList<Bank> ret = new ArrayList<Bank>();
+    for (Bank b : banken)
+    {
+      if (b.getLand().equals("DE") && b.getBLZ().substring(3, 4).equals(gruppe))
+      {
+        ret.add(b);
+      }
+    }
+    return ret;
+  }
+
 }

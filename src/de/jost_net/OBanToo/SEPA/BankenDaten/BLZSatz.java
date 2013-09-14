@@ -115,6 +115,8 @@ public class BLZSatz
    */
   private String nachfolgeblz = null;
 
+  private String ibanregel = null;
+
   private String zeile;
 
   private int pos = 0;
@@ -139,6 +141,7 @@ public class BLZSatz
     aenderungskennzeichen = getString(1);
     hinweisloeschung = getString(1);
     nachfolgeblz = getString(8);
+    ibanregel = getString(6);
   }
 
   private String getString(int len)
@@ -211,6 +214,11 @@ public class BLZSatz
   public String getNachfolgeblz()
   {
     return nachfolgeblz;
+  }
+
+  public String getIBANRegel()
+  {
+    return ibanregel;
   }
 
   public boolean hasNext() throws IOException
