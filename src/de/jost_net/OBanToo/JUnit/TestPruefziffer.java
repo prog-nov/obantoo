@@ -11,16 +11,49 @@ package de.jost_net.OBanToo.JUnit;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashSet;
+import java.util.Iterator;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import de.jost_net.OBanToo.PruefziffernCheck.KontoPruefziffernrechnung;
+import de.jost_net.OBanToo.SEPA.BankenDaten.Bank;
+import de.jost_net.OBanToo.SEPA.BankenDaten.Banken;
 
 @RunWith(JUnit4.class)
 public class TestPruefziffer
 {
+  @Test
+  public void testAlgorithmen()
+  {
+    HashSet<String> przalg = new HashSet<String>();
+    for (Bank b : Banken.getBanken())
+    {
+      if (b.getHinweisloeschung().equals("0"))
+      {
+        przalg.add(b.getPruefziffernmethode());
+      }
+    }
+    int i = 0;
+    Iterator<String> iter = przalg.iterator();
+    while (iter.hasNext())
+    {
+      String alg = iter.next();
+      try
+      {
+        KontoPruefziffernrechnung.checkAccountCRCByAlg(alg, "1000000", "1");
+      }
+      catch (Exception e)
+      {
+        i++;
+        System.out.println("Nicht implementiert: " + alg);
+      }
+    }
+    System.out.println("Anzahl: " + i);
+  }
 
   @Test
   public void test00_01() throws Exception
@@ -119,39 +152,75 @@ public class TestPruefziffer
   }
 
   @Test
-  public void test31() throws Exception
+  public void test31_01() throws Exception
   {
-    String a = "31";
-    assertTrue(check(a, "1000000524"));
-    assertTrue(check(a, "1000000583"));
+    assertTrue(check("31", "1000000524"));
   }
 
   @Test
-  public void test32() throws Exception
+  public void test31_02() throws Exception
   {
-    String a = "32";
-    assertTrue(check(a, "9141405"));
-    assertTrue(check(a, "1709107983"));
-    assertTrue(check(a, "0122116979"));
-    assertTrue(check(a, "0121114867"));
-    assertTrue(check(a, "9030101192"));
-    assertTrue(check(a, "9245500460"));
+    assertTrue(check("31", "1000000583"));
   }
 
   @Test
-  public void test33() throws Exception
+  public void test32_01() throws Exception
   {
-    String a = "33";
-    assertTrue(check(a, "48658"));
-    assertTrue(check(a, "84956"));
+    assertTrue(check("32", "9141405"));
   }
 
   @Test
-  public void test34() throws Exception
+  public void test32_02() throws Exception
   {
-    String a = "34";
-    assertTrue(check(a, "9913000700"));
-    assertTrue(check(a, "9914001000"));
+    assertTrue(check("32", "1709107983"));
+  }
+
+  @Test
+  public void test32_03() throws Exception
+  {
+    assertTrue(check("32", "0122116979"));
+  }
+
+  @Test
+  public void test32_04() throws Exception
+  {
+    assertTrue(check("32", "0121114867"));
+  }
+
+  @Test
+  public void test32_05() throws Exception
+  {
+    assertTrue(check("32", "9030101192"));
+  }
+
+  @Test
+  public void test32_06() throws Exception
+  {
+    assertTrue(check("32", "9245500460"));
+  }
+
+  @Test
+  public void test33_01() throws Exception
+  {
+    assertTrue(check("33", "84956"));
+  }
+
+  @Test
+  public void test33_02() throws Exception
+  {
+    assertTrue(check("33", "84956"));
+  }
+
+  @Test
+  public void test34_01() throws Exception
+  {
+    assertTrue(check("34", "9913000700"));
+  }
+
+  @Test
+  public void test34_02() throws Exception
+  {
+    assertTrue(check("34", "9914001000"));
   }
 
   @Test
@@ -168,12 +237,15 @@ public class TestPruefziffer
   }
 
   @Test
-  @Ignore
-  public void test36() throws Exception
+  public void test36_01() throws Exception
   {
-    String a = "36";
-    assertTrue(check(a, "113178"));
-    assertTrue(check(a, "146666"));
+    assertTrue(check("36", "113178"));
+  }
+
+  @Test
+  public void test36_02() throws Exception
+  {
+    assertTrue(check("36", "146666"));
   }
 
   @Test
@@ -197,12 +269,15 @@ public class TestPruefziffer
   }
 
   @Test
-  @Ignore
-  public void test40() throws Exception
+  public void test40_01() throws Exception
   {
-    String a = "40";
-    assertTrue(check(a, "1258345"));
-    assertTrue(check(a, "3231963"));
+    assertTrue(check("40", "1258345"));
+  }
+
+  @Test
+  public void test40_02() throws Exception
+  {
+    assertTrue(check("40", "3231963"));
   }
 
   @Test
@@ -242,13 +317,45 @@ public class TestPruefziffer
   }
 
   @Test
-  @Ignore
-  public void test45() throws Exception
+  public void test45_01() throws Exception
   {
-    String a = "45";
-    assertTrue(check(a, "0235468612"));
-    assertTrue(check(a, "0837890901"));
-    assertTrue(check(a, "1041447600"));
+    assertTrue(check("45", "3545343232"));
+  }
+
+  @Test
+  public void test45_02() throws Exception
+  {
+    assertTrue(check("45", "4013410024"));
+  }
+
+  @Test
+  public void test45_03() throws Exception
+  {
+    assertTrue(check("45", "0994681254"));
+  }
+
+  @Test
+  public void test45_04() throws Exception
+  {
+    assertTrue(check("45", "1000199999"));
+  }
+
+  @Test
+  public void test46_01() throws Exception
+  {
+    assertTrue(check("46", "0235468612"));
+  }
+
+  @Test
+  public void test46_02() throws Exception
+  {
+    assertTrue(check("46", "0837890901"));
+  }
+
+  @Test
+  public void test46_03() throws Exception
+  {
+    assertTrue(check("46", "1041447600"));
   }
 
   @Test
@@ -261,12 +368,15 @@ public class TestPruefziffer
   }
 
   @Test
-  @Ignore
-  public void test50() throws Exception
+  public void test50_01() throws Exception
   {
-    String a = "50";
-    assertTrue(check(a, "4000005001"));
-    assertTrue(check(a, "4444442001"));
+    assertTrue(check("50", "4000005001"));
+  }
+
+  @Test
+  public void test50_02() throws Exception
+  {
+    assertTrue(check("50", "4444442001"));
   }
 
   @Test
@@ -319,14 +429,27 @@ public class TestPruefziffer
   }
 
   @Test
-  @Ignore
-  public void test58() throws Exception
+  public void test58_01() throws Exception
   {
-    String a = "58";
-    assertTrue(check(a, "1800881120"));
-    assertTrue(check(a, "9200654108"));
-    assertTrue(check(a, "1015222224"));
-    assertTrue(check(a, "3703169668"));
+    assertTrue(check("58", "1800881120"));
+  }
+
+  @Test
+  public void test58_02() throws Exception
+  {
+    assertTrue(check("58", "9200654108"));
+  }
+
+  @Test
+  public void test58_03() throws Exception
+  {
+    assertTrue(check("58", "1015222224"));
+  }
+
+  @Test
+  public void test58_04() throws Exception
+  {
+    assertTrue(check("58", "3703169668"));
   }
 
   @Test
@@ -339,14 +462,27 @@ public class TestPruefziffer
   }
 
   @Test
-  @Ignore
-  public void test66() throws Exception
+  public void test66_01() throws Exception
   {
-    String a = "66";
-    assertTrue(check(a, "100154508"));
-    assertTrue(check(a, "101154508"));
-    assertTrue(check(a, "100154516"));
-    assertTrue(check(a, "101154516"));
+    assertTrue(check("66", "100154508"));
+  }
+
+  @Test
+  public void test66_02() throws Exception
+  {
+    assertTrue(check("66", "101154508"));
+  }
+
+  @Test
+  public void test66_03() throws Exception
+  {
+    assertTrue(check("66", "100154516"));
+  }
+
+  @Test
+  public void test66_04() throws Exception
+  {
+    assertTrue(check("66", "101154516"));
   }
 
   @Test
@@ -358,17 +494,51 @@ public class TestPruefziffer
   }
 
   @Test
-  @Ignore
-  public void test73() throws Exception
+  public void test71() throws Exception
   {
-    String a = "73";
-    assertTrue(check(a, "0003503398"));
-    assertTrue(check(a, "0001340967"));
-    assertTrue(check(a, "0003503391"));
-    assertTrue(check(a, "0001340968"));
-    assertTrue(check(a, "0003503392"));
-    assertTrue(check(a, "0001340966"));
-    assertTrue(check(a, "123456"));
+    assertTrue(check("71", "7101234007"));
+  }
+
+  @Test
+  public void test73_01() throws Exception
+  {
+    assertTrue(check("73", "0003503398"));
+  }
+
+  @Test
+  public void test73_02() throws Exception
+  {
+    assertTrue(check("73", "0001340967"));
+  }
+
+  @Test
+  public void test73_03() throws Exception
+  {
+    assertTrue(check("73", "0003503391"));
+  }
+
+  @Test
+  public void test73_04() throws Exception
+  {
+    assertTrue(check("73", "0001340968"));
+  }
+
+  @Test
+  public void test73_05() throws Exception
+  {
+    assertTrue(check("73", "0003503392"));
+  }
+
+  @Test
+  public void test73_06() throws Exception
+  {
+    assertTrue(check("73", "0001340966"));
+  }
+
+  @Test
+  public void test73_07() throws Exception
+  {
+    assertTrue(check("73", "123456"));
   }
 
   @Test
@@ -461,6 +631,102 @@ public class TestPruefziffer
     assertTrue(check(a, "0000156078"));
     assertTrue(check(a, "0000156071"));
     assertTrue(check(a, "0099100002"));
+  }
+
+  @Test
+  public void test84_01() throws Exception
+  {
+    assertTrue(check("84", "240699"));
+  }
+
+  @Test
+  public void test84_02() throws Exception
+  {
+    assertTrue(check("84", "350982"));
+  }
+
+  @Test
+  public void test84_03() throws Exception
+  {
+    assertTrue(check("84", "461059"));
+  }
+
+  @Test
+  public void test84_04() throws Exception
+  {
+    assertTrue(check("84", "240692"));
+  }
+
+  @Test
+  public void test84_05() throws Exception
+  {
+    assertTrue(check("84", "350985"));
+  }
+
+  @Test
+  public void test84_06() throws Exception
+  {
+    assertTrue(check("84", "461052"));
+  }
+
+  @Test
+  public void test84_07() throws Exception
+  {
+    assertTrue(check("84", "240961"));
+  }
+
+  @Test
+  public void test84_08() throws Exception
+  {
+    assertTrue(check("84", "350984"));
+  }
+
+  @Test
+  public void test84_09() throws Exception
+  {
+    assertTrue(check("84", "461054"));
+  }
+
+  @Test
+  public void test84_10() throws Exception
+  {
+    assertTrue(check("84", "0199100002"));
+  }
+
+  @Test
+  public void test84_11() throws Exception
+  {
+    assertTrue(check("84", "0099100010"));
+  }
+
+  @Test
+  public void test84_12() throws Exception
+  {
+    assertTrue(check("84", "2599100002"));
+  }
+
+  @Test
+  public void test84_13() throws Exception
+  {
+    assertTrue(check("84", "2599100002"));
+  }
+
+  @Test
+  public void test84_14() throws Exception
+  {
+    assertTrue(check("84", "0199100004"));
+  }
+
+  @Test
+  public void test84_15() throws Exception
+  {
+    assertTrue(check("84", "2599100003"));
+  }
+
+  @Test
+  public void test84_16() throws Exception
+  {
+    assertTrue(check("84", "3199204090"));
   }
 
   @Test
@@ -574,11 +840,9 @@ public class TestPruefziffer
   }
 
   @Test
-  @Ignore
-  public void test94() throws Exception
+  public void test94_01() throws Exception
   {
-    String a = "94";
-    assertTrue(check(a, "6782533003"));
+    assertTrue(check("94", "6782533003"));
   }
 
   @Test
@@ -603,16 +867,39 @@ public class TestPruefziffer
   }
 
   @Test
-  @Ignore
-  public void test98() throws Exception
+  public void test98_01() throws Exception
   {
-    String a = "98";
-    assertTrue(check(a, "9619439213"));
-    assertTrue(check(a, "3009800016"));
-    assertTrue(check(a, "9619509976"));
-    assertTrue(check(a, "5989800173"));
-    assertTrue(check(a, "9619319999"));
-    assertTrue(check(a, "6719430018"));
+    assertTrue(check("98", "9619439213"));
+  }
+
+  @Test
+  public void test98_02() throws Exception
+  {
+    assertTrue(check("98", "3009800016"));
+  }
+
+  @Test
+  public void test98_03() throws Exception
+  {
+    assertTrue(check("98", "9619509976"));
+  }
+
+  @Test
+  public void test98_04() throws Exception
+  {
+    assertTrue(check("98", "5989800173"));
+  }
+
+  @Test
+  public void test98_05() throws Exception
+  {
+    assertTrue(check("98", "9619319999"));
+  }
+
+  @Test
+  public void test98_06() throws Exception
+  {
+    assertTrue(check("98", "6719430018"));
   }
 
   @Test
@@ -770,16 +1057,39 @@ public class TestPruefziffer
   }
 
   @Test
-  @Ignore
-  public void testB2() throws Exception
+  public void testB2_01() throws Exception
   {
-    String a = "B2";
-    assertTrue(check(a, "0020012357"));
-    assertTrue(check(a, "0080012345"));
-    assertTrue(check(a, "0926801910"));
-    assertTrue(check(a, "1002345674"));
-    assertTrue(check(a, "8000990054"));
-    assertTrue(check(a, "9000481805"));
+    assertTrue(check("B2", "0020012357"));
+  }
+
+  @Test
+  public void testB2_02() throws Exception
+  {
+    assertTrue(check("B2", "0080012345"));
+  }
+
+  @Test
+  public void testB2_03() throws Exception
+  {
+    assertTrue(check("B2", "0926801910"));
+  }
+
+  @Test
+  public void testB2_04() throws Exception
+  {
+    assertTrue(check("B2", "1002345674"));
+  }
+
+  @Test
+  public void testB2_05() throws Exception
+  {
+    assertTrue(check("B2", "8000990054"));
+  }
+
+  @Test
+  public void testB2_06() throws Exception
+  {
+    assertTrue(check("B2", "9000481805"));
   }
 
   @Test
@@ -832,18 +1142,51 @@ public class TestPruefziffer
   }
 
   @Test
-  @Ignore
-  public void testB7() throws Exception
+  public void testB7_01() throws Exception
   {
-    String a = "B7";
-    assertTrue(check(a, "0700001529"));
-    assertTrue(check(a, "0730000019"));
-    assertTrue(check(a, "0001001008"));
-    assertTrue(check(a, "0001057887"));
-    assertTrue(check(a, "0001007222"));
-    assertTrue(check(a, "0810011825"));
-    assertTrue(check(a, "0800107653"));
-    assertTrue(check(a, "0005922372"));
+    assertTrue(check("B7", "0700001529"));
+  }
+
+  @Test
+  public void testB7_02() throws Exception
+  {
+    assertTrue(check("B7", "0730000019"));
+  }
+
+  @Test
+  public void testB7_03() throws Exception
+  {
+    assertTrue(check("B7", "0001001008"));
+  }
+
+  @Test
+  public void testB7_04() throws Exception
+  {
+    assertTrue(check("B7", "0001057887"));
+  }
+
+  @Test
+  public void testB7_05() throws Exception
+  {
+    assertTrue(check("B7", "0001007222"));
+  }
+
+  @Test
+  public void testB7_06() throws Exception
+  {
+    assertTrue(check("B7", "0810011825"));
+  }
+
+  @Test
+  public void testB7_07() throws Exception
+  {
+    assertTrue(check("B7", "0800107653"));
+  }
+
+  @Test
+  public void testB7_08() throws Exception
+  {
+    assertTrue(check("B7", "0005922372"));
   }
 
   @Test
@@ -857,18 +1200,51 @@ public class TestPruefziffer
   }
 
   @Test
-  @Ignore
-  public void testB9() throws Exception
+  public void testB9_01() throws Exception
   {
-    String a = "B9";
-    assertTrue(check(a, "87920187"));
-    assertTrue(check(a, "41203755"));
-    assertTrue(check(a, "81069577"));
-    assertTrue(check(a, "61287958"));
-    assertTrue(check(a, "58467232"));
-    assertTrue(check(a, "7125633"));
-    assertTrue(check(a, "1253657"));
-    assertTrue(check(a, "4353631"));
+    assertTrue(check("B9", "87920187"));
+  }
+
+  @Test
+  public void testB9_02() throws Exception
+  {
+    assertTrue(check("B9", "41203755"));
+  }
+
+  @Test
+  public void testB9_03() throws Exception
+  {
+    assertTrue(check("B9", "81069577"));
+  }
+
+  @Test
+  public void testB9_04() throws Exception
+  {
+    assertTrue(check("B9", "61287958"));
+  }
+
+  @Test
+  public void testB9_05() throws Exception
+  {
+    assertTrue(check("B9", "58467232"));
+  }
+
+  @Test
+  public void testB9_06() throws Exception
+  {
+    assertTrue(check("B9", "7125633"));
+  }
+
+  @Test
+  public void testB9_07() throws Exception
+  {
+    assertTrue(check("B9", "1253657"));
+  }
+
+  @Test
+  public void testB9_08() throws Exception
+  {
+    assertTrue(check("B9", "4353631"));
   }
 
   @Test
@@ -899,41 +1275,105 @@ public class TestPruefziffer
   }
 
   @Test
-  @Ignore
-  public void testC2() throws Exception
+  public void testC2_01() throws Exception
   {
-    String a = "C2";
-    assertTrue(check(a, "2394871426"));
-    assertTrue(check(a, "4218461950"));
-    assertTrue(check(a, "7352569148"));
-    assertTrue(check(a, "5127485166"));
-    assertTrue(check(a, "8738142564"));
+    assertTrue(check("C2", "2394871426"));
   }
 
   @Test
-  @Ignore
-  public void testC3() throws Exception
+  public void testC2_02() throws Exception
   {
-    String a = "C3";
-    assertTrue(check(a, "9294182"));
-    assertTrue(check(a, "4431276"));
-    assertTrue(check(a, "19919"));
-    assertTrue(check(a, "9000420530"));
-    assertTrue(check(a, "9000010006"));
-    assertTrue(check(a, "9000577650"));
+    assertTrue(check("C2", "4218461950"));
   }
 
   @Test
-  @Ignore
+  public void testC2_03() throws Exception
+  {
+    assertTrue(check("C2", "7352569148"));
+  }
+
+  @Test
+  public void testC2_04() throws Exception
+  {
+    assertTrue(check("C2", "5127485166"));
+  }
+
+  @Test
+  public void testC2_05() throws Exception
+  {
+    assertTrue(check("C2", "8738142564"));
+  }
+
+  @Test
+  public void testC3_01() throws Exception
+  {
+    assertTrue(check("C3", "9294182"));
+  }
+
+  @Test
+  public void testC3_02() throws Exception
+  {
+    assertTrue(check("C3", "4431276"));
+  }
+
+  @Test
+  public void testC3_03() throws Exception
+  {
+    assertTrue(check("C3", "19919"));
+  }
+
+  @Test
+  public void testC3_04() throws Exception
+  {
+    assertTrue(check("C3", "9000420530"));
+  }
+
+  @Test
+  public void testC3_05() throws Exception
+  {
+    assertTrue(check("C3", "9000010006"));
+  }
+
+  @Test
+  public void testC3_06() throws Exception
+  {
+    assertTrue(check("C3", "9000577650"));
+  }
+
+  @Test
+  public void testC4_01() throws Exception
+  {
+    assertTrue(check("C4", "0000000019"));
+  }
+
+  @Test
+  public void testC4_02() throws Exception
+  {
+    assertTrue(check("C4", "0000292932"));
+  }
+
+  @Test
+  public void testC4_03() throws Exception
+  {
+    assertTrue(check("C4", "0000094455"));
+  }
+
+  @Test
+  public void testC4_04() throws Exception
+  {
+    assertTrue(check("C4", "9000420530"));
+  }
+
+  @Test
+  public void testC4_05() throws Exception
+  {
+    assertTrue(check("C4", "9000010006"));
+  }
+
+  @Test
   public void testC4() throws Exception
   {
-    String a = "C4";
-    assertTrue(check(a, "0000000019"));
-    assertTrue(check(a, "4431276"));
-    assertTrue(check(a, "0000094455"));
-    assertTrue(check(a, "9000420530"));
-    assertTrue(check(a, "9000010006"));
-    assertTrue(check(a, "9000577650"));
+    assertTrue(check("C4", "9000577650"));
   }
 
   @Test
@@ -999,16 +1439,39 @@ public class TestPruefziffer
   }
 
   @Test
-  @Ignore
-  public void testC8() throws Exception
+  public void testC8_01() throws Exception
   {
-    String a = "C8";
-    assertTrue(check(a, "3456789019"));
-    assertTrue(check(a, "5678901231"));
-    assertTrue(check(a, "3456789012"));
-    assertTrue(check(a, "0022007130"));
-    assertTrue(check(a, "0123456789"));
-    assertTrue(check(a, "0552071285"));
+    assertTrue(check("C8", "3456789019"));
+  }
+
+  @Test
+  public void testC8_02() throws Exception
+  {
+    assertTrue(check("C8", "5678901231"));
+  }
+
+  @Test
+  public void testC8_03() throws Exception
+  {
+    assertTrue(check("C8", "3456789012"));
+  }
+
+  @Test
+  public void testC8_04() throws Exception
+  {
+    assertTrue(check("C8", "0022007130"));
+  }
+
+  @Test
+  public void testC8_05() throws Exception
+  {
+    assertTrue(check("C8", "0123456789"));
+  }
+
+  @Test
+  public void testC8_06() throws Exception
+  {
+    assertTrue(check("C8", "0552071285"));
   }
 
   @Test
@@ -1030,19 +1493,57 @@ public class TestPruefziffer
   }
 
   @Test
-  @Ignore
-  public void testD1() throws Exception
+  public void testD1_01() throws Exception
   {
-    String a = "D1";
-    assertTrue(check(a, "0082012203"));
-    assertTrue(check(a, "1452683581"));
-    assertTrue(check(a, "2129642505"));
-    assertTrue(check(a, "3002000027"));
-    assertTrue(check(a, "4230001407"));
-    assertTrue(check(a, "5000065514"));
-    assertTrue(check(a, "6001526215"));
-    assertTrue(check(a, "7126502149"));
-    assertTrue(check(a, "9000430223"));
+    assertTrue(check("D1", "0082012203"));
+  }
+
+  @Test
+  public void testD1_02() throws Exception
+  {
+    assertTrue(check("D1", "1452683581"));
+  }
+
+  @Test
+  public void testD1_03() throws Exception
+  {
+    assertTrue(check("D1", "2129642505"));
+  }
+
+  @Test
+  public void testD1_04() throws Exception
+  {
+    assertTrue(check("D1", "3002000027"));
+  }
+
+  @Test
+  public void testD1_05() throws Exception
+  {
+    assertTrue(check("D1", "4230001407"));
+  }
+
+  @Test
+  public void testD1_06() throws Exception
+  {
+    assertTrue(check("D1", "5000065514"));
+  }
+
+  @Test
+  public void testD1_07() throws Exception
+  {
+    assertTrue(check("D1", "6001526215"));
+  }
+
+  @Test
+  public void testD1_08() throws Exception
+  {
+    assertTrue(check("D1", "7126502149"));
+  }
+
+  @Test
+  public void testD1_09() throws Exception
+  {
+    assertTrue(check("D1", "9000430223"));
   }
 
   @Test

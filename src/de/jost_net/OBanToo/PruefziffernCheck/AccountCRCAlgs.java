@@ -228,6 +228,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  /** korrigiert: Heiner */
   public static PZRet alg_22(int[] blz, int[] number)
   {
     /*
@@ -239,6 +240,10 @@ public class AccountCRCAlgs
     int sum = addProducts(number, 0, 8,
         new int[] { 3, 1, 3, 1, 3, 1, 3, 1, 3 }, false);
     int crc = 10 - (sum % 10);
+    if (crc == 10)
+    {
+      crc = 0;
+    }
     return new PZRet(number[9] == crc);
   }
 
@@ -422,6 +427,16 @@ public class AccountCRCAlgs
     return new PZRet(number[7] == crc);
   }
 
+  /** @author Heiner */
+  public static PZRet alg_36(int[] blz, int[] number)
+  {
+    int sum = addProducts(number, 5, 8, new int[] { 5, 8, 4, 2 }, false);
+    int crc = 11 - sum % 11;
+    if (crc > 9)
+      crc = 0;
+    return new PZRet(number[9] == crc);
+  }
+
   public static PZRet alg_38(int[] blz, int[] number)
   {
     int sum = addProducts(number, 3, 8, new int[] { 9, 10, 5, 8, 4, 2 }, false);
@@ -429,6 +444,18 @@ public class AccountCRCAlgs
     if (crc > 9)
       crc = 0;
     return new PZRet(number[9] == crc);
+  }
+
+  /** @author Heiner */
+  public static PZRet alg_40(int[] blz, int[] number)
+  {
+    int sum = addProducts(number, 0, 8,
+        new int[] { 6, 3, 7, 9, 10, 5, 8, 4, 2 }, false);
+
+    int crc = 11 - sum % 11;
+    if (crc > 9)
+      crc = 0;
+    return new PZRet(number[9] == crc, 10, "40");
   }
 
   /** @author AN */
@@ -477,6 +504,77 @@ public class AccountCRCAlgs
     if (crc > 9)
       crc = 0;
     return new PZRet(number[9] == crc);
+  }
+
+  /** @author Heiner */
+  public static PZRet alg_45(int[] blz, int[] number)
+  {
+    if (number[0] == 0 || number[4] == 1)
+    {
+      return alg_09(blz, number);
+    }
+    return alg_00(blz, number);
+  }
+
+  /** @author Heiner */
+  public static PZRet alg_46(int[] blz, int[] number)
+  {
+    int sum = addProducts(number, 2, 6, new int[] { 6, 5, 4, 3, 2 }, false);
+    int crc = 11 - sum % 11;
+    if (crc > 9)
+      crc = 0;
+    return new PZRet(number[7] == crc, 10, "46");
+  }
+
+  /** @author Heiner */
+  public static PZRet alg_48(int[] blz, int[] number)
+  {
+    int sum = addProducts(number, 2, 7, new int[] { 7, 6, 5, 4, 3, 2 }, false);
+    int crc = 11 - sum % 11;
+    if (crc > 9)
+      crc = 0;
+    return new PZRet(number[8] == crc, 10, "48");
+  }
+
+  /** @author Heiner */
+  public static PZRet alg_49(int[] blz, int[] number)
+  {
+    PZRet ret = alg_00(blz, number);
+    if (ret.isValid())
+    {
+      return ret;
+    }
+    return alg_01(blz, number);
+  }
+
+  /** @author Heiner */
+  public static PZRet alg_50(int[] blz, int[] number)
+  {
+    int sum = addProducts(number, 0, 5, new int[] { 7, 6, 5, 4, 3, 2 }, false);
+    int crc = 11 - sum % 11;
+    if (crc > 9)
+      crc = 0;
+    PZRet ret = new PZRet(number[6] == crc, 10, "50");
+    if (ret.isValid())
+    {
+      return ret;
+    }
+    // 000 an die Kontonummer anhängen
+    number[0] = number[3];
+    number[1] = number[4];
+    number[2] = number[5];
+    number[3] = number[6];
+    number[4] = number[7];
+    number[5] = number[8];
+    number[6] = number[9];
+    number[7] = 0;
+    number[8] = 0;
+    number[9] = 0;
+    sum = addProducts(number, 0, 5, new int[] { 7, 6, 5, 4, 3, 2 }, false);
+    crc = 11 - sum % 11;
+    if (crc > 9)
+      crc = 0;
+    return new PZRet(number[6] == crc, 10, "50");
   }
 
   /** @author AN */
@@ -812,6 +910,27 @@ public class AccountCRCAlgs
     return new PZRet(n.equals("0185125434"));
   }
 
+  /** @author Heiner */
+  public static PZRet alg_58(int[] blz, int[] number)
+  {
+    int sum = addProducts(number, 0, 8,
+        new int[] { 0, 0, 0, 0, 6, 5, 4, 3, 2 }, false);
+    int crc = 11 - (sum % 11);
+    if (crc == 11)
+      crc = 0;
+    return new PZRet(number[9] == crc);
+  }
+
+  /** @author Heiner */
+  public static PZRet alg_59(int[] blz, int[] number)
+  {
+    if (number[0] == 0 && number[1] == 0)
+    {
+      return alg_09(blz, number);
+    }
+    return alg_00(blz, number);
+  }
+
   /** @author AN */
   public static PZRet alg_60(int[] blz, int[] number)
   {
@@ -881,6 +1000,35 @@ public class AccountCRCAlgs
           true);
       crc = (10 - sum % 10) % 10;
     }
+    return new PZRet(number[7] == crc);
+  }
+
+  /** @author Heiner */
+  public static PZRet alg_66(int[] blz, int[] number)
+  {
+    int sum = addProducts(number, 1, 8, new int[] { 7, 0, 0, 6, 5, 4, 3, 2 },
+        false);
+    int crc = (sum % 11);
+    if (crc == 0)
+    {
+      crc = 1;
+    }
+    else if (crc == 1)
+    {
+      crc = 0;
+    }
+    else
+    {
+      crc = 11 - crc;
+    }
+    return new PZRet(number[9] == crc);
+  }
+
+  /** @author Heiner */
+  public static PZRet alg_67(int[] blz, int[] number)
+  {
+    int sum = addProducts(number, 0, 6, new int[] { 2, 1, 2, 1, 2, 1, 2 }, true);
+    int crc = (10 - sum % 10) % 10;
     return new PZRet(number[7] == crc);
   }
 
@@ -1000,6 +1148,49 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  /** @author Heiner */
+  public static PZRet alg_71(int[] blz, int[] number)
+  {
+    int sum = addProducts(number, 1, 6, new int[] { 6, 5, 4, 3, 2, 1 }, false);
+    int crc = (11 - sum % 11);
+    if (crc == 10)
+    {
+      crc = 1;
+    }
+    return new PZRet(number[9] == crc);
+  }
+
+  /** @author Heiner */
+  public static PZRet alg_73(int[] blz, int[] number)
+  {
+    // Ausnahme
+    PZRet ret = ausnahme51(blz, number);
+    if (ret != null)
+    {
+      return ret;
+    }
+    // Variante 1
+    int sum = addProducts(number, 3, 8, new int[] { 1, 2, 1, 2, 1, 2 }, true);
+    int crc = (10 - sum % 10) % 10;
+    ret = new PZRet(number[9] == crc);
+    if (ret.isValid())
+    {
+      return ret;
+    }
+    // Variante 2
+    sum = addProducts(number, 4, 8, new int[] { 2, 1, 2, 1, 2 }, true);
+    crc = (10 - sum % 10) % 10;
+    ret = new PZRet(number[9] == crc);
+    if (ret.isValid())
+    {
+      return ret;
+    }
+    // Variante 3
+    sum = addProducts(number, 4, 8, new int[] { 2, 1, 2, 1, 2 }, true);
+    crc = (7 - sum % 7) % 7;
+    return new PZRet(number[9] == crc);
+  }
+
   /** @author AN */
   public static PZRet alg_74(int[] blz, int[] number)
   {
@@ -1100,6 +1291,43 @@ public class AccountCRCAlgs
       return alg_10(blz, number);
     }
     return alg_33(blz, number);
+  }
+
+  /** @author Heiner */
+  public static PZRet alg_84(int[] blz, int[] number)
+  {
+    // Ausnahme
+    PZRet ret = ausnahme51(blz, number);
+    if (ret != null)
+    {
+      return ret;
+    }
+    // Methode A
+    int sum = addProducts(number, 4, 8, new int[] { 6, 5, 4, 3, 2 }, false);
+    int crc = 11 - sum % 11;
+    if (crc > 9)
+      crc = 0;
+    ret = new PZRet(number[9] == crc, 10, "84");
+    if (ret.isValid())
+    {
+      return ret;
+    }
+    // Methode B
+    sum = addProducts(number, 4, 8, new int[] { 6, 5, 4, 3, 2 }, false);
+    crc = 7 - sum % 7;
+    if (crc > 9)
+      crc = 0;
+    ret = new PZRet(number[9] == crc, 10, "84");
+    if (ret.isValid())
+    {
+      return ret;
+    }
+    // Methode C
+    sum = addProducts(number, 4, 8, new int[] { 2, 1, 2, 1, 2 }, false);
+    crc = 10 - sum % 10;
+    if (crc > 9)
+      crc = 0;
+    return new PZRet(number[9] == crc, 10, "84");
   }
 
   /** @author AN */
@@ -1445,6 +1673,15 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  /** @author Heiner */
+  public static PZRet alg_94(int[] blz, int[] number)
+  {
+    int sum = addProducts(number, 0, 8,
+        new int[] { 1, 2, 1, 2, 1, 2, 1, 2, 1 }, true);
+    int crc = (10 - sum % 10) % 10;
+    return new PZRet(number[9] == crc);
+  }
+
   public static PZRet alg_95(int[] blz, int[] number)
   {
     if (number[0] == 0)
@@ -1479,6 +1716,23 @@ public class AccountCRCAlgs
         ret = true;
     }
     return new PZRet(ret);
+  }
+
+  /** @author Heiner */
+  public static PZRet alg_98(int[] blz, int[] number)
+  {
+    int sum = addProducts(number, 2, 8, new int[] { 3, 7, 1, 3, 7, 1, 3 },
+        false);
+    int crc = (10 - sum % 10) % 10;
+    PZRet ret = new PZRet(number[9] == crc);
+    if (ret.isValid())
+    {
+      return ret;
+    }
+    else
+    {
+      return alg_32(blz, number);
+    }
   }
 
   public static PZRet alg_99(int[] blz, int[] number)
@@ -1644,6 +1898,16 @@ public class AccountCRCAlgs
     return alg_01(blz, number);
   }
 
+  /** @author Heiner */
+  public static PZRet alg_B2(int[] blz, int[] number)
+  {
+    if (number[0] <= 7)
+    {
+      return alg_02(blz, number);
+    }
+    return alg_00(blz, number);
+  }
+
   /** @author AN */
   public static PZRet alg_B3(int[] blz, int[] number)
   {
@@ -1682,6 +1946,22 @@ public class AccountCRCAlgs
     return alg_53(blz, number);
   }
 
+  /** @author Heiner */
+  public static PZRet alg_B7(int[] blz, int[] number)
+  {
+    long konto = calculateIntFromNumber(number);
+    if ((konto >= 1000000L && konto <= 5999999L)
+        || (konto >= 700000000L && konto <= 899999999L))
+    {
+      PZRet ret = alg_01(blz, number);
+      if (ret.isValid())
+      {
+        return ret;
+      }
+    }
+    return alg_09(blz, number);
+  }
+
   public static PZRet alg_B8(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -1697,6 +1977,47 @@ public class AccountCRCAlgs
     }
 
     return ret;
+  }
+
+  /** @author Heiner */
+  public static PZRet alg_B9(int[] blz, int[] number)
+  {
+    if (number[0] == 0 && number[1] == 0 && number[2] > 0)
+    {
+      int summereste = computeB9(number, 2, 8,
+          new int[] { 1, 2, 3, 1, 2, 3, 1 });
+      int crc = summereste % 10;
+      PZRet ret = new PZRet((number[9] == crc));
+      if (ret.isValid())
+      {
+        return ret;
+      }
+      crc += 5;
+      if (crc > 9)
+      {
+        crc = crc - 10;
+      }
+      return new PZRet((number[9] == crc));
+    }
+    else if (number[0] == 0 && number[1] == 0 && number[2] == 0
+        && number[3] >= 0)
+    {
+      int sum = addProducts(number, 3, 8, new int[] { 6, 5, 4, 3, 2, 1 }, false);
+      int crc = sum % 11;
+
+      PZRet ret = new PZRet(number[9] == crc);
+      if (ret.isValid())
+      {
+        return ret;
+      }
+      crc += 5;
+      if (crc > 9)
+      {
+        crc = crc - 10;
+      }
+      return new PZRet(number[9] == crc);
+    }
+    return new PZRet(false);
   }
 
   /** @author AN */
@@ -1732,6 +2053,43 @@ public class AccountCRCAlgs
     sum--;
     int crc = (10 - sum % 11) % 10;
     return new PZRet(number[9] == crc);
+  }
+
+  /** @author Heiner */
+  public static PZRet alg_C2(int[] blz, int[] number)
+  {
+    PZRet ret = alg_22(blz, number);
+    if (ret.isValid())
+    {
+      return ret;
+    }
+    return alg_00(blz, number);
+  }
+
+  /** @author Heiner */
+  public static PZRet alg_C3(int[] blz, int[] number)
+  {
+    if (number[0] != 9)
+    {
+      return alg_00(blz, number);
+    }
+    else
+    {
+      return alg_58(blz, number);
+    }
+  }
+
+  /** @author Heiner */
+  public static PZRet alg_C4(int[] blz, int[] number)
+  {
+    if (number[0] != 9)
+    {
+      return alg_15(blz, number);
+    }
+    else
+    {
+      return alg_58(blz, number);
+    }
   }
 
   /** @autor Heiner */
@@ -1802,6 +2160,22 @@ public class AccountCRCAlgs
     return alg_06(blz, number);
   }
 
+  /** @author Heiner */
+  public static PZRet alg_C8(int[] blz, int[] number)
+  {
+    PZRet ret = alg_00(blz, number);
+    if (ret.isValid())
+    {
+      return ret;
+    }
+    ret = alg_04(blz, number);
+    if (ret.isValid())
+    {
+      return ret;
+    }
+    return alg_07(blz, number);
+  }
+
   public static PZRet alg_D0(int[] blz, int[] number)
   {
     PZRet ok = new PZRet(false);
@@ -1821,6 +2195,50 @@ public class AccountCRCAlgs
     }
 
     return ok;
+  }
+
+  /** @author Heiner */
+  public static PZRet alg_D1(int[] blz, int[] number)
+  {
+    if (number[0] == 8)
+    {
+      return new PZRet(false);
+    }
+    int[] n = new int[15];
+    for (int i = 0; i < 8; i++)
+    {
+      n[i + 7] = number[i + 1];
+    }
+    n[0] = 4;
+    n[1] = 3;
+    n[2] = 6;
+    n[3] = 3;
+    n[4] = 3;
+    n[5] = 8;
+    n[6] = number[0];
+    int[] produkt = new int[15];
+    produkt[0] = n[0] * 2;
+    produkt[1] = n[1] * 1;
+    produkt[2] = n[2] * 2;
+    produkt[3] = n[3] * 1;
+    produkt[4] = n[4] * 2;
+    produkt[5] = n[5] * 1;
+    produkt[6] = n[6] * 2;
+    produkt[7] = n[7] * 1;
+    produkt[8] = n[8] * 2;
+    produkt[9] = n[9] * 1;
+    produkt[10] = n[10] * 2;
+    produkt[11] = n[11] * 1;
+    produkt[12] = n[12] * 2;
+    produkt[13] = n[13] * 1;
+    produkt[14] = n[14] * 2;
+    int su = 0;
+    for (int i = 0; i < 15; i++)
+    {
+      su += quersumme(produkt[i], false);
+    }
+    int crc = 10 - (su % 10);
+    return new PZRet(number[9] == crc);
   }
 
   /** @author Heiner */
@@ -1852,6 +2270,20 @@ public class AccountCRCAlgs
       result += prod;
     }
     return result;
+  }
+
+  /** @author Heiner */
+  private static int computeB9(int[] number, int first, int last, int[] factors)
+  {
+    int summereste = 0;
+    for (int i = first; i <= last; i++)
+    {
+      int erg = (number[i] * factors[i - first]);
+      erg += factors[i - first];
+      erg = erg % 11;
+      summereste += erg;
+    }
+    return summereste;
   }
 
   private static int quersumme(int x, boolean recursive)
@@ -1915,5 +2347,49 @@ public class AccountCRCAlgs
     BigInteger rest = x.mod(new BigInteger("97"));
 
     return rest.intValue() == 1;
+  }
+
+  /** @author Heiner */
+  private static PZRet ausnahme51(int[] blz, int[] number)
+  {
+    // Ausnahme
+    if (number[2] == 9)
+    {
+      // Ausnahme 1
+      int sum = addProducts(number, 2, 8, new int[] { 8, 7, 6, 5, 4, 3, 2 },
+          false);
+      int crc = 11 - sum % 11;
+      if (crc > 9)
+      {
+        crc = 0;
+      }
+      if (crc == 1)
+      {
+        crc = 0;
+      }
+      PZRet ret = new PZRet(number[9] == crc, 10, "84");
+      if (ret.isValid())
+      {
+        return ret;
+      }
+      // Ausnahme 2
+      sum = addProducts(number, 0, 8, new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 },
+          false);
+      crc = 11 - sum % 11;
+      if (crc > 9)
+      {
+        crc = 0;
+      }
+      if (crc == 1)
+      {
+        crc = 0;
+      }
+      ret = new PZRet(number[9] == crc, 10, "84");
+      if (ret.isValid())
+      {
+        return ret;
+      }
+    }
+    return null;
   }
 }
