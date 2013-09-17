@@ -117,4 +117,9 @@ public class Banken
     return ret;
   }
 
+  public static ArrayList<Bank> getBanken()
+  {
+    return banken;
+  }
+
 }
