@@ -984,6 +984,15 @@ public class AccountCRCAlgs
     return ok;
   }
 
+  public static PZRet alg_64(int[] blz, int[] number)
+  {
+    int sum = addProducts(number, 0, 5, new int[] { 9, 10, 5, 8, 4, 2 }, false);
+    int crc = 11 - sum % 11;
+    if (crc > 9)
+      crc = 0;
+    return new PZRet(number[6] == crc);
+  }
+
   public static PZRet alg_65(int[] blz, int[] number)
   {
     int crc;
@@ -2176,6 +2185,18 @@ public class AccountCRCAlgs
     return alg_07(blz, number);
   }
 
+  /** @author Heiner */
+  public static PZRet alg_C9(int[] blz, int[] number)
+  {
+    // Variante 1
+    if (alg_00(blz, number).isValid())
+    {
+      return new PZRet(true);
+    }
+    // Variante 2
+    return alg_07(blz, number);
+  }
+
   public static PZRet alg_D0(int[] blz, int[] number)
   {
     PZRet ok = new PZRet(false);
@@ -2239,6 +2260,51 @@ public class AccountCRCAlgs
     }
     int crc = 10 - (su % 10);
     return new PZRet(number[9] == crc);
+  }
+
+  /** @author Heiner */
+  public static PZRet alg_D2(int[] blz, int[] number)
+  {
+    // Variante 1
+    if (alg_95(blz, number).isValid())
+    {
+      return new PZRet(true);
+    }
+    // Variante 2
+    if (alg_00(blz, number).isValid())
+    {
+      return new PZRet(true);
+    }
+    return alg_68(blz, number);
+  }
+
+  /** @author Heiner */
+  public static PZRet alg_D3(int[] blz, int[] number)
+  {
+    // Variante 1
+    if (alg_00(blz, number).isValid())
+    {
+      return new PZRet(true);
+    }
+    // Variante 2
+    return alg_27(blz, number);
+  }
+
+  /** @author Heiner */
+  public static PZRet alg_D6(int[] blz, int[] number)
+  {
+    // Variante 1
+    if (alg_07(blz, number).isValid())
+    {
+      return new PZRet(true);
+    }
+    // Variante 2
+    if (alg_03(blz, number).isValid())
+    {
+      return new PZRet(true);
+    }
+    // Variante 3
+    return alg_00(blz, number);
   }
 
   /** @author Heiner */
