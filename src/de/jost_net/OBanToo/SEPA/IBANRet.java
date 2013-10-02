@@ -10,30 +10,30 @@ package de.jost_net.OBanToo.SEPA;
 
 public class IBANRet
 {
-  private String code = null;
+  private IBANCode code = null;
 
   private String iban = null;
 
   private String bic = null;
 
-  public IBANRet(String code, String iban, String bic)
+  public IBANRet(IBANCode code, String iban, String bic)
   {
     this.code = code;
     this.iban = iban;
     this.bic = bic;
   }
 
-  public IBANRet(String code)
+  public IBANRet(IBANCode code)
   {
     this.code = code;
   }
 
-  public String getCode()
+  public IBANCode getCode()
   {
     return code;
   }
 
-  public void setCode(String code)
+  public void setCode(IBANCode code)
   {
     this.code = code;
   }

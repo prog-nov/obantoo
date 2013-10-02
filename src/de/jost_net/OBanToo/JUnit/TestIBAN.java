@@ -19,6 +19,7 @@ import org.junit.runners.JUnit4;
 import org.junit.runners.MethodSorters;
 
 import de.jost_net.OBanToo.SEPA.IBAN;
+import de.jost_net.OBanToo.SEPA.IBANCode;
 import de.jost_net.OBanToo.SEPA.SEPAException;
 
 @RunWith(JUnit4.class)
@@ -35,7 +36,7 @@ public class TestIBAN
     {
       IBAN iban = new IBAN("1861889", "47853520", "DE");
       assertEquals("DE61478535200001861889", iban.getIBAN());
-      assertEquals("00", iban.getRetCode());
+      assertEquals(IBANCode.GUELTIG, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -52,7 +53,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("1", "48050000", "DE");
-      assertEquals("50", iban.getRetCode());
+      assertEquals(IBANCode.IBANBERECHNUNGNICHTMOEGLICH, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -66,9 +67,9 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("1234560864", "72020700", "DE");
-      assertEquals("50", iban.getRetCode());
+      assertEquals(IBANCode.IBANBERECHNUNGNICHTMOEGLICH, iban.getCode());
       iban = new IBAN("1234560678", "72020700", "DE");
-      assertEquals("50", iban.getRetCode());
+      assertEquals(IBANCode.IBANBERECHNUNGNICHTMOEGLICH, iban.getCode());
       iban = new IBAN("1234560890", "72020700", "DE");
       assertEquals("DE76720207001234560890", iban.getIBAN());
     }
@@ -85,7 +86,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("6161604670", "51010800", "DE");
-      assertEquals("50", iban.getRetCode());
+      assertEquals(IBANCode.IBANBERECHNUNGNICHTMOEGLICH, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -145,16 +146,16 @@ public class TestIBAN
       assertEquals("DE37265800704820379900", iban.getIBAN());
       assertEquals("COBADEFFXXX", iban.getBIC());
       iban = new IBAN("1814706100", "50080000", "DE");
-      assertEquals("50", iban.getRetCode());
+      assertEquals(IBANCode.IBANBERECHNUNGNICHTMOEGLICH, iban.getCode());
       iban = new IBAN("2814706100", "50080000", "DE");
-      assertEquals("50", iban.getRetCode());
+      assertEquals(IBANCode.IBANBERECHNUNGNICHTMOEGLICH, iban.getCode());
       iban = new IBAN("3814706100", "50080000", "DE");
-      assertEquals("50", iban.getRetCode());
+      assertEquals(IBANCode.IBANBERECHNUNGNICHTMOEGLICH, iban.getCode());
       iban = new IBAN("4814706100", "50080000", "DE");
       assertEquals("DE70500800004814706100", iban.getIBAN());
       assertEquals("COBADEFFXXX", iban.getBIC());
       iban = new IBAN("5814706100", "50080000", "DE");
-      assertEquals("50", iban.getRetCode());
+      assertEquals(IBANCode.IBANBERECHNUNGNICHTMOEGLICH, iban.getCode());
       iban = new IBAN("6814706100", "50080000", "DE");
       assertEquals("DE77500800006814706100", iban.getIBAN());
       assertEquals("COBADEFFXXX", iban.getBIC());
@@ -180,7 +181,7 @@ public class TestIBAN
       assertEquals("DE21500800000004350300", iban.getIBAN());
       assertEquals("COBADEFFXXX", iban.getBIC());
       iban = new IBAN("526400", "50080000", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
       iban = new IBAN("526400", "50089400", "DE");
       assertEquals("DE49500894000000526400", iban.getIBAN());
       assertEquals("COBADEFFXXX", iban.getBIC());
@@ -188,11 +189,11 @@ public class TestIBAN
       assertEquals("DE73100800000998761700", iban.getIBAN());
       assertEquals("COBADEFFXXX", iban.getBIC());
       iban = new IBAN("998761700", "12080000", "DE");
-      assertEquals("50", iban.getRetCode());
+      assertEquals(IBANCode.IBANBERECHNUNGNICHTMOEGLICH, iban.getCode());
       iban = new IBAN("43434280", "26580070", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
       iban = new IBAN("4343428000", "26580070", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
       iban = new IBAN("99021000", "26580070", "DE");
       assertEquals("DE10265800709902100000", iban.getIBAN());
       assertEquals("COBADEFFXXX", iban.getBIC());
@@ -200,12 +201,12 @@ public class TestIBAN
       assertEquals("DE24505400280421738600", iban.getIBAN());
       assertEquals("COBADEFFXXX", iban.getBIC());
       iban = new IBAN("4217387", "50540028", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
       iban = new IBAN("111198800", "72040046", "DE");
       assertEquals("DE10720400460111198800", iban.getIBAN());
       assertEquals("COBADEFFXXX", iban.getBIC());
       iban = new IBAN("111198700", "72040046", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
       iban = new IBAN("420086100", "50540028", "DE");
       assertEquals("DE46505400280420086100", iban.getIBAN());
       assertEquals("COBADEFFXXX", iban.getBIC());
@@ -222,7 +223,7 @@ public class TestIBAN
       assertEquals("DE29230400220010441400", iban.getIBAN());
       assertEquals("COBADEFFXXX", iban.getBIC());
       iban = new IBAN("104417", "23040022", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
       iban = new IBAN("40050700", "12040000", "DE");
       assertEquals("DE27120400000040050700", iban.getIBAN());
       assertEquals("COBADEFFXXX", iban.getBIC());
@@ -245,7 +246,7 @@ public class TestIBAN
       assertEquals("DE59500400000930125006", iban.getIBAN());
       assertEquals("COBADEFFXXX", iban.getBIC());
       iban = new IBAN("930125001", "50040033", "DE");
-      assertEquals("50", iban.getRetCode());
+      assertEquals(IBANCode.IBANBERECHNUNGNICHTMOEGLICH, iban.getCode());
       // iban = new IBAN("930125007", "70045050", "DE"); // der Test steht noch
       // in der Liste. In der Änderungshistorik wird allerdings ausgeführt, dass
       // die genannte BLZ geöffnet wurde (1.5)
@@ -531,7 +532,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("117", "10070000", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -546,7 +547,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("500", "10070000", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -561,7 +562,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("1800", "10070000", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -696,7 +697,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("94012341", "10070000", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -711,7 +712,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("123456700", "10070000", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -726,7 +727,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("5073321010", "10070000", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -741,7 +742,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("1415900000", "10070000", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -756,7 +757,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("1000300004", "10070000", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -771,7 +772,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("94012341", "76026000", "DE");
-      assertEquals("12", iban.getRetCode());
+      assertEquals(IBANCode.KOMBINATIONBLZKONTOUNZULAESSIG, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -786,7 +787,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("5073321010", "76026000", "DE");
-      assertEquals("12", iban.getRetCode());
+      assertEquals(IBANCode.KOMBINATIONBLZKONTOUNZULAESSIG, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -801,7 +802,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("1234517892", "76026000", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -816,7 +817,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("987614325", "76026000", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -982,7 +983,7 @@ public class TestIBAN
     {
       IBAN iban = new IBAN("6790149813", "54520071", "DE");
       assertEquals("DE77545201946790149813", iban.getIBAN());
-      assertEquals("13", iban.getRetCode()); // BLZ wurde ersetzt
+      assertEquals(IBANCode.GEMELDETEBLZZURLOESCHUNGVORGEMERKT, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -997,7 +998,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("6791000000", "54520071", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -1012,7 +1013,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("897", "10120760", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -1028,7 +1029,7 @@ public class TestIBAN
     {
       IBAN iban = new IBAN("1210100047", "79020325", "DE");
       assertEquals("DE70762200731210100047", iban.getIBAN());
-      assertEquals("13", iban.getRetCode()); // BLZ wurde ersetzt
+      assertEquals(IBANCode.GEMELDETEBLZZURLOESCHUNGVORGEMERKT, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -1090,7 +1091,7 @@ public class TestIBAN
     {
       IBAN iban = new IBAN("1210100047", "76220073", "DE");
       assertEquals("DE70762200731210100047", iban.getIBAN());
-      assertEquals("00", iban.getRetCode());
+      assertEquals(IBANCode.GUELTIG, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -1123,7 +1124,7 @@ public class TestIBAN
     {
       IBAN iban = new IBAN("3200000012", "76220073", "DE");
       assertEquals("DE06710221823200000012", iban.getIBAN());
-      assertEquals("13", iban.getRetCode());
+      assertEquals(IBANCode.GEMELDETEBLZZURLOESCHUNGVORGEMERKT, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -1155,7 +1156,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("897", "10020890", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -1171,7 +1172,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("847321750", "85020086", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -1202,7 +1203,7 @@ public class TestIBAN
     {
       IBAN iban = new IBAN("1457032621", "70020270", "DE");
       assertEquals("DE92660202861457032621", iban.getIBAN());
-      assertEquals("13", iban.getRetCode());
+      assertEquals(IBANCode.GEMELDETEBLZZURLOESCHUNGVORGEMERKT, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -1247,7 +1248,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("847321750", "72020070", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -1293,7 +1294,7 @@ public class TestIBAN
     {
       IBAN iban = new IBAN("1457032621", "60020290", "DE");
       assertEquals("DE92660202861457032621", iban.getIBAN());
-      assertEquals("13", iban.getRetCode());
+      assertEquals(IBANCode.GEMELDETEBLZZURLOESCHUNGVORGEMERKT, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -1323,7 +1324,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("847321750", "60020290", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -1354,7 +1355,7 @@ public class TestIBAN
     {
       IBAN iban = new IBAN("1320815432", "79020076", "DE");
       assertEquals("DE69600202901320815432", iban.getIBAN());
-      assertEquals("13", iban.getRetCode());
+      assertEquals(IBANCode.GEMELDETEBLZZURLOESCHUNGVORGEMERKT, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -1384,7 +1385,7 @@ public class TestIBAN
     try
     {
       IBAN iban = new IBAN("847321750", "79020076", "DE");
-      assertEquals("11", iban.getRetCode());
+      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -1780,6 +1781,22 @@ public class TestIBAN
     {
       IBAN iban = new IBAN("35000", "55050000", "DE");
       assertEquals("DE94600501017401555913", iban.getIBAN());
+    }
+    catch (SEPAException e)
+    {
+      e.printStackTrace();
+      fail();
+    }
+  }
+
+  @Test
+  public void A4()
+  {
+    try
+    {
+      IBAN iban = new IBAN("11111", "57020500", "DE");
+      assertEquals("DE81570205000000011111", iban.getIBAN());
+      assertEquals(IBANCode.PRUEFZIFFERNMETHODEFEHLT, iban.getCode());
     }
     catch (SEPAException e)
     {

@@ -29,7 +29,7 @@ import de.jost_net.OBanToo.SEPA.Land.SEPALand;
 
 public class IBAN
 {
-  private String retcode;
+  private IBANCode code;
 
   private String iban;
 
@@ -182,7 +182,7 @@ public class IBAN
       }
       catch (Exception e)
       {
-        retcode = "50";
+        code = IBANCode.IBANBERECHNUNGNICHTMOEGLICH;
         throw new SEPAException(Fehler.IBANREGEL_NICHT_IMPLEMENTIERT,
             b.getIBANRegel());
       }
@@ -192,7 +192,7 @@ public class IBAN
         Object[] args = new Object[] { blz, kontoNr, land };
         Object ret = method.invoke(null, args);
         IBANRet retval = (IBANRet) ret;
-        retcode = retval.getCode();
+        code = retval.getCode();
         iban = retval.getIban();
         bic = retval.getBic();
       }
@@ -225,9 +225,9 @@ public class IBAN
     return bic;
   }
 
-  public String getRetCode()
+  public IBANCode getCode()
   {
-    return retcode;
+    return code;
   }
 
   public SEPALand getLand()
@@ -306,6 +306,8 @@ public class IBAN
 
   /**
    * Standardregel
+   * 
+   * @throws Exception
    */
   public static IBANRet ibanRegel_000000(String blz, String konto,
       SEPALand land, String bic, boolean ungueltigePruefzifferZugelassen)
@@ -317,8 +319,8 @@ public class IBAN
     {
       throw new SEPAException(Fehler.BLZ_UNGUELTIG);
     }
-
-    if (land.getKennzeichen().equals("DE"))
+    boolean pruefziffernmethodefehlt = false;
+    try
     {
       if (!KontoPruefziffernrechnung.checkAccountCRCByAlg(
           b.getPruefziffernmethode(), blz, konto).isValid())
@@ -327,6 +329,17 @@ public class IBAN
         {
           throw new SEPAException(Fehler.KONTO_PRUEFZIFFER_FALSCH);
         }
+      }
+    }
+    catch (Exception e)
+    {
+      if (e.getMessage().startsWith("CRC algorithm"))
+      {
+        pruefziffernmethodefehlt = true;
+      }
+      else
+      {
+        throw e;
       }
     }
     StringBuilder accountString = new StringBuilder();
@@ -344,8 +357,14 @@ public class IBAN
       BIC bi = new BIC(konto, blz, land.getKennzeichen());
       bic = bi.getBIC();
     }
-
-    return new IBANRet("00", iban, bic);
+    if (pruefziffernmethodefehlt)
+    {
+      return new IBANRet(IBANCode.PRUEFZIFFERNMETHODEFEHLT, iban, bic);
+    }
+    else
+    {
+      return new IBANRet(IBANCode.PRUEFZIFFERNMETHODEFEHLT, iban, bic);
+    }
   }
 
   /**
@@ -355,7 +374,7 @@ public class IBAN
   public static IBANRet ibanRegel_000100(String blz, String konto, SEPALand land)
       throws SEPAException
   {
-    return new IBANRet("50", null, null);
+    return new IBANRet(IBANCode.IBANBERECHNUNGNICHTMOEGLICH);
   }
 
   /**
@@ -366,7 +385,7 @@ public class IBAN
   {
     if (konto.substring(7, 9).equals("86") || konto.substring(7, 8).equals("6"))
     {
-      return new IBANRet("50");
+      return new IBANRet(IBANCode.IBANBERECHNUNGNICHTMOEGLICH);
     }
     return ibanRegel_000000(blz, konto, land);
   }
@@ -379,7 +398,7 @@ public class IBAN
   {
     if (konto.equals("6161604670"))
     {
-      return new IBANRet("50");
+      return new IBANRet(IBANCode.IBANBERECHNUNGNICHTMOEGLICH);
     }
     return ibanRegel_000000(blz, konto, land);
   }
@@ -523,7 +542,7 @@ public class IBAN
         b.getPruefziffernmethode(), blz, konto);
     if (!ok.isValid())
     {
-      return new IBANRet("11"); // Ungültige Prüfziffer
+      return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
     }
     if (b.getPruefziffernmethode().equals("13"))
     {
@@ -543,7 +562,7 @@ public class IBAN
       if (kontoart.equals("1") || kontoart.equals("2") || kontoart.equals("3")
           || kontoart.equals("5"))
       {
-        return new IBANRet("50");
+        return new IBANRet(IBANCode.IBANBERECHNUNGNICHTMOEGLICH);
       }
     }
     String[] blzgesperrtekontenkreise = new String[] { "10080900", "25780022",
@@ -574,13 +593,13 @@ public class IBAN
         BigInteger kb = new BigInteger("0999499999");
         if (k.compareTo(kv) >= 0 && k.compareTo(kb) <= 0)
         {
-          return new IBANRet("50"); // Für IBAN-Berechnung gesperrt
+          return new IBANRet(IBANCode.IBANBERECHNUNGNICHTMOEGLICH);
         }
       }
     }
     if (blz.equals("50040033")) // Generell gesperrt
     {
-      return new IBANRet("50"); // Für IBAN-Berechnung gesperrt
+      return new IBANRet(IBANCode.IBANBERECHNUNGNICHTMOEGLICH);
     }
     return ibanRegel_000000(blz, konto, land, "COBADEFFXXX", false);
   }
@@ -866,7 +885,7 @@ public class IBAN
   {
     if (blz.equals("10020000"))
     {
-      return new IBANRet("12");
+      return new IBANRet(IBANCode.KOMBINATIONBLZKONTOUNZULAESSIG);
     }
     // Spendenkonten
     if (blz.equals("50070010") && konto.equals("9999"))
@@ -880,7 +899,7 @@ public class IBAN
       konto = truncateLeadingZeros(konto);
       if (konto.length() <= 4)
       {
-        return new IBANRet("11");
+        return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
       }
       else if (konto.length() >= 5 && konto.length() <= 6)
       {
@@ -924,7 +943,7 @@ public class IBAN
           }
           else
           {
-            return new IBANRet("11");
+            return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
           }
         }
       }
@@ -948,14 +967,14 @@ public class IBAN
       }
       else if (ret.isValid() && ret.getAlg().equals("06"))
       {
-        return new IBANRet("12");
+        return new IBANRet(IBANCode.KOMBINATIONBLZKONTOUNZULAESSIG);
       }
       else
       {
-        return new IBANRet("11");
+        return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
       }
     }
-    return new IBANRet("11");
+    return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
   }
 
   /**
@@ -1049,7 +1068,7 @@ public class IBAN
     }
     else
     {
-      return new IBANRet("12");
+      return new IBANRet(IBANCode.KOMBINATIONBLZKONTOUNZULAESSIG);
     }
   }
 
@@ -1072,7 +1091,7 @@ public class IBAN
     }
     else
     {
-      return new IBANRet("12");
+      return new IBANRet(IBANCode.KOMBINATIONBLZKONTOUNZULAESSIG);
     }
   }
 
@@ -1234,7 +1253,7 @@ public class IBAN
     {
       return ibanRegel_000000(blz, konto, land, null, true);
     }
-    return new IBANRet("12");
+    return new IBANRet(IBANCode.KOMBINATIONBLZKONTOUNZULAESSIG);
   }
 
   /**
@@ -1248,26 +1267,26 @@ public class IBAN
         b.getPruefziffernmethode(), blz, konto);
     if (!ret.isValid())
     {
-      return new IBANRet("11");
+      return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
     }
 
     if (b.getHinweisloeschung().equals("1"))
     {
       if (konto.length() != 10)
       {
-        return new IBANRet("11");
+        return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
       }
       String ersatzblz = ExHypoBehandlung.getErsatzBLZ(blz, konto, land);
       if (ersatzblz != null)
       {
         IBANRet ir = ibanRegel_000000(ersatzblz, konto, land);
-        if (ir.getCode().equals("00"))
+        if (ir.getCode().equals(IBANCode.GUELTIG))
         {
-          ir.setCode("13");
+          ir.setCode(IBANCode.GEMELDETEBLZZURLOESCHUNGVORGEMERKT);
         }
         return ir;
       }
-      return new IBANRet("11");
+      return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
     }
     else
     {
@@ -1286,7 +1305,7 @@ public class IBAN
         b.getPruefziffernmethode(), blz, konto);
     if (!ret.isValid())
     {
-      return new IBANRet("11");
+      return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
     }
 
     if (b.getHinweisloeschung().equals("0"))
@@ -1299,7 +1318,7 @@ public class IBAN
           IBANRet ir = ibanRegel_000000(ersatzblz, konto, land);
           if (!blz.equals(ersatzblz))
           {
-            ir.setCode("13");
+            ir.setCode(IBANCode.GEMELDETEBLZZURLOESCHUNGVORGEMERKT);
           }
           return ir;
         }
@@ -1310,7 +1329,7 @@ public class IBAN
         if (blzbi.compareTo(new BigInteger("800000000")) >= 0
             && blzbi.compareTo(new BigInteger("899999999")) <= 0)
         {
-          return new IBANRet("11");
+          return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
         }
         else
         {
@@ -1318,11 +1337,11 @@ public class IBAN
         }
       }
 
-      return new IBANRet("11");
+      return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
     }
     else
     {
-      return new IBANRet("11");// TODO 0032
+      return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);// TODO 0032
     }
   }
 
@@ -1334,7 +1353,7 @@ public class IBAN
   {
     if (!blz.equals("70020270"))
     {
-      return new IBANRet("12");
+      return new IBANRet(IBANCode.KOMBINATIONBLZKONTOUNZULAESSIG);
     }
     HashMap<String, String> spendenkonten = new HashMap<String, String>();
     spendenkonten.put("22222", "5803435253");
@@ -1354,7 +1373,7 @@ public class IBAN
         b.getPruefziffernmethode(), blz, konto);
     if (!ret.isValid())
     {
-      return new IBANRet("11");
+      return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
     }
 
     if (b.getHinweisloeschung().equals("0"))
@@ -1367,7 +1386,7 @@ public class IBAN
           IBANRet ir = ibanRegel_000000(ersatzblz, konto, land);
           if (!blz.equals(ersatzblz))
           {
-            ir.setCode("13");
+            ir.setCode(IBANCode.GEMELDETEBLZZURLOESCHUNGVORGEMERKT);
           }
           return ir;
         }
@@ -1377,7 +1396,7 @@ public class IBAN
         return ibanRegel_000000(blz, konto, land);
       }
     }
-    return new IBANRet("11");
+    return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
   }
 
   /**
@@ -1388,7 +1407,7 @@ public class IBAN
   {
     if (!blz.equals("60020290"))
     {
-      return new IBANRet("12");
+      return new IBANRet(IBANCode.KOMBINATIONBLZKONTOUNZULAESSIG);
     }
     HashMap<String, String> spendenkonten = new HashMap<String, String>();
     spendenkonten.put("500500500", "4340111112");
@@ -1405,7 +1424,7 @@ public class IBAN
         b.getPruefziffernmethode(), blz, konto);
     if (!ret.isValid())
     {
-      return new IBANRet("11");
+      return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
     }
 
     if (b.getHinweisloeschung().equals("0"))
@@ -1418,7 +1437,7 @@ public class IBAN
           IBANRet ir = ibanRegel_000000(ersatzblz, konto, land);
           if (!blz.equals(ersatzblz))
           {
-            ir.setCode("13");
+            ir.setCode(IBANCode.GEMELDETEBLZZURLOESCHUNGVORGEMERKT);
           }
           return ir;
         }
@@ -1429,7 +1448,7 @@ public class IBAN
         if (blzbi.compareTo(new BigInteger("800000000")) >= 0
             && blzbi.compareTo(new BigInteger("899999999")) <= 0)
         {
-          return new IBANRet("11");
+          return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
         }
         else
         {
@@ -1437,7 +1456,7 @@ public class IBAN
         }
       }
     }
-    return new IBANRet("11");
+    return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
   }
 
   /**
@@ -1448,7 +1467,7 @@ public class IBAN
   {
     if (!blz.equals("79020076"))
     {
-      return new IBANRet("12");
+      return new IBANRet(IBANCode.KOMBINATIONBLZKONTOUNZULAESSIG);
     }
     HashMap<String, String> spendenkonten = new HashMap<String, String>();
     spendenkonten.put("9696", "1490196966");
@@ -1464,7 +1483,7 @@ public class IBAN
         b.getPruefziffernmethode(), blz, konto);
     if (!ret.isValid())
     {
-      return new IBANRet("11");
+      return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
     }
 
     if (b.getHinweisloeschung().equals("0"))
@@ -1477,7 +1496,7 @@ public class IBAN
           IBANRet ir = ibanRegel_000000(ersatzblz, konto, land);
           if (!blz.equals(ersatzblz))
           {
-            ir.setCode("13");
+            ir.setCode(IBANCode.GEMELDETEBLZZURLOESCHUNGVORGEMERKT);
           }
           return ir;
         }
@@ -1488,7 +1507,7 @@ public class IBAN
         if (blzbi.compareTo(new BigInteger("800000000")) >= 0
             && blzbi.compareTo(new BigInteger("899999999")) <= 0)
         {
-          return new IBANRet("11");
+          return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
         }
         else
         {
@@ -1496,7 +1515,7 @@ public class IBAN
         }
       }
     }
-    return new IBANRet("11");
+    return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
   }
 
   /**
@@ -1521,7 +1540,7 @@ public class IBAN
         || (kontobi.compareTo(new BigInteger("8600000000")) >= 0 && kontobi
             .compareTo(new BigInteger("8999999999")) <= 0))
     {
-      return new IBANRet("11");
+      return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
     }
 
     Bank b = Banken.getBankByBLZ(blz);
@@ -1529,7 +1548,7 @@ public class IBAN
         b.getPruefziffernmethode(), blz, konto);
     if (!ret.isValid())
     {
-      return new IBANRet("11");
+      return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
     }
     blz = "21050000";
     konto = truncateLeadingZeros(konto);
@@ -1658,7 +1677,7 @@ public class IBAN
     if (endnummer.compareTo(new BigInteger("0")) >= 0
         && endnummer.compareTo(new BigInteger("999")) <= 0)
     {
-      return new IBANRet("11");
+      return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
     }
 
     if (konto.startsWith("50462") || konto.startsWith("50463")
@@ -1670,7 +1689,7 @@ public class IBAN
     {
       return ibanRegel_000000(blz, konto, land);
     }
-    return new IBANRet("11");
+    return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
   }
 
   /**
@@ -1755,7 +1774,7 @@ public class IBAN
     if (!blz.equals("30060010") && !blz.equals("40060000")
         && !blz.equals("57060000"))
     {
-      return new IBANRet("12");
+      return new IBANRet(IBANCode.KOMBINATIONBLZKONTOUNZULAESSIG);
     }
     konto = truncateLeadingZeros(konto);
     HashMap<String, String> spendenkonten = new HashMap<String, String>();

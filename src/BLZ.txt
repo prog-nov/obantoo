@@ -43,7 +43,6 @@
 100700001Deutsche Bank Fil Berlin                                  10883Berlin                             Deutsche Bank Fil Berlin   27060DEUTDEBBXXX63004787M000000000002001
 100700002Deutsche Bank Fil Berlin Gf P2                            10883Berlin                             Deutsche Bank Fil Berlin   27703           63055917M000000000002001
 100700002Deutsche Bank Fil Berlin Gf P2                            10883Berlin                             Deutsche Bank Fil Berlin   27700           63056400A000000000002001
-100700241Deutsche Bank Privat und Geschäftskunden F 700            10883Berlin                             Deutsche Bank PGK Berlin   21060DEUTDEDBBER63049758M000000000002001
 100700242Deutsche Bank Privat und Geschäftskunden F 700 Gf P2      10883Berlin                             Deutsche Bank PGK Berlin   21703           63055916M000000000002001
 100700242Deutsche Bank Privat und Geschäftskunden F 700 Gf P2      10883Berlin                             Deutsche Bank PGK Berlin   21700           63056401A000000000002001
 100701001Deutsche Bank Fil Berlin II                               10883Berlin                             Deutsche Bank Fil Berlin II27701DEUTDEBB10163053102M000000000002001
