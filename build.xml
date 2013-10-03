@@ -20,7 +20,7 @@
 	<target name="compile" depends="init" description="Compilieren">
 		<mkdir dir="${classes.dir}" />
 		<javac source="1.6"
-			     classpath="lib/itextpdf-5.3.3.jar"
+			     classpath="lib/itextpdf-5.3.3.jar;lib/junit-4.11.jar"
 			     target="1.6" 
 			     debug="true" 
 			     debuglevel="lines,vars,source" 
