@@ -29,6 +29,8 @@ public class Zahler
 
   private BigDecimal betrag;
 
+  private MANDATSEQUENCE mandatsequence;
+
   private static final BigDecimal nu = new BigDecimal("0.00");
 
   /**
@@ -261,6 +263,25 @@ public class Zahler
         || betrag.compareTo(nu) == 0)
     {
       throw new SEPAException("Ungültiger Betrag: " + betrag);
+    }
+  }
+
+  public void setMandatsequence(MANDATSEQUENCE sequence)
+  {
+    this.mandatsequence = sequence;
+  }
+
+  public MANDATSEQUENCE getMandatsequence() throws SEPAException
+  {
+    checkMandatsequence(mandatsequence);
+    return this.mandatsequence;
+  }
+
+  public void checkMandatsequence(MANDATSEQUENCE seq) throws SEPAException
+  {
+    if (seq == null)
+    {
+      throw new SEPAException("Mandats-Sequence ist null");
     }
   }
 
