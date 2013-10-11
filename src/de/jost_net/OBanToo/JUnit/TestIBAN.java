@@ -26,6 +26,7 @@ import de.jost_net.OBanToo.SEPA.SEPAException;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestIBAN
 {
+
   /**
    * Standardmethode
    */
@@ -36,11 +37,47 @@ public class TestIBAN
     {
       IBAN iban = new IBAN("1861889", "47853520", "DE");
       assertEquals("DE61478535200001861889", iban.getIBAN());
-      assertEquals(IBANCode.GUELTIG, iban.getCode());
+      assertEquals(IBANCode.PRUEFZIFFERNMETHODEFEHLT, iban.getCode());
     }
     catch (SEPAException e)
     {
       fail();
+    }
+  }
+
+  /**
+   * Standardmethode - Ungültiges Land
+   */
+  @Test
+  public void regel000001()
+  {
+    try
+    {
+      new IBAN("EF61478535200001861889");
+      fail(); // IBAN muss SEPAException werfen.
+    }
+    catch (SEPAException e)
+    {
+      assertEquals("Ungültige IBAN. Landesschlüssel existiert nicht",
+          e.getMessage());
+    }
+  }
+
+  /**
+   * Standardmethode - Ungültige Prüfziffer
+   */
+  @Test
+  public void regel000002()
+  {
+    try
+    {
+      new IBAN("DE61478535200001861889");
+      fail(); // IBAN muss SEPAException werfen.
+    }
+    catch (SEPAException e)
+    {
+      assertEquals("Ungültige IBAN. Prüfziffer falsch.",
+          e.getMessage());
     }
   }
 
@@ -983,7 +1020,7 @@ public class TestIBAN
     {
       IBAN iban = new IBAN("6790149813", "54520071", "DE");
       assertEquals("DE77545201946790149813", iban.getIBAN());
-      assertEquals(IBANCode.GEMELDETEBLZZURLOESCHUNGVORGEMERKT, iban.getCode());
+      assertEquals(IBANCode.PRUEFZIFFERNMETHODEFEHLT, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -1029,7 +1066,7 @@ public class TestIBAN
     {
       IBAN iban = new IBAN("1210100047", "79020325", "DE");
       assertEquals("DE70762200731210100047", iban.getIBAN());
-      assertEquals(IBANCode.GEMELDETEBLZZURLOESCHUNGVORGEMERKT, iban.getCode());
+      assertEquals(IBANCode.PRUEFZIFFERNMETHODEFEHLT, iban.getCode());
     }
     catch (SEPAException e)
     {
@@ -1091,7 +1128,7 @@ public class TestIBAN
     {
       IBAN iban = new IBAN("1210100047", "76220073", "DE");
       assertEquals("DE70762200731210100047", iban.getIBAN());
-      assertEquals(IBANCode.GUELTIG, iban.getCode());
+      assertEquals(IBANCode.PRUEFZIFFERNMETHODEFEHLT, iban.getCode());
     }
     catch (SEPAException e)
     {

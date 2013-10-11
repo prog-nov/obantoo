@@ -12,8 +12,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ TestIBAN.class, TestPruefziffer.class })
+@Suite.SuiteClasses({ TestIBAN.class, TestPruefziffer.class})
 public class ATestSuite
 {
-
+  // Nothing to do
 }
