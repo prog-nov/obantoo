@@ -14,6 +14,7 @@ import java.math.BigInteger;
 /* Some changes suggested by Alexander Nittka (AN) */
 public class AccountCRCAlgs
 {
+  @SuppressWarnings("unused")
   public static PZRet alg_00(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -22,6 +23,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_01(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -30,6 +32,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_02(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -40,6 +43,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_03(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -48,6 +52,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_04(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -58,6 +63,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_05(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -66,6 +72,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_06(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -76,6 +83,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc, 10, "06");
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_07(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -86,6 +94,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_08(int[] blz, int[] number)
   {
     PZRet result = new PZRet(true);
@@ -100,11 +109,13 @@ public class AccountCRCAlgs
     return result;
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_09(int[] blz, int[] number)
   {
     return new PZRet(true);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_10(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -115,6 +126,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_11(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -127,12 +139,14 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_12(int[] blz, int[] number)
   {
     // this should never happen, because 12 is not used
     return new PZRet(false);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_13(int[] blz, int[] number)
   {
     int sum = addProducts(number, 1, 6, new int[] { 1, 2, 1, 2, 1, 2 }, true);
@@ -148,6 +162,7 @@ public class AccountCRCAlgs
     return ok;
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_14(int[] blz, int[] number)
   {
     int sum = addProducts(number, 3, 8, new int[] { 7, 6, 5, 4, 3, 2 }, false);
@@ -157,6 +172,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_15(int[] blz, int[] number)
   {
     int sum = addProducts(number, 5, 8, new int[] { 5, 4, 3, 2 }, false);
@@ -166,6 +182,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_16(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -177,6 +194,7 @@ public class AccountCRCAlgs
         || (crc != 10 && number[9] == crc));
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_17(int[] blz, int[] number)
   {
     /*
@@ -191,6 +209,7 @@ public class AccountCRCAlgs
     return new PZRet(number[7] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_18(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -199,6 +218,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_19(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -209,6 +229,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_20(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -219,6 +240,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_21(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -229,6 +251,7 @@ public class AccountCRCAlgs
   }
 
   /** korrigiert: Heiner */
+  @SuppressWarnings("unused")
   public static PZRet alg_22(int[] blz, int[] number)
   {
     /*
@@ -247,6 +270,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_23(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 5, new int[] { 7, 6, 5, 4, 3, 2 }, false);
@@ -258,6 +282,7 @@ public class AccountCRCAlgs
   }
 
   // code by Gerd Balzuweit
+  @SuppressWarnings("unused")
   public static PZRet alg_24(int[] blz, int[] number)
   {
     int[] weights = { 1, 2, 3, 1, 2, 3, 1, 2, 3 };
@@ -298,6 +323,7 @@ public class AccountCRCAlgs
     return new PZRet((crc % 10) == number[9]);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_25(int[] blz, int[] number)
   {
     int sum = addProducts(number, 1, 8, new int[] { 9, 8, 7, 6, 5, 4, 3, 2 },
@@ -315,6 +341,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_26(int[] blz, int[] number)
   {
     int startpos = 0;
@@ -329,6 +356,7 @@ public class AccountCRCAlgs
     return new PZRet(number[startpos + 7] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_27(int[] blz, int[] number)
   {
     PZRet ok;
@@ -358,6 +386,7 @@ public class AccountCRCAlgs
     return ok;
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_28(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 6, new int[] { 8, 7, 6, 5, 4, 3, 2 },
@@ -368,6 +397,7 @@ public class AccountCRCAlgs
     return new PZRet(number[7] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_29(int[] blz, int[] number)
   {
     int[][] transform = new int[][] { { 0, 1, 5, 9, 3, 7, 4, 8, 2, 6 },
@@ -383,6 +413,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_30(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -391,6 +422,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_31(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -399,6 +431,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_32(int[] blz, int[] number)
   {
     int sum = addProducts(number, 3, 8, new int[] { 7, 6, 5, 4, 3, 2 }, false);
@@ -408,6 +441,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_33(int[] blz, int[] number)
   {
     int sum = addProducts(number, 4, 8, new int[] { 6, 5, 4, 3, 2 }, false);
@@ -417,6 +451,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_34(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 6, new int[] { 7, 9, 10, 5, 8, 4, 2 },
@@ -428,6 +463,7 @@ public class AccountCRCAlgs
   }
 
   /** @author Heiner */
+  @SuppressWarnings("unused")
   public static PZRet alg_36(int[] blz, int[] number)
   {
     int sum = addProducts(number, 5, 8, new int[] { 5, 8, 4, 2 }, false);
@@ -437,6 +473,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_38(int[] blz, int[] number)
   {
     int sum = addProducts(number, 3, 8, new int[] { 9, 10, 5, 8, 4, 2 }, false);
@@ -447,6 +484,7 @@ public class AccountCRCAlgs
   }
 
   /** @author Heiner */
+  @SuppressWarnings("unused")
   public static PZRet alg_40(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -459,6 +497,7 @@ public class AccountCRCAlgs
   }
 
   /** @author AN */
+  @SuppressWarnings("unused")
   public static PZRet alg_41(int[] blz, int[] number)
   {
     int sum;
@@ -476,6 +515,7 @@ public class AccountCRCAlgs
   }
 
   /** @author AN */
+  @SuppressWarnings("unused")
   public static PZRet alg_42(int[] blz, int[] number)
   {
     int sum = addProducts(number, 1, 8, new int[] { 9, 8, 7, 6, 5, 4, 3, 2 },
@@ -487,6 +527,7 @@ public class AccountCRCAlgs
   }
 
   /** @author AN */
+  @SuppressWarnings("unused")
   public static PZRet alg_43(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -496,6 +537,7 @@ public class AccountCRCAlgs
   }
 
   /** @author Heiner */
+  @SuppressWarnings("unused")
   public static PZRet alg_44(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -517,6 +559,7 @@ public class AccountCRCAlgs
   }
 
   /** @author Heiner */
+  @SuppressWarnings("unused")
   public static PZRet alg_46(int[] blz, int[] number)
   {
     int sum = addProducts(number, 2, 6, new int[] { 6, 5, 4, 3, 2 }, false);
@@ -527,6 +570,7 @@ public class AccountCRCAlgs
   }
 
   /** @author Heiner */
+  @SuppressWarnings("unused")
   public static PZRet alg_48(int[] blz, int[] number)
   {
     int sum = addProducts(number, 2, 7, new int[] { 7, 6, 5, 4, 3, 2 }, false);
@@ -548,6 +592,7 @@ public class AccountCRCAlgs
   }
 
   /** @author Heiner */
+  @SuppressWarnings("unused")
   public static PZRet alg_50(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 5, new int[] { 7, 6, 5, 4, 3, 2 }, false);
@@ -578,6 +623,7 @@ public class AccountCRCAlgs
   }
 
   /** @author AN */
+  @SuppressWarnings("unused")
   public static PZRet alg_51(int[] blz, int[] number)
   {
     PZRet ok;
@@ -808,6 +854,7 @@ public class AccountCRCAlgs
   }
 
   /** @author AN */
+  @SuppressWarnings("unused")
   public static PZRet alg_55(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -819,6 +866,7 @@ public class AccountCRCAlgs
   }
 
   /** @author AN */
+  @SuppressWarnings("unused")
   public static PZRet alg_56(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -834,6 +882,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_57(int[] blz, int[] number)
   {
     int first = number[0] * 10 + number[1];
@@ -911,6 +960,7 @@ public class AccountCRCAlgs
   }
 
   /** @author Heiner */
+  @SuppressWarnings("unused")
   public static PZRet alg_58(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -932,6 +982,7 @@ public class AccountCRCAlgs
   }
 
   /** @author AN */
+  @SuppressWarnings("unused")
   public static PZRet alg_60(int[] blz, int[] number)
   {
     int sum = addProducts(number, 2, 8, new int[] { 2, 1, 2, 1, 2, 1, 2 }, true);
@@ -939,6 +990,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_61(int[] blz, int[] number)
   {
     int crc;
@@ -958,6 +1010,7 @@ public class AccountCRCAlgs
     return new PZRet(number[7] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_63(int[] blz, int[] number)
   {
     PZRet ok;
@@ -984,6 +1037,7 @@ public class AccountCRCAlgs
     return ok;
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_64(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 5, new int[] { 9, 10, 5, 8, 4, 2 }, false);
@@ -993,6 +1047,7 @@ public class AccountCRCAlgs
     return new PZRet(number[6] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_65(int[] blz, int[] number)
   {
     int crc;
@@ -1013,6 +1068,7 @@ public class AccountCRCAlgs
   }
 
   /** @author Heiner */
+  @SuppressWarnings("unused")
   public static PZRet alg_66(int[] blz, int[] number)
   {
     int sum = addProducts(number, 1, 8, new int[] { 7, 0, 0, 6, 5, 4, 3, 2 },
@@ -1034,6 +1090,7 @@ public class AccountCRCAlgs
   }
 
   /** @author Heiner */
+  @SuppressWarnings("unused")
   public static PZRet alg_67(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 6, new int[] { 2, 1, 2, 1, 2, 1, 2 }, true);
@@ -1042,6 +1099,7 @@ public class AccountCRCAlgs
   }
 
   /** @author AN */
+  @SuppressWarnings("unused")
   public static PZRet alg_68(int[] blz, int[] number)
   {
     // 10-stellige
@@ -1090,6 +1148,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_69(int[] blz, int[] number)
   {
     boolean variant1 = true;
@@ -1135,6 +1194,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_70(int[] blz, int[] number)
   {
     int crc;
@@ -1158,6 +1218,7 @@ public class AccountCRCAlgs
   }
 
   /** @author Heiner */
+  @SuppressWarnings("unused")
   public static PZRet alg_71(int[] blz, int[] number)
   {
     int sum = addProducts(number, 1, 6, new int[] { 6, 5, 4, 3, 2, 1 }, false);
@@ -1201,6 +1262,7 @@ public class AccountCRCAlgs
   }
 
   /** @author AN */
+  @SuppressWarnings("unused")
   public static PZRet alg_74(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -1220,6 +1282,7 @@ public class AccountCRCAlgs
     return new PZRet(false);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_76(int[] blz, int[] number)
   {
     PZRet ok = new PZRet(false);
@@ -1269,6 +1332,7 @@ public class AccountCRCAlgs
   }
 
   /** @author AN */
+  @SuppressWarnings("unused")
   public static PZRet alg_78(int[] blz, int[] number)
   {
     if (number[0] + number[1] == 0 && number[2] != 0)
@@ -1400,7 +1464,7 @@ public class AccountCRCAlgs
   public static PZRet alg_87(int[] blz, int[] number)
   {
     // Ausnahme
-    int[] temp = (int[]) number.clone();
+    int[] temp =  number.clone();
     if (number[2] == 9)
     {
       return alg_51(blz, number);
@@ -1557,6 +1621,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_88(int[] blz, int[] number)
   {
     int sum = 0;
@@ -1571,6 +1636,7 @@ public class AccountCRCAlgs
   }
 
   /** @author AN */
+  @SuppressWarnings("unused")
   public static PZRet alg_90(int[] blz, int[] number)
   {
     // Sachkonten: Methode F
@@ -1636,6 +1702,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_91(int[] blz, int[] number)
   {
     // Variante 1
@@ -1675,6 +1742,7 @@ public class AccountCRCAlgs
   }
 
   /** @author AN */
+  @SuppressWarnings("unused")
   public static PZRet alg_92(int[] blz, int[] number)
   {
     int sum = addProducts(number, 3, 8, new int[] { 1, 7, 3, 1, 7, 3 }, false);
@@ -1683,6 +1751,7 @@ public class AccountCRCAlgs
   }
 
   /** @author Heiner */
+  @SuppressWarnings("unused")
   public static PZRet alg_94(int[] blz, int[] number)
   {
     int sum = addProducts(number, 0, 8,
@@ -1691,6 +1760,7 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_95(int[] blz, int[] number)
   {
     if (number[0] == 0)
@@ -1744,6 +1814,7 @@ public class AccountCRCAlgs
     }
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_99(int[] blz, int[] number)
   {
     long bigint = 0;
@@ -1763,6 +1834,7 @@ public class AccountCRCAlgs
   }
 
   /** @author AN */
+  @SuppressWarnings("unused")
   public static PZRet alg_A0(int[] blz, int[] number)
   {
     // Ausnahme
@@ -1785,6 +1857,7 @@ public class AccountCRCAlgs
   }
 
   /** @author AN */
+  @SuppressWarnings("unused")
   public static PZRet alg_A1(int[] blz, int[] number)
   {
     if (number[0] != 0 || (number[0] == 0 && number[1] == 0 && number[2] != 0))
@@ -1989,6 +2062,7 @@ public class AccountCRCAlgs
   }
 
   /** @author Heiner */
+  @SuppressWarnings("unused")
   public static PZRet alg_B9(int[] blz, int[] number)
   {
     if (number[0] == 0 && number[1] == 0 && number[2] > 0)
@@ -2197,6 +2271,7 @@ public class AccountCRCAlgs
     return alg_07(blz, number);
   }
 
+  @SuppressWarnings("unused")
   public static PZRet alg_D0(int[] blz, int[] number)
   {
     PZRet ok = new PZRet(false);
@@ -2219,6 +2294,7 @@ public class AccountCRCAlgs
   }
 
   /** @author Heiner */
+  @SuppressWarnings("unused")
   public static PZRet alg_D1(int[] blz, int[] number)
   {
     if (number[0] == 8)
@@ -2416,6 +2492,7 @@ public class AccountCRCAlgs
   }
 
   /** @author Heiner */
+  @SuppressWarnings("unused")
   private static PZRet ausnahme51(int[] blz, int[] number)
   {
     // Ausnahme
