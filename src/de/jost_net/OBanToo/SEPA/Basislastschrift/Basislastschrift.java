@@ -144,11 +144,6 @@ public class Basislastschrift
   private String glaeubigerid = null;
 
   /**
-   * Fälligkeitsdatum
-   */
-  private Date faelligkeitsdatum;
-
-  /**
    * Array von Zahlern
    */
   private ArrayList<Zahler> zahlerarray = new ArrayList<Zahler>();
@@ -273,41 +268,49 @@ public class Basislastschrift
     setName(doc.getCstmrDrctDbtInitn().getPmtInf().get(0).getCdtr().getNm());
     setIBAN(doc.getCstmrDrctDbtInitn().getPmtInf().get(0).getCdtrAcct().getId()
         .getIBAN());
-    setAnzahlBuchungen(doc.getCstmrDrctDbtInitn().getPmtInf().get(0)
-        .getNbOfTxs());
-    setBIC(doc.getCstmrDrctDbtInitn().getPmtInf().get(0).getCdtrAgt()
-        .getFinInstnId().getBIC());
-    setKontrollsumme(doc.getCstmrDrctDbtInitn().getPmtInf().get(0).getCtrlSum());
-    setCreationDateTime(doc.getCstmrDrctDbtInitn().getGrpHdr().getCreDtTm()
-        .toGregorianCalendar().getTime());
-    setFaelligskeitsdatum(doc.getCstmrDrctDbtInitn().getPmtInf().get(0)
-        .getReqdColltnDt().toGregorianCalendar().getTime());
-
-    // TODO
-    setGlaeubigerID(doc.getCstmrDrctDbtInitn().getPmtInf().get(0)
-        .getCdtrSchmeId().getId().getPrvtId().getOthr().getId());
-
-    System.out.println(doc.getCstmrDrctDbtInitn().getGrpHdr().getInitgPty()
-        .getId().getPrvtId().getOthr().getId());
-    setGlaeubigerID(doc.getCstmrDrctDbtInitn().getGrpHdr().getInitgPty()
-        .getId().getPrvtId().getOthr().getId());
-
-    List<DirectDebitTransactionInformationSDD> liste = doc
-        .getCstmrDrctDbtInitn().getPmtInf().get(0).getDrctDbtTxInf();
-    for (DirectDebitTransactionInformationSDD ddti : liste)
+    int anzahlbuchungen = 0;
+    BigDecimal kontrollsumme = new BigDecimal(0);
+    for (PaymentInstructionInformationSDD pii : doc.getCstmrDrctDbtInitn()
+        .getPmtInf())
     {
-      Zahler z = new Zahler();
-      z.setBetrag(ddti.getInstdAmt().getValue());
-      z.setBic(ddti.getDbtrAgt().getFinInstnId().getBIC());
-      z.setIban(ddti.getDbtrAcct().getId().getIBAN());
-      z.setMandatdatum(ddti.getDrctDbtTx().getMndtRltdInf().getDtOfSgntr()
+      anzahlbuchungen += new Integer(pii.getNbOfTxs());
+      setBIC(pii.getCdtrAgt().getFinInstnId().getBIC());
+      kontrollsumme = kontrollsumme.add(pii.getCtrlSum());
+      setCreationDateTime(doc.getCstmrDrctDbtInitn().getGrpHdr().getCreDtTm()
           .toGregorianCalendar().getTime());
-      z.setMandatid(ddti.getPmtId().getEndToEndId());
-      z.setName(ddti.getDbtr().getNm());
-      z.setVerwendungszweck(ddti.getRmtInf().getUstrd());
-      zahlerarray.add(z);
-      zahlermap.put(z.getMandatid(), z);
+      // setFaelligskeitsdatum(doc.getCstmrDrctDbtInitn().getPmtInf().get(0)
+      // .getReqdColltnDt().toGregorianCalendar().getTime());
+
+      // TODO
+      setGlaeubigerID(pii.getCdtrSchmeId().getId().getPrvtId().getOthr()
+          .getId());
+
+      setGlaeubigerID(doc.getCstmrDrctDbtInitn().getGrpHdr().getInitgPty()
+          .getId().getPrvtId().getOthr().getId());
+      System.out.println(pii.getCdtrSchmeId().getId().getPrvtId().getOthr()
+          .getId());
+
+      System.out.println(doc.getCstmrDrctDbtInitn().getGrpHdr().getInitgPty()
+          .getId().getPrvtId().getOthr().getId());
+
+      List<DirectDebitTransactionInformationSDD> liste = pii.getDrctDbtTxInf();
+      for (DirectDebitTransactionInformationSDD ddti : liste)
+      {
+        Zahler z = new Zahler();
+        z.setBetrag(ddti.getInstdAmt().getValue());
+        z.setBic(ddti.getDbtrAgt().getFinInstnId().getBIC());
+        z.setIban(ddti.getDbtrAcct().getId().getIBAN());
+        z.setMandatdatum(ddti.getDrctDbtTx().getMndtRltdInf().getDtOfSgntr()
+            .toGregorianCalendar().getTime());
+        z.setMandatid(ddti.getPmtId().getEndToEndId());
+        z.setName(ddti.getDbtr().getNm());
+        z.setVerwendungszweck(ddti.getRmtInf().getUstrd());
+        zahlerarray.add(z);
+        zahlermap.put(z.getMandatid(), z);
+      }
     }
+    setAnzahlBuchungen(anzahlbuchungen + "");
+    setKontrollsumme(kontrollsumme);
   }
 
   private CustomerDirectDebitInitiationV02 getCustumerDirectDebitInitiationV02()
@@ -319,7 +322,14 @@ public class Basislastschrift
       kontrollsumme = kontrollsumme.add(z.getBetrag());
     }
     cddi.setGrpHdr(getGroupHeader());
-    cddi.getPmtInf().add(getPaymentInstructionInformationSDD());
+    for (SequenceType1Code sequ : SequenceType1Code.values())
+    {
+      PaymentInstructionInformationSDD pmtinstinf = getPaymentInstructionInformationSDD(sequ);
+      if (new Integer(pmtinstinf.getNbOfTxs()) > 0)
+      {
+        cddi.getPmtInf().add(pmtinstinf);
+      }
+    }
     return cddi;
   }
 
@@ -345,8 +355,9 @@ public class Basislastschrift
     return grH;
   }
 
-  private PaymentInstructionInformationSDD getPaymentInstructionInformationSDD()
-      throws SEPAException, DatatypeConfigurationException
+  private PaymentInstructionInformationSDD getPaymentInstructionInformationSDD(
+      SequenceType1Code sequence) throws SEPAException,
+      DatatypeConfigurationException
   {
     PaymentInstructionInformationSDD pii = new PaymentInstructionInformationSDD();
     pii.setBtchBookg(true); // true=Sammelbuchung, false=Einzelbuchung
@@ -382,17 +393,24 @@ public class Basislastschrift
     // pii.setCdtrSchmeId(pi3);
 
     pii.setChrgBr(ChargeBearerTypeSEPACode.SLEV);
-    pii.setCtrlSum(kontrollsumme); // Transaktionen
-    pii.setNbOfTxs(zahlerarray.size() + "");
     pii.setPmtInfId(getMessageID());
     pii.setPmtMtd(PaymentMethod2Code.DD); // Direct Debit
-    pii.setPmtTpInf(getPaymentTypeInformationSDD());
-    pii.setReqdColltnDt(getYYYMMDD(getFaelligkeitsdatum()));
+    pii.setPmtTpInf(getPaymentTypeInformationSDD(sequence));
 
+    BigDecimal seqKontrollsumme = new BigDecimal(0);
+    int seqAnzahl = 0;
     for (Zahler z : zahlerarray)
     {
-      pii.getDrctDbtTxInf().add(getDirectDebitTransactionInformationSDD(z));
+      if (z.getMandatsequence().getCode().compareTo(sequence) == 0)
+      {
+        pii.setReqdColltnDt(getYYYMMDD(z.getFaelligkeit()));
+        pii.getDrctDbtTxInf().add(getDirectDebitTransactionInformationSDD(z));
+        seqKontrollsumme = seqKontrollsumme.add(z.getBetrag());
+        seqAnzahl++;
+      }
     }
+    pii.setCtrlSum(seqKontrollsumme); // Transaktionen
+    pii.setNbOfTxs(seqAnzahl + "");
     return pii;
   }
 
@@ -490,7 +508,8 @@ public class Basislastschrift
     return ddti;
   }
 
-  private PaymentTypeInformationSDD getPaymentTypeInformationSDD()
+  private PaymentTypeInformationSDD getPaymentTypeInformationSDD(
+      SequenceType1Code sequence)
   {
     PaymentTypeInformationSDD pti = new PaymentTypeInformationSDD();
     ServiceLevelSEPA sls = new ServiceLevelSEPA();
@@ -499,7 +518,7 @@ public class Basislastschrift
     LocalInstrumentSEPA lis = new LocalInstrumentSEPA();
     lis.setCd(LocalInstrumentSEPACode.CORE);
     pti.setLclInstrm(lis);
-    pti.setSeqTp(SequenceType1Code.RCUR);
+    pti.setSeqTp(sequence);
     return pti;
   }
 
@@ -621,25 +640,6 @@ public class Basislastschrift
       throw new SEPAException("Gläubiger-ID ist noch nicht gefüllt");
     }
     return glaeubigerid;
-  }
-
-  /**
-   * Fälligkeitsdatum
-   * 
-   * @param faelligkeitsdatum
-   */
-  public void setFaelligskeitsdatum(Date faelligkeitsdatum)
-  {
-    this.faelligkeitsdatum = faelligkeitsdatum;
-  }
-
-  public Date getFaelligkeitsdatum() throws SEPAException
-  {
-    if (faelligkeitsdatum == null)
-    {
-      throw new SEPAException("Fälligkeitsdatum ist nicht gefüllt");
-    }
-    return faelligkeitsdatum;
   }
 
   /**

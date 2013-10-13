@@ -7,6 +7,7 @@ import java.util.Date;
 import de.jost_net.OBanToo.SEPA.BIC;
 import de.jost_net.OBanToo.SEPA.IBAN;
 import de.jost_net.OBanToo.SEPA.SEPAException;
+import de.jost_net.OBanToo.SEPA.Nachricht.pain_008_002_02.SequenceType1Code;
 import de.jost_net.OBanToo.StringLatin.Zeichen;
 
 public class Zahler
@@ -29,7 +30,9 @@ public class Zahler
 
   private BigDecimal betrag;
 
-  private MANDATSEQUENCE mandatsequence;
+  private MandatSequence mandatsequence;
+
+  private Date faelligkeit;
 
   private static final BigDecimal nu = new BigDecimal("0.00");
 
@@ -266,22 +269,57 @@ public class Zahler
     }
   }
 
-  public void setMandatsequence(MANDATSEQUENCE sequence)
+  public void setMandatsequence(MandatSequence sequence)
   {
     this.mandatsequence = sequence;
   }
 
-  public MANDATSEQUENCE getMandatsequence() throws SEPAException
+  public MandatSequence getMandatsequence() throws SEPAException
   {
     checkMandatsequence(mandatsequence);
     return this.mandatsequence;
   }
 
-  public void checkMandatsequence(MANDATSEQUENCE seq) throws SEPAException
+  public void checkMandatsequence(MandatSequence seq) throws SEPAException
   {
     if (seq == null)
     {
       throw new SEPAException("Mandats-Sequence ist null");
+    }
+  }
+
+  public Date getFaelligkeit() throws SEPAException
+  {
+    checkFaelligkeit(faelligkeit);
+    return faelligkeit;
+  }
+
+  public void setFaelligkeit(Date faelligkeit) throws SEPAException
+  {
+    this.faelligkeit = faelligkeit;
+  }
+
+  public void setFaelligkeit(Date faelligkeit1, Date faelligkeit2,
+      SequenceType1Code sequ) throws SEPAException
+  {
+    switch (sequ)
+    {
+      case FRST:
+      case OOFF:
+        setFaelligkeit(faelligkeit1);
+        break;
+      case RCUR:
+      case FNAL:
+        setFaelligkeit(faelligkeit2);
+        break;
+    }
+  }
+
+  public void checkFaelligkeit(Date faelligkeit) throws SEPAException
+  {
+    if (faelligkeit == null)
+    {
+      throw new SEPAException("Fälligkeit ist null");
     }
   }
 

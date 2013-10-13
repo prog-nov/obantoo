@@ -2,10 +2,12 @@ package de.jost_net.OBanToo.SEPA.Basislastschrift;
 
 import de.jost_net.OBanToo.SEPA.Nachricht.pain_008_002_02.SequenceType1Code;
 
-public enum MANDATSEQUENCE
+public enum MandatSequence
 {
   FRST("FRST", "Erste Lastschrift", SequenceType1Code.FRST), RCUR("RCUR",
-      "Folgelastschrift", SequenceType1Code.RCUR);
+      "Folgelastschrift", SequenceType1Code.RCUR), FNAL("FNAL",
+      "Letzte Lastschrift", SequenceType1Code.FNAL), OOFF("OOFF",
+      "Einmallastschrift", SequenceType1Code.OOFF);
 
   private final String txt;
 
@@ -13,7 +15,7 @@ public enum MANDATSEQUENCE
 
   private final String anzeige;
 
-  private MANDATSEQUENCE(String txt, String anzeige, SequenceType1Code code)
+  private MandatSequence(String txt, String anzeige, SequenceType1Code code)
   {
     this.txt = txt;
     this.anzeige = anzeige;
@@ -26,9 +28,9 @@ public enum MANDATSEQUENCE
     return anzeige;
   }
 
-  public static MANDATSEQUENCE fromString(final String txt)
+  public static MandatSequence fromString(final String txt)
   {
-    for (MANDATSEQUENCE item : MANDATSEQUENCE.values())
+    for (MandatSequence item : MandatSequence.values())
     {
       if (item.txt.equals(txt))
         return item;

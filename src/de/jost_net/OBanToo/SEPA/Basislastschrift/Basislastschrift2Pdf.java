@@ -94,7 +94,7 @@ public class Basislastschrift2Pdf
 
     outputHeader(bl, doc);
     PdfPTable table = new PdfPTable(5);
-    float[] widths = { 80, 120, 60, 40, 50 };
+    float[] widths = { 80, 95, 85, 40, 30 };
     table.setWidths(widths);
     table.setWidthPercentage(100);
     table.setSpacingBefore(10);
@@ -120,8 +120,8 @@ public class Basislastschrift2Pdf
       table.addCell(getDetailCell(z.getBic() + "\n" + z.getIban(),
           Element.ALIGN_LEFT));
       table.addCell(getDetailCell(
-          z.getMandatid() + "\n" + Util.DateTTMMJJJJ(z.getMandatdatum()),
-          Element.ALIGN_LEFT));
+          z.getMandatid() + " " + z.getMandatsequence().getTxt() + "\n"
+              + Util.DateTTMMJJJJ(z.getMandatdatum()), Element.ALIGN_LEFT));
       table.addCell(getDetailCell(Util.formatCurrency(z.getBetrag()),
           Element.ALIGN_RIGHT));
     }
@@ -159,10 +159,10 @@ public class Basislastschrift2Pdf
         BaseColor.LIGHT_GRAY));
     table.addCell(getDetailCell(bl.getIBAN(), Element.ALIGN_LEFT));
 
-    table.addCell(getDetailCell("Fälligkeitsdatum", Element.ALIGN_RIGHT,
-        BaseColor.LIGHT_GRAY));
-    table.addCell(getDetailCell(Util.DateTTMMJJJJ(bl.getFaelligkeitsdatum()),
-        Element.ALIGN_LEFT));
+    // table.addCell(getDetailCell("Fälligkeitsdatum", Element.ALIGN_RIGHT,
+    // BaseColor.LIGHT_GRAY));
+    // table.addCell(getDetailCell(Util.DateTTMMJJJJ(bl.getFaelligkeitsdatum()),
+    // Element.ALIGN_LEFT));
 
     table.addCell(getDetailCell("Erstellungsdatum", Element.ALIGN_RIGHT,
         BaseColor.LIGHT_GRAY));
