@@ -71,12 +71,12 @@ public class TestIBAN
   {
     try
     {
-      new IBAN("DE61478535200001861889");
+      new IBAN("DE11478535200001861889");
       fail(); // IBAN muss SEPAException werfen.
     }
     catch (SEPAException e)
     {
-      assertEquals("Ungültige IBAN. Prüfziffer falsch.",
+      assertEquals("Ungültige IBAN. Prüfziffer falsch. DE11478535200001861889",
           e.getMessage());
     }
   }
