@@ -618,6 +618,183 @@ public class IBAN
   }
 
   /**
+   * Commerzbank AG 02: Anpassung der Buchungskontonummern der Spendenkonten 100
+   * (Kap. 5.4), 909090, 555, 343434
+   */
+  public static IBANRet ibanRegel_000502(String blz, String konto, SEPALand land)
+      throws Exception
+  {
+    HashMap<String, String> spendenkonten = new HashMap<String, String>();
+    spendenkonten.put("30040000" + "36", "0261103600");
+    spendenkonten.put("47880031" + "50", "519899900");
+    spendenkonten.put("47840065" + "50", "150103000");
+    spendenkonten.put("47840065" + "55", "150103000");
+    spendenkonten.put("70080000" + "94", "928553201");
+    spendenkonten.put("70040041" + "94", "212808000");
+    spendenkonten.put("47840065" + "99", "150103000");
+    spendenkonten.put("37080040" + "100", "269100000");
+    spendenkonten.put("38040007" + "100", "119160000");
+    spendenkonten.put("37080040" + "111", "215022000");
+    spendenkonten.put("51080060" + "123", "12299300");
+    spendenkonten.put("36040039" + "150", "161620000");
+    spendenkonten.put("68080030" + "202", "416520200");
+    spendenkonten.put("30040000" + "222", "348010002");
+    spendenkonten.put("38040007" + "240", "109024000");
+    spendenkonten.put("69240075" + "444", "445520000");
+    spendenkonten.put("60080000" + "502", "901581400");
+    spendenkonten.put("60040071" + "502", "525950200");
+    spendenkonten.put("55040022" + "555", "211050000");
+    spendenkonten.put("39080005" + "556", "204655600");
+    spendenkonten.put("39040013" + "556", "106555600");
+    spendenkonten.put("57080070" + "661", "604101200");
+    spendenkonten.put("26580070" + "700", "710000000");
+    spendenkonten.put("50640015" + "777", "222222200");
+    spendenkonten.put("30040000" + "999", "123799900");
+    spendenkonten.put("86080000" + "1212", "480375900");
+    spendenkonten.put("37040044" + "1888", "212129101");
+    spendenkonten.put("25040066" + "1919", "141919100");
+    spendenkonten.put("10080000" + "1987", "928127700");
+    spendenkonten.put("50040000" + "2000", "728400300");
+    spendenkonten.put("20080000" + "2222", "903927200");
+    spendenkonten.put("38040007" + "3366", "385333000");
+    spendenkonten.put("37080040" + "4004", "233533500");
+    spendenkonten.put("37080040" + "4444", "233000300");
+    spendenkonten.put("43080083" + "4630", "825110100");
+    spendenkonten.put("50080000" + "6060", "96736100");
+    spendenkonten.put("10040000" + "7878", "267878700");
+    spendenkonten.put("10080000" + "8888", "928126501");
+    spendenkonten.put("50080000" + "9000", "26492100");
+    spendenkonten.put("79080052" + "9696", "300021700");
+    spendenkonten.put("79040047" + "9696", "680210200");
+    spendenkonten.put("39080005" + "9800", "208457000");
+    spendenkonten.put("50080000" + "42195", "900333200");
+    spendenkonten.put("32040024" + "47800", "155515000");
+    spendenkonten.put("37080040" + "55555", "263602501");
+    spendenkonten.put("38040007" + "55555", "305555500");
+    spendenkonten.put("50080000" + "101010", "90003500");
+    spendenkonten.put("50040000" + "101010", "311011100");
+    spendenkonten.put("37040044" + "102030", "222344400");
+    spendenkonten.put("86080000" + "121200", "480375900");
+    spendenkonten.put("66280053" + "121212", "625242400");
+    spendenkonten.put("16080000" + "123456", "12345600");
+    spendenkonten.put("29080010" + "124124", "107502000");
+    spendenkonten.put("37080040" + "182002", "216603302");
+    spendenkonten.put("12080000" + "212121", "4050462200");
+    spendenkonten.put("37080040" + "300000", "983307900");
+    spendenkonten.put("37040044" + "300000", "300000700");
+    spendenkonten.put("37080040" + "333333", "270330000");
+    spendenkonten.put("38040007" + "336666", "105232300");
+    spendenkonten.put("55040022" + "343434", "217900000");
+    spendenkonten.put("85080000" + "400000", "459488501");
+    spendenkonten.put("37080040" + "414141", "41414100");
+    spendenkonten.put("38040007" + "414141", "108000100");
+    spendenkonten.put("20080000" + "505050", "500100600");
+    spendenkonten.put("37080040" + "555666", "55566600");
+    spendenkonten.put("20080000" + "666666", "900732500");
+    spendenkonten.put("30080000" + "700000", "800005000");
+    spendenkonten.put("70080000" + "700000", "750055500");
+    spendenkonten.put("70080000" + "900000", "319966601");
+    spendenkonten.put("37080040" + "909090", "269100000");
+    spendenkonten.put("38040007" + "909090", "119160000");
+    spendenkonten.put("70080000" + "949494", "575757500");
+    spendenkonten.put("70080000" + "1111111", "448060000");
+    spendenkonten.put("70040041" + "1111111", "152140000");
+    spendenkonten.put("10080000" + "1234567", "920192001");
+    spendenkonten.put("38040007" + "1555555", "258266600");
+    spendenkonten.put("76040061" + "2500000", "482146800");
+    spendenkonten.put("16080000" + "3030400", "4205227110");
+    spendenkonten.put("37080040" + "5555500", "263602501");
+    spendenkonten.put("75040062" + "6008833", "600883300");
+    spendenkonten.put("12080000" + "7654321", "144000700");
+    spendenkonten.put("70080000" + "7777777", "443540000");
+    spendenkonten.put("70040041" + "7777777", "213600000");
+    spendenkonten.put("64140036" + "8907339", "890733900");
+    spendenkonten.put("70080000" + "9000000", "319966601");
+    spendenkonten.put("61080006" + "9999999", "202427500");
+    spendenkonten.put("12080000" + "12121212", "4101725100");
+    spendenkonten.put("29080010" + "12412400", "107502000");
+    spendenkonten.put("34280032" + "014111935", "645753800");
+    spendenkonten.put("38040007" + "43434343", "118163500");
+    spendenkonten.put("30080000" + "70000000", "800005000");
+    spendenkonten.put("70080000" + "70000000", "750055500");
+    spendenkonten.put("44040037" + "111111111", "320565500");
+    spendenkonten.put("70040041" + "400500500", "400500500");
+    spendenkonten.put("60080000" + "500500500", "901581400");
+    spendenkonten.put("60040071" + "500500500", "512700600");
+    String _konto = spendenkonten.get(blz + konto);
+    if (_konto != null)
+    {
+      konto = _konto;
+    }
+
+    Bank b = Banken.getBankByBLZ(blz);
+    PZRet ok = KontoPruefziffernrechnung.checkAccountCRCByAlg(
+        b.getPruefziffernmethode(), blz, konto);
+    if (!ok.isValid())
+    {
+      return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
+    }
+    if (b.getPruefziffernmethode().equals("13"))
+    {
+      if (konto.length() == 6 || konto.length() == 7)
+      {
+        konto = konto + "00";
+      }
+    }
+    if (b.getPruefziffernmethode().equals("76"))
+    {
+      if (ok.getPos() == 10)
+      {
+        konto = konto + "00";
+      }
+      konto = fillup(konto);
+      String kontoart = konto.substring(0, 1);
+      if (kontoart.equals("1") || kontoart.equals("2") || kontoart.equals("3")
+          || kontoart.equals("5"))
+      {
+        return new IBANRet(IBANCode.IBANBERECHNUNGNICHTMOEGLICH);
+      }
+    }
+    String[] blzgesperrtekontenkreise = new String[] { "10080900", "25780022",
+        "42080082", "54280023", "65180005", "79580099", "12080000", "25980027",
+        "42680081", "54580020", "65380003", "80080000", "13080000", "26080024",
+        "43080083", "54680022", "66280053", "81080000", "14080000", "26281420",
+        "44080055", "55080065", "66680013", "82080000", "15080000", "26580070",
+        "44080057", "57080070", "67280051", "83080000", "16080000", "26880063",
+        "44580070", "58580074", "69280035", "84080000", "17080000", "26981062",
+        "45080060", "59080090", "70080056", "85080200", "18080000", "28280012",
+        "46080010", "60080055", "70080057", "86080055", "20080055", "29280011",
+        "47880031", "60080057", "70380006", "86080057", "20080057", "30080055",
+        "49080025", "60380002", "71180005", "87080000", "21080050", "30080057",
+        "50080055", "60480008", "72180002", "21280002", "31080015", "50080057",
+        "61080006", "73180011", "21480003", "32080010", "50080082", "61281007",
+        "73380004", "21580000", "33080030", "50680002", "61480001", "73480013",
+        "22180000", "34080031", "50780006", "62080012", "74180009", "22181400",
+        "34280032", "50880050", "62280012", "74380007", "22280000", "36280071",
+        "51380040", "63080015", "75080003", "24080000", "36580072", "52080080",
+        "64080014", "76080053", "24180001", "40080040", "53080030", "64380011",
+        "79080052", "25480021", "41280043", "54080021", "65080009", "79380051" };
+    for (String s : blzgesperrtekontenkreise)
+    {
+      if (blz.equals(s))
+      {
+        BigInteger k = new BigInteger(konto);
+        BigInteger kv = new BigInteger("0998000000");
+        BigInteger kb = new BigInteger("0999499999");
+        if (k.compareTo(kv) >= 0 && k.compareTo(kb) <= 0)
+        {
+          return new IBANRet(IBANCode.IBANBERECHNUNGNICHTMOEGLICH);
+        }
+      }
+    }
+    if (blz.equals("50040033")) // Generell gesperrt
+    {
+      return new IBANRet(IBANCode.IBANBERECHNUNGNICHTMOEGLICH);
+    }
+    return ibanRegel_000000(blz, konto, land, "COBADEFFXXX", false);
+  }
+
+  /**
    * Stadtsparkasse München
    */
   public static IBANRet ibanRegel_000600(String blz, String konto, SEPALand land)
@@ -739,6 +916,28 @@ public class IBAN
   }
 
   /**
+   * Frankfurter Sparkasse
+   */
+  public static IBANRet ibanRegel_001001(String blz, String konto, SEPALand land)
+      throws Exception
+  {
+    if (blz.equals("50050201") & konto.equals("2000"))
+    {
+      konto = "222000";
+    }
+    if (blz.equals("50050201") & konto.equals("800000"))
+    {
+      konto = "180802";
+    }
+    // Neu in 01
+    if (blz.equals("50050222"))
+    {
+      blz = "50050201";
+    }
+    return ibanRegel_000000(blz, konto, land);
+  }
+
+  /**
    * Sparkasse Krefeld
    */
   public static IBANRet ibanRegel_001100(String blz, String konto, SEPALand land)
@@ -793,6 +992,33 @@ public class IBAN
       throws Exception
   {
     HashMap<String, String> spendenkonten = new HashMap<String, String>();
+    spendenkonten.put("556", "0000101010");
+    spendenkonten.put("888", "0031870011");
+    spendenkonten.put("4040", "4003600101");
+    spendenkonten.put("5826", "1015826017");
+    spendenkonten.put("25000", "0025000110");
+    spendenkonten.put("393393", "0033013019");
+    spendenkonten.put("444555", "0032230016");
+    spendenkonten.put("603060", "6002919018");
+    spendenkonten.put("2120041", "0002130041");
+    spendenkonten.put("80868086", "4007375013");
+    spendenkonten.put("400569017", "4000569017");
+
+    String _konto = spendenkonten.get(konto);
+    if (_konto == null)
+    {
+      _konto = konto;
+    }
+    return ibanRegel_000000(blz, _konto, land);
+  }
+  /**
+   * Pax-Bank eG
+   */
+  public static IBANRet ibanRegel_001501(String blz, String konto, SEPALand land)
+      throws Exception
+  {
+    HashMap<String, String> spendenkonten = new HashMap<String, String>();
+    spendenkonten.put("94", "3008888018"); //Neu in 01
     spendenkonten.put("556", "0000101010");
     spendenkonten.put("888", "0031870011");
     spendenkonten.put("4040", "4003600101");
@@ -894,6 +1120,105 @@ public class IBAN
    * Deutsche Bank AG
    */
   public static IBANRet ibanRegel_002001(String blz, String konto, SEPALand land)
+      throws Exception
+  {
+    if (blz.equals("10020000"))
+    {
+      return new IBANRet(IBANCode.KOMBINATIONBLZKONTOUNZULAESSIG);
+    }
+    // Spendenkonten
+    if (blz.equals("50070010") && konto.equals("9999"))
+    {
+      konto = "92777202";
+    }
+
+    Bank b = Banken.getBankByBLZ(blz);
+    if (b.getPruefziffernmethode().equals("63"))
+    {
+      konto = truncateLeadingZeros(konto);
+      if (konto.length() <= 4)
+      {
+        return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
+      }
+      else if (konto.length() >= 5 && konto.length() <= 6)
+      {
+        String _konto = konto + "00";
+        PZRet ret = KontoPruefziffernrechnung.checkAccountCRC(
+            b.getPruefziffernmethode(), blz, _konto);
+        if (ret.isValid())
+        {
+          if (ret.getAlg().equals("63") && ret.getPos() == 8)
+          {
+            return ibanRegel_000000(blz, _konto, land);
+          }
+        }
+      }
+      else if (konto.length() == 7)
+      {
+        PZRet ret = KontoPruefziffernrechnung.checkAccountCRC(
+            b.getPruefziffernmethode(), blz, konto);
+        if (ret.isValid() && ret.getAlg().equals("63") && ret.getPos() == 8)
+        {
+          String _konto = konto + "00";
+          ret = KontoPruefziffernrechnung.checkAccountCRC(
+              b.getPruefziffernmethode(), blz, _konto);
+          if (ret.isValid() && ret.getAlg().equals("63") && ret.getPos() == 8)
+          {
+            return ibanRegel_000000(blz, _konto, land);
+          }
+          else
+          {
+            return ibanRegel_000000(blz, konto, land);
+          }
+        }
+        else
+        {
+          String _konto = konto + "00";
+          ret = KontoPruefziffernrechnung.checkAccountCRC(
+              b.getPruefziffernmethode(), blz, _konto);
+          if (ret.isValid() && ret.getAlg().equals("63") && ret.getPos() == 8)
+          {
+            return ibanRegel_000000(blz, _konto, land);
+          }
+          else
+          {
+            return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
+          }
+        }
+      }
+      else if (konto.length() >= 8 && konto.length() <= 9)
+      {
+        PZRet ret = KontoPruefziffernrechnung.checkAccountCRC(
+            b.getPruefziffernmethode(), blz, konto);
+        if (ret.isValid() && ret.getAlg().equals("63") && ret.getPos() == 8)
+        {
+          return ibanRegel_000000(blz, konto, land);
+        }
+      }
+    }
+    else if (b.getPruefziffernmethode().equals("C7"))
+    {
+      PZRet ret = KontoPruefziffernrechnung.checkAccountCRC(
+          b.getPruefziffernmethode(), blz, konto);
+      if (ret.isValid() && ret.getAlg().equals("63"))
+      {
+        return ibanRegel_000000(blz, konto, land);
+      }
+      else if (ret.isValid() && ret.getAlg().equals("06"))
+      {
+        return new IBANRet(IBANCode.KOMBINATIONBLZKONTOUNZULAESSIG);
+      }
+      else
+      {
+        return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
+      }
+    }
+    return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
+  }
+  /**
+   * Deutsche Bank AG
+   */
+  public static IBANRet ibanRegel_002002(String blz, String konto, SEPALand land)
       throws Exception
   {
     if (blz.equals("10020000"))
