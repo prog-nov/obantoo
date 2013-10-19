@@ -1827,6 +1827,22 @@ public class TestIBAN
   }
 
   @Test
+  @Ignore
+  public void regel005500_01()
+  {
+    try
+    {
+      IBAN iban = new IBAN("7456123400", "25410300", "DE");
+      assertEquals("DE47254102007456123400", iban.getIBAN());
+    }
+    catch (SEPAException e)
+    {
+      e.printStackTrace();
+      fail();
+    }
+  }
+
+  @Test
   public void A4()
   {
     try
