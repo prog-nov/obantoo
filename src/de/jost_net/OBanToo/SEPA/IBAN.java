@@ -2373,6 +2373,10 @@ public class IBAN
     {
       _konto = konto;
     }
+    if (_konto.length() != 10)
+    {
+      return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
+    }
     return ibanRegel_000000(blz, _konto, land);
   }
 
