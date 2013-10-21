@@ -280,8 +280,9 @@ public class IBAN
     {
       return "";
     }
-    return iban.substring(4 + land.getBankIdentifierLength(),
+    String k = iban.substring(4 + land.getBankIdentifierLength(),
         land.getAccountLength() + land.getBankIdentifierLength() + 4);
+    return truncateLeadingZeros(k);
   }
 
   private static String getPruefziffer(String blz, String konto,
