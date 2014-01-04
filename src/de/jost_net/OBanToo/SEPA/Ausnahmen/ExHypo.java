@@ -20,8 +20,7 @@ public class ExHypo
 
   private String blzout;
 
-  @SuppressWarnings("unused")
-  public ExHypo(String nrkreis, String blzin, String ktofrom, String ktoto,
+   public ExHypo(String nrkreis, String blzin, String ktofrom, String ktoto,
       String blzout)
   {
     this.nrkreis = nrkreis;

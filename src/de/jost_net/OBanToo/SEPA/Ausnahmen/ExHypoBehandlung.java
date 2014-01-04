@@ -16,7 +16,6 @@ public class ExHypoBehandlung
 {
   private static ArrayList<ExHypo> ex = null;
 
-  @SuppressWarnings("unused")
   public static String getErsatzBLZ(String blz, String konto, SEPALand land)
   {
     if (ex == null)

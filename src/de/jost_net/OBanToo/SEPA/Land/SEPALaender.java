@@ -21,6 +21,7 @@ public class SEPALaender
   static
   {
     laender.add(getDeutschland());
+    laender.add(getItalien());
     laender.add(getNiederlande());
     laender.add(getOesterreich());
     laender.add(getPolen());
@@ -57,6 +58,19 @@ public class SEPALaender
     deutschland.setAccountSample("532013000");
     deutschland.setIBANSample("DE89370400440532013000");
     return deutschland;
+  }
+
+  private static SEPALand getItalien()
+  {
+    SEPALand italien = new SEPALand();
+    italien.setKennzeichen("IT");
+    italien.setBezeichnung("Italien");
+    italien.setBankIdentifierLength(11);
+    italien.setAccountLength(12);
+    italien.setBankIdentifierSample("D0300203280");
+    italien.setAccountSample("400162854");
+    italien.setIBANSample("IT68D0300203280000400162854");
+    return italien;
   }
 
   private static SEPALand getNiederlande()

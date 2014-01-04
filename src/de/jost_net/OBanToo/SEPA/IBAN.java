@@ -56,17 +56,55 @@ public class IBAN
 
   private SEPALand land;
 
-  private static final String[] ALPHABET = new String[] { "A", "B", "C", "D",
-      "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
-      "S", "T", "U", "V", "W", "X", "Y", "Z"};
+  private static final HashMap<String, String> transformation = new HashMap<String, String>();
+
+  static
+  {
+    transformation.put("0", "0");
+    transformation.put("1", "1");
+    transformation.put("2", "2");
+    transformation.put("3", "3");
+    transformation.put("4", "4");
+    transformation.put("5", "5");
+    transformation.put("6", "6");
+    transformation.put("7", "7");
+    transformation.put("8", "8");
+    transformation.put("9", "9");
+    transformation.put("A", "10");
+    transformation.put("B", "11");
+    transformation.put("C", "12");
+    transformation.put("D", "13");
+    transformation.put("E", "14");
+    transformation.put("F", "15");
+    transformation.put("G", "16");
+    transformation.put("H", "17");
+    transformation.put("I", "18");
+    transformation.put("J", "19");
+    transformation.put("K", "20");
+    transformation.put("L", "21");
+    transformation.put("M", "22");
+    transformation.put("N", "23");
+    transformation.put("O", "24");
+    transformation.put("P", "25");
+    transformation.put("Q", "26");
+    transformation.put("R", "27");
+    transformation.put("S", "28");
+    transformation.put("T", "29");
+    transformation.put("U", "30");
+    transformation.put("V", "31");
+    transformation.put("W", "32");
+    transformation.put("X", "33");
+    transformation.put("Y", "34");
+    transformation.put("Z", "35");
+  }
 
   /**
    * Konstruktor mit Übergabe der IBAN als String
    * 
    * @param iban
-   *        IBAN
+   *          IBAN
    * @throws SEPAException
-   *         wenn die IBAN nicht den Konventionen entspricht.
+   *           wenn die IBAN nicht den Konventionen entspricht.
    */
   public IBAN(String iban) throws SEPAException
   {
@@ -97,7 +135,7 @@ public class IBAN
     String pz = iban.substring(2, 4);
     String blz = iban.substring(4, 4 + laebankid);
     String konto = iban.substring(4 + laebankid, 4 + laebankid + laeaccount);
-    if (!pz.equals(getPruefziffer(blz, konto, getLandKennung(land))))
+    if (!pz.equals(getPruefziffer(blz, konto, land)))
     {
       throw new SEPAException("Ungültige IBAN. Prüfziffer falsch. " + iban);
     }
@@ -182,10 +220,11 @@ public class IBAN
     {
       throw new SEPAException(
           Fehler.BLZ_UNGUELTIGE_LAENGE,
-          MessageFormat.format(
-              "Bankleitzahl hat falsche Länge für {0}. Maximal {1,number, integer} Stellen.",
-              new Object[] { land.getBezeichnung(),
-                  new Integer(land.getBankIdentifierLength())}));
+          MessageFormat
+              .format(
+                  "Bankleitzahl hat falsche Länge für {0}. Maximal {1,number, integer} Stellen.",
+                  new Object[] { land.getBezeichnung(),
+                      new Integer(land.getBankIdentifierLength()) }));
     }
 
     if (kontoNr.length() > land.getAccountLength().intValue())
@@ -208,7 +247,7 @@ public class IBAN
       {
         cl = IBAN.class;
         method = cl.getMethod("ibanRegel_" + b.getIBANRegel(), new Class[] {
-            String.class, String.class, SEPALand.class});
+            String.class, String.class, SEPALand.class });
       }
       catch (Exception e)
       {
@@ -219,7 +258,7 @@ public class IBAN
 
       try
       {
-        Object[] args = new Object[] { blz, kontoNr, land};
+        Object[] args = new Object[] { blz, kontoNr, land };
         Object ret = method.invoke(null, args);
         IBANRet retval = (IBANRet) ret;
         code = retval.getCode();
@@ -288,10 +327,16 @@ public class IBAN
   private static String getPruefziffer(String blz, String konto,
       String laenderkennung) throws SEPAException
   {
+    String tmpIban1 = blz + konto + laenderkennung + "00";
+    String tmpIban2 = "";
+    for (int i = 0; i < tmpIban1.length(); i++)
+    {
+      tmpIban2 += transformation.get(tmpIban1.substring(i, i + 1));
+    }
     BigInteger bi = null;
     try
     {
-      bi = new BigInteger(blz + konto + laenderkennung);
+      bi = new BigInteger(tmpIban2);
     }
     catch (NumberFormatException e)
     {
@@ -307,26 +352,6 @@ public class IBAN
       pruefZiffer = "0" + pruefZiffer;
     }
     return pruefZiffer;
-  }
-
-  private static final String getLandKennung(String landkennung)
-  {
-    int[] landKnzAsNumber = new int[2];
-
-    for (int i = 0; i < 2; i++)
-    {
-      for (int j = 0; j < ALPHABET.length; j++)
-      {
-        if (ALPHABET[j].toUpperCase().equals(
-            String.valueOf(landkennung.charAt(i)).toUpperCase()))
-        {
-          landKnzAsNumber[i] = j + 10;
-          break;
-        }
-      }
-    }
-    return String.valueOf(landKnzAsNumber[0])
-        + String.valueOf(landKnzAsNumber[1]) + "00";
   }
 
   public static IBANRet ibanRegel_000000(String blz, String konto, SEPALand land)
@@ -380,9 +405,8 @@ public class IBAN
     }
     accountString.append(konto);
     String iban = land.getKennzeichen()
-        + getPruefziffer(blz, accountString.toString(),
-            getLandKennung(land.getKennzeichen())) + blz
-        + accountString.toString();
+        + getPruefziffer(blz, accountString.toString(), land.getKennzeichen())
+        + blz + accountString.toString();
     if (bic == null)
     {
       BIC bi = new BIC(konto, blz, land.getKennzeichen());
@@ -402,7 +426,6 @@ public class IBAN
    * keine IBAN-Ermittlung (diese Bankleitzahl findet im Zahlungsverkehr keine
    * Verwendung)
    */
-  @SuppressWarnings("unused")
   public static IBANRet ibanRegel_000100(String blz, String konto, SEPALand land)
   {
     return new IBANRet(IBANCode.IBANBERECHNUNGNICHTMOEGLICH);
@@ -614,7 +637,7 @@ public class IBAN
         "34280032", "50880050", "62280012", "74380007", "22280000", "36280071",
         "51380040", "63080015", "75080003", "24080000", "36580072", "52080080",
         "64080014", "76080053", "24180001", "40080040", "53080030", "64380011",
-        "79080052", "25480021", "41280043", "54080021", "65080009", "79380051"};
+        "79080052", "25480021", "41280043", "54080021", "65080009", "79380051" };
     for (String s : blzgesperrtekontenkreise)
     {
       if (blz.equals(s))
@@ -791,7 +814,7 @@ public class IBAN
         "34280032", "50880050", "62280012", "74380007", "22280000", "36280071",
         "51380040", "63080015", "75080003", "24080000", "36580072", "52080080",
         "64080014", "76080053", "24180001", "40080040", "53080030", "64380011",
-        "79080052", "25480021", "41280043", "54080021", "65080009", "79380051"};
+        "79080052", "25480021", "41280043", "54080021", "65080009", "79380051" };
     for (String s : blzgesperrtekontenkreise)
     {
       if (blz.equals(s))
@@ -888,7 +911,7 @@ public class IBAN
       throws Exception
   {
     String[] blzs = new String[] { "10020200", "20120200", "25020200",
-        "30020500", "51020000", "55020000", "60120200", "70220200", "86020200"};
+        "30020500", "51020000", "55020000", "60120200", "70220200", "86020200" };
     String _blz = blz;
     for (String s : blzs)
     {
@@ -1883,20 +1906,20 @@ public class IBAN
       throws Exception
   {
     BigInteger kontobi = new BigInteger(konto);
-    if ((kontobi.compareTo(new BigInteger("0000000000")) >= 0 && kontobi.compareTo(new BigInteger(
-        "0000099999")) <= 0)
-        || (kontobi.compareTo(new BigInteger("0000900000")) >= 0 && kontobi.compareTo(new BigInteger(
-            "0029999999")) <= 0)
-        || (kontobi.compareTo(new BigInteger("0060000000")) >= 0 && kontobi.compareTo(new BigInteger(
-            "0099999999")) <= 0)
-        || (kontobi.compareTo(new BigInteger("0900000000")) >= 0 && kontobi.compareTo(new BigInteger(
-            "0999999999")) <= 0)
-        || (kontobi.compareTo(new BigInteger("2000000000")) >= 0 && kontobi.compareTo(new BigInteger(
-            "2999999999")) <= 0)
-        || (kontobi.compareTo(new BigInteger("7100000000")) >= 0 && kontobi.compareTo(new BigInteger(
-            "8499999999")) <= 0)
-        || (kontobi.compareTo(new BigInteger("8600000000")) >= 0 && kontobi.compareTo(new BigInteger(
-            "8999999999")) <= 0))
+    if ((kontobi.compareTo(new BigInteger("0000000000")) >= 0 && kontobi
+        .compareTo(new BigInteger("0000099999")) <= 0)
+        || (kontobi.compareTo(new BigInteger("0000900000")) >= 0 && kontobi
+            .compareTo(new BigInteger("0029999999")) <= 0)
+        || (kontobi.compareTo(new BigInteger("0060000000")) >= 0 && kontobi
+            .compareTo(new BigInteger("0099999999")) <= 0)
+        || (kontobi.compareTo(new BigInteger("0900000000")) >= 0 && kontobi
+            .compareTo(new BigInteger("0999999999")) <= 0)
+        || (kontobi.compareTo(new BigInteger("2000000000")) >= 0 && kontobi
+            .compareTo(new BigInteger("2999999999")) <= 0)
+        || (kontobi.compareTo(new BigInteger("7100000000")) >= 0 && kontobi
+            .compareTo(new BigInteger("8499999999")) <= 0)
+        || (kontobi.compareTo(new BigInteger("8600000000")) >= 0 && kontobi
+            .compareTo(new BigInteger("8999999999")) <= 0))
     {
       return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
     }
@@ -1915,7 +1938,8 @@ public class IBAN
       return ibanRegel_000000(blz, konto + "000", land);
     }
     else if (konto.length() == 8
-        && (konto.startsWith("3") || konto.startsWith("4") || konto.startsWith("5")))
+        && (konto.startsWith("3") || konto.startsWith("4") || konto
+            .startsWith("5")))
     {
       return ibanRegel_000000(blz, konto, land);
     }
@@ -2065,8 +2089,8 @@ public class IBAN
   /**
    * Sparkasse Pforzheim Calw
    */
-  public static IBANRet ibanRegel_0043010(String blz, String konto,
-      SEPALand land) throws Exception
+  public static IBANRet ibanRegel_004301(String blz, String konto, SEPALand land)
+      throws Exception
   {
     if (blz.equals("60651070"))
     {
