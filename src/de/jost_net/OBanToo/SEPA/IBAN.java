@@ -836,6 +836,16 @@ public class IBAN
   }
 
   /**
+   * Commerzbank AG 03: Anpassung des Testfalls "Gesperrte BLZ"<br>
+   * Fkeine Änderungen in der Logik erforderlich
+   */
+  public static IBANRet ibanRegel_000503(String blz, String konto, SEPALand land)
+      throws Exception
+  {
+    return ibanRegel_000502(blz, konto, land);
+  }
+
+  /**
    * Stadtsparkasse München
    */
   public static IBANRet ibanRegel_000600(String blz, String konto, SEPALand land)
@@ -2406,6 +2416,186 @@ public class IBAN
   }
 
   /**
+   * Evangelische Darlehnsgenossenschaft eG
+   */
+  public static IBANRet ibanRegel_005401(String blz, String konto, SEPALand land)
+      throws Exception
+  {
+    konto = truncateLeadingZeros(konto);
+    HashMap<String, String> spendenkonten = new HashMap<String, String>();
+    spendenkonten.put("500", "500500");
+    spendenkonten.put("502", "502502");
+    spendenkonten.put("18067", "180670");
+    spendenkonten.put("484848", "484849");
+    spendenkonten.put("636306", "63606");
+    spendenkonten.put("760440", "160440");
+    spendenkonten.put("1018413", "10108413");
+    spendenkonten.put("2601577", "26015776");
+    spendenkonten.put("5005000", "500500");
+    spendenkonten.put("10796740", "10796743");
+    spendenkonten.put("11796740", "11796743");
+    spendenkonten.put("12796740", "12796743");
+    spendenkonten.put("13796740", "13796743");
+    spendenkonten.put("14796740", "14796743");
+    spendenkonten.put("15796740", "15796743");
+    spendenkonten.put("16307000", "163107000");
+    spendenkonten.put("16610700", "166107000");
+    spendenkonten.put("16796740", "16796743");
+    spendenkonten.put("17796740", "17796743");
+    spendenkonten.put("18796740", "18796743");
+    spendenkonten.put("19796740", "19796743");
+    spendenkonten.put("20796740", "20796743");
+    spendenkonten.put("21796740", "21796743");
+    spendenkonten.put("22796740", "22796743");
+    spendenkonten.put("23796740", "23796743");
+    spendenkonten.put("24796740", "24796743");
+    spendenkonten.put("25796740", "25796743");
+    spendenkonten.put("26610700", "266107000");
+    spendenkonten.put("26796740", "26796743");
+    spendenkonten.put("27796740", "27796743");
+    spendenkonten.put("28796740", "28796743");
+    spendenkonten.put("29796740", "29796743");
+    spendenkonten.put("45796740", "45796743");
+    spendenkonten.put("50796740", "50796743");
+    spendenkonten.put("51796740", "51796743");
+    spendenkonten.put("52796740", "52796743");
+    spendenkonten.put("53796740", "53796743");
+    spendenkonten.put("54796740", "54796743");
+    spendenkonten.put("55796740", "55796743");
+    spendenkonten.put("56796740", "56796743");
+    spendenkonten.put("57796740", "57796743");
+    spendenkonten.put("58796740", "58796743");
+    spendenkonten.put("59796740", "59796743");
+    spendenkonten.put("60796740", "60796743");
+    spendenkonten.put("61796740", "61796743");
+    spendenkonten.put("62796740", "62796743");
+    spendenkonten.put("63796740", "63796743");
+    spendenkonten.put("64796740", "64796743");
+    spendenkonten.put("65796740", "65796743");
+    spendenkonten.put("66796740", "66796743");
+    spendenkonten.put("67796740", "67796743");
+    spendenkonten.put("68796740", "68796743");
+    spendenkonten.put("69796740", "69796743");
+    spendenkonten.put("1761070000", "176107000");
+    spendenkonten.put("2210531180", "201053180");
+    String _konto = spendenkonten.get(konto);
+    if (_konto == null)
+    {
+      _konto = konto;
+    }
+    if (_konto.length() != 10)
+    {
+      return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
+    }
+    IBANRet ret = ibanRegel_000000(blz, _konto, land);
+    if (ret.getCode() == IBANCode.AUFBAUKONTONUMMERFALSCH)
+    {
+      ArrayList<String> konten = new ArrayList<>();
+      konten.add("624044");
+      konten.add("4063060");
+      konten.add("20111908");
+      konten.add("20211908");
+      konten.add("20311908");
+      konten.add("20411908");
+      konten.add("20511908");
+      konten.add("20611908");
+      konten.add("20711908");
+      konten.add("20811908");
+      konten.add("20911908");
+      konten.add("21111908");
+      konten.add("21211908");
+      konten.add("21311908");
+      konten.add("21411908");
+      konten.add("21511908");
+      konten.add("21611908");
+      konten.add("21711908");
+      konten.add("21811908");
+      konten.add("21911908");
+      konten.add("22111908");
+      konten.add("22211908");
+      konten.add("22311908");
+      konten.add("22411908");
+      konten.add("22511908");
+      konten.add("22611908");
+      konten.add("46211991");
+      konten.add("50111908");
+      konten.add("50211908");
+      konten.add("50311908");
+      konten.add("50411908");
+      konten.add("50511908");
+      konten.add("50611908");
+      konten.add("50711908");
+      konten.add("50811908");
+      konten.add("50911908");
+      konten.add("51111908");
+      konten.add("51111991");
+      konten.add("51211908");
+      konten.add("51211991");
+      konten.add("51311908");
+      konten.add("51411908");
+      konten.add("51511908");
+      konten.add("51611908");
+      konten.add("51711908");
+      konten.add("51811908");
+      konten.add("51911908");
+      konten.add("52111908");
+      konten.add("52111991");
+      konten.add("52211908");
+      konten.add("52211991");
+      konten.add("52311908");
+      konten.add("52411908");
+      konten.add("52511908");
+      konten.add("52611908");
+      konten.add("52711908");
+      konten.add("52811908");
+      konten.add("52911908");
+      konten.add("53111908");
+      konten.add("53211908");
+      konten.add("53311908");
+      konten.add("57111908");
+      konten.add("58111908");
+      konten.add("58211908");
+      konten.add("58311908");
+      konten.add("58411908");
+      konten.add("58511908");
+      konten.add("80111908");
+      konten.add("80211908");
+      konten.add("80311908");
+      konten.add("80411908");
+      konten.add("80511908");
+      konten.add("80611908");
+      konten.add("80711908");
+      konten.add("80811908");
+      konten.add("80911908");
+      konten.add("81111908");
+      konten.add("81211908");
+      konten.add("81311908");
+      konten.add("81411908");
+      konten.add("81511908");
+      konten.add("81611908");
+      konten.add("81711908");
+      konten.add("81811908");
+      konten.add("81911908");
+      konten.add("82111908");
+      konten.add("82211908");
+      konten.add("82311908");
+      konten.add("82411908");
+      konten.add("82511908");
+      konten.add("82611908");
+      konten.add("82711908");
+      konten.add("82811908");
+      konten.add("82911908");
+      konten.add("99624044");
+      konten.add("300143869");
+      if (konten.contains(konto))
+      {
+        return ibanRegel_000000(blz, _konto, land, "GENODEF1EDG", true);
+      }
+    }
+    return ret;
+  }
+
+  /**
    * BHW Kreditservice GmbH
    */
   public static IBANRet ibanRegel_005500(String blz, String konto, SEPALand land)
@@ -2450,6 +2640,19 @@ public class IBAN
       _konto = konto;
     }
     return ibanRegel_000000(blz, _konto, land);
+  }
+
+  /**
+   * Badenia Bausparkasse
+   */
+  public static IBANRet ibanRegel_005700(String blz, String konto, SEPALand land)
+      throws Exception
+  {
+    if (blz.equals("50810900"))
+    {
+      blz = "66010200";
+    }
+    return ibanRegel_000000(blz, konto, land);
   }
 
   private static String truncateLeadingZeros(String konto)
