@@ -55,8 +55,7 @@ public class Banken
           eof = true;
           continue;
         }
-        if (!atb.getKennzeichen().equals("Hauptanstalt")
-            || atb.getBic().trim().length() == 0)
+        if (atb.getBic() != null && atb.getBic().trim().length() == 0)
         {
           continue;
         }

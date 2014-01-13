@@ -130,7 +130,7 @@ public class BLZSatz
     }
     blz = getString(8);
     zahlungsdienstleister = getString(1);
-    bezeichnung = getString(58);
+    bezeichnung = getString(58).trim();
     plz = getString(5);
     ort = getString(35);
     kurzbezeichnung = getString(27);

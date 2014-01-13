@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 
 /**
@@ -29,7 +30,8 @@ public class ATBankdatei
 
   public ATBankdatei(InputStream is) throws IOException
   {
-    in = new BufferedReader(new InputStreamReader(is));
+    in = new BufferedReader(
+        new InputStreamReader(is, Charset.forName("CP1252")));
     String line = in.readLine(); // Header lesen
     headers = line.split(";");
   }
