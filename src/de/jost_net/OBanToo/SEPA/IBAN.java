@@ -2490,7 +2490,7 @@ public class IBAN
     IBANRet ret = ibanRegel_000000(blz, _konto, land);
     if (ret.getCode() == IBANCode.AUFBAUKONTONUMMERFALSCH)
     {
-      ArrayList<String> konten = new ArrayList<>();
+      ArrayList<String> konten = new ArrayList<String>();
       konten.add("624044");
       konten.add("4063060");
       konten.add("20111908");
