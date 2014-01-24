@@ -37,7 +37,8 @@ public enum IBANCode
   BICNICHTGUELTIG("22", "BIC ist nicht gültig", 3), //
   KONTOKEINKONTODERUMSTELLENDENSTELLE("40",
       "Konto ist kein Konto der umstellenden Stelle (gem. Feld 5 oder 5b)", 3), //
-  IBANBERECHNUNGNICHTMOEGLICH("50", "IBAN-Berechnung nicht möglich", 3);
+  IBANBERECHNUNGNICHTMOEGLICH("50", "IBAN-Berechnung nicht möglich", 3), //
+  KONTONUMMERUNGUELTIG("90", "Kontonummer ungültig", 3);
 
   private final String number;
 

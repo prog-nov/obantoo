@@ -373,7 +373,7 @@ public class IBAN
 
     if (b == null)
     {
-      throw new SEPAException(Fehler.BLZ_UNGUELTIG);
+      return new IBANRet(IBANCode.BLZUNGUELTIG);
     }
     boolean pruefziffernmethodefehlt = false;
     try
@@ -383,7 +383,7 @@ public class IBAN
       {
         if (!ungueltigePruefzifferZugelassen)
         {
-          throw new SEPAException(Fehler.KONTO_PRUEFZIFFER_FALSCH);
+          return new IBANRet(IBANCode.KONTONUMMERUNGUELTIG);
         }
       }
     }
@@ -395,7 +395,7 @@ public class IBAN
       }
       else
       {
-        throw e;
+        return new IBANRet(IBANCode.PRUEFZIFFERNMETHODEFEHLT);
       }
     }
     StringBuilder accountString = new StringBuilder();
