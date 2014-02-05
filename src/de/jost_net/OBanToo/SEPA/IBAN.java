@@ -131,13 +131,22 @@ public class IBAN
       throw new SEPAException("Ungültige IBAN-Länge. Vorgeschrieben sind "
           + laeiban + " Stellen für " + land.getBezeichnung());
     }
-    String land = iban.substring(0, 2);
     String pz = iban.substring(2, 4);
     String blz = iban.substring(4, 4 + laebankid);
     String konto = iban.substring(4 + laebankid, 4 + laebankid + laeaccount);
-    if (!pz.equals(getPruefziffer(blz, konto, land)))
+    if (land.getKennzeichen().equals("DE"))
     {
-      throw new SEPAException("Ungültige IBAN. Prüfziffer falsch. " + iban);
+      Bank b = Banken.getBankByBLZ(blz);
+      System.out.println(b);
+      if (b == null)
+      {
+        throw new SEPAException("BLZ in der IBAN existiert nicht");
+      }
+      System.out.println(b);
+      if (!pz.equals(getPruefziffer(blz, konto, land.getKennzeichen())))
+      {
+        throw new SEPAException("Ungültige IBAN. Prüfziffer falsch. " + iban);
+      }
     }
   }
 
