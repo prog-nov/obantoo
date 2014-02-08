@@ -137,12 +137,10 @@ public class IBAN
     if (land.getKennzeichen().equals("DE"))
     {
       Bank b = Banken.getBankByBLZ(blz);
-      System.out.println(b);
       if (b == null)
       {
         throw new SEPAException("BLZ in der IBAN existiert nicht");
       }
-      System.out.println(b);
       if (!pz.equals(getPruefziffer(blz, konto, land.getKennzeichen())))
       {
         throw new SEPAException("Ungültige IBAN. Prüfziffer falsch. " + iban);
