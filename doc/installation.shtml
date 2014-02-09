@@ -1,6 +1,7 @@
-<!--#include virtual="main.shtml"-->  
-    <h2>Installation</h2>
-    <p>Nach dem Download wird die Datei entzippt. (Linux: unzip obantoo-{version}.zip, Windows: Winzip)
-       Das Jar-Archiv obantoo-{version}.jar wird in den Classpath aufgenommen.</p>
-<!--#include virtual="footer.shtml"-->  
-
+<!DOCTYPE h2 PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="refresh" content="0; URL=https://sourceforge.net/p/obantoo/wiki/Home/">
+<!-- ... andere Angaben im Dateikopf ... -->
+</head>
+</html>

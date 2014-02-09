@@ -1,6 +1,7 @@
-<!--#include virtual="main.shtml"-->  
-    <h2>Kontakt</h2>
-    <p>Anregungen, Erweiterungswünsche und (möglichst keine) Fehlermeldungen bitte an
-       <a href="mailto:heiner@jverein.de">heiner@jverein.de</a> senden.</p>
-<!--#include virtual="footer.shtml"-->  
-
+<!DOCTYPE h2 PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="refresh" content="0; URL=https://sourceforge.net/p/obantoo/wiki/Home/">
+<!-- ... andere Angaben im Dateikopf ... -->
+</head>
+</html>

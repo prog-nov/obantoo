@@ -1,7 +1,7 @@
-<!--#include virtual="main.shtml"-->  
-    <h2>CVS</h2>
-    <p>Informationen zum Zugriff den Quellcode gibt es auf der
-    <a href="https://sourceforge.net/scm/?type=cvs&group_id=615706"
-       target=blank>Projekt-Seite</a> über das CVS.</p>
-<!--#include virtual="footer.shtml"-->  
-
+<!DOCTYPE h2 PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="refresh" content="0; URL=https://sourceforge.net/p/obantoo/wiki/Home/">
+<!-- ... andere Angaben im Dateikopf ... -->
+</head>
+</html>
