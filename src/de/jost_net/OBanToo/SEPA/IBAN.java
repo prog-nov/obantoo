@@ -242,7 +242,7 @@ public class IBAN
     Bank b = Banken.getBankByBLZ(blz);
     if (b == null)
     {
-      throw new SEPAException(Fehler.BLZ_UNGUELTIG);
+      throw new SEPAException(Fehler.BLZ_UNGUELTIG, blz);
     }
 
     if (land.getKennzeichen().equals("DE"))
