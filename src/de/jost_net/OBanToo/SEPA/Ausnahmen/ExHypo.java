@@ -10,6 +10,7 @@ package de.jost_net.OBanToo.SEPA.Ausnahmen;
 
 public class ExHypo
 {
+
   private String nrkreis;
 
   private String blzin;
@@ -20,13 +21,13 @@ public class ExHypo
 
   private String blzout;
 
-   public ExHypo(String nrkreis, String blzin, String ktofrom, String ktoto,
+  public ExHypo(String nrkreis, String blzin, String ktofrom, String ktoto,
       String blzout)
   {
     this.nrkreis = nrkreis;
     this.blzin = blzin;
     this.ktofrom = ktofrom;
-    this.ktoto = ktofrom;
+    this.ktoto = ktoto;
     this.blzout = blzout;
   }
 
