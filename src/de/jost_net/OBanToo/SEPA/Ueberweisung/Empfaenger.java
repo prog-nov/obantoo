@@ -183,7 +183,7 @@ public class Empfaenger
   {
     if (referenz == null)
     {
-      return "NOTPRIVIDED";
+      return "NOTPROVIDED";
     }
     return referenz;
   }
@@ -199,9 +199,11 @@ public class Empfaenger
     String message = "";
     try
     {
-      message = MessageFormat.format(
-          "Empfänger: Name={0}, IBAN={1}, BIC={2}, Verwendungszweck={3}, Betrag={4}, ",
-          getName(), getIban(), getBic(), getVerwendungszweck(), getBetrag());
+      message = MessageFormat
+          .format(
+              "Empfänger: Name={0}, IBAN={1}, BIC={2}, Verwendungszweck={3}, Betrag={4}, ",
+              getName(), getIban(), getBic(), getVerwendungszweck(),
+              getBetrag());
     }
     catch (SEPAException e)
     {
