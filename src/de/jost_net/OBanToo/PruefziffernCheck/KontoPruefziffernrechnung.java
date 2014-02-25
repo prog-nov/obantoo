@@ -22,7 +22,7 @@ public final class KontoPruefziffernrechnung
     {
       cl = AccountCRCAlgs.class;
       method = cl.getMethod("alg_" + alg, new Class[] { int[].class,
-          int[].class });
+          int[].class});
     }
     catch (Exception e)
     {
@@ -46,16 +46,15 @@ public final class KontoPruefziffernrechnung
    * </p>
    * 
    * @param blz
-   *          die Bankleitzahl der Bank, bei der das Konto geführt wird
+   *        die Bankleitzahl der Bank, bei der das Konto geführt wird
    * @param number
-   *          die zu überprüfende Kontonummer
+   *        die zu überprüfende Kontonummer
    * @return <code>true</code> wenn die Kontonummer nicht verifiziert werden
    *         kann (z.B. weil das jeweilige Prüfzifferverfahren noch nicht in
    *         <em>HBCI4Java</em> implementiert ist) oder wenn die Prüfung
    *         erfolgreich verläuft; <code>false</code> wird immer nur dann
    *         zurückgegeben, wenn tatsächlich ein Prüfzifferverfahren zum
    *         Überprüfen verwendet wurde und die Prüfung einen Fehler ergab
-   * @throws Exception
    */
   public static PZRet checkAccountCRC(String alg, String blz, String number)
       throws Exception
@@ -68,20 +67,19 @@ public final class KontoPruefziffernrechnung
 
   /**
    * Überprüfen einer Kontonummer mit einem gegebenen CRC-Algorithmus. Diese
-   * Methode wird intern von {@link HBCIUtils#checkAccountCRC(String,String)}
+   * Methode wird intern von HBCIUtils#checkAccountCRC(String,String)
    * aufgerufen und kann für Debugging-Zwecke auch direkt benutzt werden.
    * 
    * @param alg
-   *          Nummer des zu verwendenden Prüfziffer-Algorithmus (siehe Datei
-   *          <code>blz.properties</code>).
+   *        Nummer des zu verwendenden Prüfziffer-Algorithmus (siehe Datei
+   *        <code>blz.properties</code>).
    * @param blz
-   *          zu überprüfende Bankleitzahl
+   *        zu überprüfende Bankleitzahl
    * @param number
-   *          zu überprüfende Kontonummer
+   *        zu überprüfende Kontonummer
    * @return <code>false</code>, wenn der Prüfzifferalgorithmus für die
    *         angegebene Kontonummer einen Fehler meldet, sonst <code>true</code>
-   *         (siehe dazu auch {@link #checkAccountCRC(String, String)})
-   * @throws Exception
+   *         (siehe dazu auch checkAccountCRC(String, String))
    */
   public static PZRet checkAccountCRCByAlg(String alg, String blz, String number)
       throws Exception
@@ -104,7 +102,7 @@ public final class KontoPruefziffernrechnung
           int[] blz_digits = string2Ints(blz, 8);
           int[] number_digits = string2Ints(number, 10);
 
-          Object[] args = new Object[] { blz_digits, number_digits };
+          Object[] args = new Object[] { blz_digits, number_digits};
           ret = (PZRet) method.invoke(null, args);
         }
         catch (Exception e)

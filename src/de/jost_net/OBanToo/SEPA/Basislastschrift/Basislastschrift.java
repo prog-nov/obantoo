@@ -179,9 +179,6 @@ public class Basislastschrift
 
   /**
    * Für jede Buchung wird ein Zahler-Object übergeben
-   * 
-   * @param zahler
-   * @throws SEPAException
    */
   public void add(Zahler zahler) throws SEPAException
   {
@@ -206,11 +203,6 @@ public class Basislastschrift
   /**
    * Schreibt die SEPA-Datei. Vorher sind alle Werte über die set-Methoden sowie
    * die add(Zahler)-Methode übergeben werden.
-   * 
-   * @param file
-   * @throws DatatypeConfigurationException
-   * @throws SEPAException
-   * @throws JAXBException
    */
   public void write(File file) throws DatatypeConfigurationException,
       SEPAException, JAXBException
@@ -254,10 +246,6 @@ public class Basislastschrift
   /**
    * SEPA-Datei einlesen. Nach dem Methodenaufruf können die Werte über die
    * get-Methoden abgefragt werden.
-   * 
-   * @param file
-   * @throws JAXBException
-   * @throws SEPAException
    */
   public void read(File file) throws JAXBException, SEPAException
   {
@@ -266,32 +254,25 @@ public class Basislastschrift
     Document doc = (Document) u.unmarshal(file);
     setMessageID(doc.getCstmrDrctDbtInitn().getGrpHdr().getMsgId());
     setName(doc.getCstmrDrctDbtInitn().getPmtInf().get(0).getCdtr().getNm());
-    setIBAN(doc.getCstmrDrctDbtInitn().getPmtInf().get(0).getCdtrAcct().getId()
-        .getIBAN());
+    setIBAN(doc.getCstmrDrctDbtInitn().getPmtInf().get(0).getCdtrAcct().getId().getIBAN());
     int anzahlbuchungen = 0;
     BigDecimal kontrollsumme = new BigDecimal(0);
-    for (PaymentInstructionInformationSDD pii : doc.getCstmrDrctDbtInitn()
-        .getPmtInf())
+    for (PaymentInstructionInformationSDD pii : doc.getCstmrDrctDbtInitn().getPmtInf())
     {
       anzahlbuchungen += new Integer(pii.getNbOfTxs());
       setBIC(pii.getCdtrAgt().getFinInstnId().getBIC());
       kontrollsumme = kontrollsumme.add(pii.getCtrlSum());
-      setCreationDateTime(doc.getCstmrDrctDbtInitn().getGrpHdr().getCreDtTm()
-          .toGregorianCalendar().getTime());
+      setCreationDateTime(doc.getCstmrDrctDbtInitn().getGrpHdr().getCreDtTm().toGregorianCalendar().getTime());
       // setFaelligskeitsdatum(doc.getCstmrDrctDbtInitn().getPmtInf().get(0)
       // .getReqdColltnDt().toGregorianCalendar().getTime());
 
       // TODO
-      setGlaeubigerID(pii.getCdtrSchmeId().getId().getPrvtId().getOthr()
-          .getId());
+      setGlaeubigerID(pii.getCdtrSchmeId().getId().getPrvtId().getOthr().getId());
 
-      setGlaeubigerID(doc.getCstmrDrctDbtInitn().getGrpHdr().getInitgPty()
-          .getId().getPrvtId().getOthr().getId());
-      System.out.println(pii.getCdtrSchmeId().getId().getPrvtId().getOthr()
-          .getId());
+      setGlaeubigerID(doc.getCstmrDrctDbtInitn().getGrpHdr().getInitgPty().getId().getPrvtId().getOthr().getId());
+      System.out.println(pii.getCdtrSchmeId().getId().getPrvtId().getOthr().getId());
 
-      System.out.println(doc.getCstmrDrctDbtInitn().getGrpHdr().getInitgPty()
-          .getId().getPrvtId().getOthr().getId());
+      System.out.println(doc.getCstmrDrctDbtInitn().getGrpHdr().getInitgPty().getId().getPrvtId().getOthr().getId());
 
       List<DirectDebitTransactionInformationSDD> liste = pii.getDrctDbtTxInf();
       for (DirectDebitTransactionInformationSDD ddti : liste)
@@ -300,8 +281,7 @@ public class Basislastschrift
         z.setBetrag(ddti.getInstdAmt().getValue());
         z.setBic(ddti.getDbtrAgt().getFinInstnId().getBIC());
         z.setIban(ddti.getDbtrAcct().getId().getIBAN());
-        z.setMandatdatum(ddti.getDrctDbtTx().getMndtRltdInf().getDtOfSgntr()
-            .toGregorianCalendar().getTime());
+        z.setMandatdatum(ddti.getDrctDbtTx().getMndtRltdInf().getDtOfSgntr().toGregorianCalendar().getTime());
         z.setMandatid(ddti.getPmtId().getEndToEndId());
         z.setName(ddti.getDbtr().getNm());
         z.setVerwendungszweck(ddti.getRmtInf().getUstrd());
@@ -419,11 +399,10 @@ public class Basislastschrift
   {
     GregorianCalendar gc = new GregorianCalendar();
     gc.setTime(date);
-    XMLGregorianCalendar xmlgc = DatatypeFactory.newInstance()
-        .newXMLGregorianCalendar(gc);
+    XMLGregorianCalendar xmlgc = DatatypeFactory.newInstance().newXMLGregorianCalendar(
+        gc);
 
-    XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance()
-        .newXMLGregorianCalendar();
+    XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar();
     xmlGregorianCalendar.setDay(xmlgc.getDay());
     xmlGregorianCalendar.setMonth(xmlgc.getMonth());
     xmlGregorianCalendar.setYear(xmlgc.getYear());
@@ -435,11 +414,10 @@ public class Basislastschrift
   {
     GregorianCalendar gc = new GregorianCalendar();
     gc.setTime(date);
-    XMLGregorianCalendar xmlgc = DatatypeFactory.newInstance()
-        .newXMLGregorianCalendar(gc);
+    XMLGregorianCalendar xmlgc = DatatypeFactory.newInstance().newXMLGregorianCalendar(
+        gc);
 
-    XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance()
-        .newXMLGregorianCalendar();
+    XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar();
     xmlGregorianCalendar.setDay(xmlgc.getDay());
     xmlGregorianCalendar.setMonth(xmlgc.getMonth());
     xmlGregorianCalendar.setYear(xmlgc.getYear());
@@ -524,9 +502,6 @@ public class Basislastschrift
 
   /**
    * Message-ID. Z. B. Buchungslaufnummer. Max. 35 Stellen.
-   * 
-   * @param messageid
-   * @throws SEPAException
    */
   public void setMessageID(String messageid) throws SEPAException
   {
@@ -549,9 +524,6 @@ public class Basislastschrift
 
   /**
    * BIC. Länge 8 oder 11 Stellen.
-   * 
-   * @param bic
-   * @throws SEPAException
    */
   public void setBIC(String bic) throws SEPAException
   {
@@ -574,8 +546,6 @@ public class Basislastschrift
   /**
    * IBAN. Länge in Abhängigkeit vom Land.
    * 
-   * @param iban
-   * @throws SEPAException
    */
   public void setIBAN(String iban) throws SEPAException
   {
@@ -595,8 +565,6 @@ public class Basislastschrift
   /**
    * Name des Zahlungspflichtigen. Länge max. 70 Stellen.
    * 
-   * @param name
-   * @throws SEPAException
    */
   public void setName(String name) throws SEPAException
   {
@@ -620,9 +588,6 @@ public class Basislastschrift
 
   /**
    * Gläubiger-ID
-   * 
-   * @param glaeubigerid
-   * @throws SEPAException
    */
   public void setGlaeubigerID(String glaeubigerid) throws SEPAException
   {
@@ -646,9 +611,8 @@ public class Basislastschrift
    * Komprimiert. Muss gesetzt werden, bevor der erste Zähler übergeben wird.
    * 
    * @param komprimiert
-   *          true: Zahlungen mit gleicher Mandanten-ID werden zusammengefasst,
-   *          false: keine Zusammenfassung.
-   * @throws SEPAException
+   *        true: Zahlungen mit gleicher Mandanten-ID werden zusammengefasst,
+   *        false: keine Zusammenfassung.
    */
   public void setKomprimiert(boolean komprimiert) throws SEPAException
   {
@@ -662,8 +626,6 @@ public class Basislastschrift
 
   /**
    * Wird nur intern beim einlesen einer Datei genutzt.
-   * 
-   * @param kontrollsumme
    */
   void setKontrollsumme(BigDecimal kontrollsumme)
   {
@@ -709,8 +671,6 @@ public class Basislastschrift
 
   /**
    * Datum der Erzeugung der Datei. Wird beim Einlesen einer Datei genutzt.
-   * 
-   * @param creationdatetime
    */
   void setCreationDateTime(Date creationdatetime)
   {
@@ -719,8 +679,6 @@ public class Basislastschrift
 
   /**
    * Gibt die Zahler nach dem Einlesen zurück.
-   * 
-   * @return
    */
   public ArrayList<Zahler> getZahler()
   {

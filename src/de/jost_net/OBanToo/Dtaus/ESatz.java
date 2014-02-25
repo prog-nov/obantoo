@@ -60,8 +60,6 @@ public class ESatz extends Satz
 
   /**
    * Konstruktor mit der Übergabe eines zu parsenden Satzes
-   * 
-   * @param satz
    */
   public ESatz(String satz, int toleranz) throws DtausException
   {
@@ -191,6 +189,9 @@ public class ESatz extends Satz
 }
 /*
  * $Log$
+ * Revision 1.10  2014/02/25 16:17:18  jverein
+ * Warnings entfernt.
+ *
  * Revision 1.9  2012/10/04 17:22:44  jverein
  * Annotation
  *

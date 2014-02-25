@@ -12,6 +12,7 @@ import de.jost_net.OBanToo.StringLatin.Zeichen;
 
 public class Zahler
 {
+
   private String mandatid;
 
   private Date mandatdatum;
@@ -38,9 +39,6 @@ public class Zahler
 
   /**
    * Gibt die Mandats-ID zurück
-   * 
-   * @return Mandats-ID
-   * @throws SEPAException
    */
   public String getMandatid() throws SEPAException
   {
@@ -50,9 +48,6 @@ public class Zahler
 
   /**
    * Mandats-ID setzen. Max. 35 Stellen.
-   * 
-   * @param mandatid
-   * @throws SEPAException
    */
   public void setMandatid(String mandatid) throws SEPAException
   {
@@ -70,9 +65,6 @@ public class Zahler
 
   /**
    * Datum des Mandats zurückgeben.
-   * 
-   * @return Mandats-Datum
-   * @throws SEPAException
    */
   public Date getMandatdatum() throws SEPAException
   {
@@ -82,9 +74,6 @@ public class Zahler
 
   /**
    * Datum des Mandats setzen.
-   * 
-   * @param mandatdatum
-   * @throws SEPAException
    */
   public void setMandatdatum(Date mandatdatum) throws SEPAException
   {
@@ -102,9 +91,6 @@ public class Zahler
 
   /**
    * BIC zurückgeben
-   * 
-   * @return BIC
-   * @throws SEPAException
    */
   public String getBic() throws SEPAException
   {
@@ -114,9 +100,6 @@ public class Zahler
 
   /**
    * BIC setzen. Länge 8 oder 11 Stellen
-   * 
-   * @param bic
-   * @throws SEPAException
    */
   public void setBic(String bic) throws SEPAException
   {
@@ -131,9 +114,6 @@ public class Zahler
 
   /**
    * Name des Zahlungspflichtigen zurückgeben
-   * 
-   * @return Name des Zahlungspflichtigen
-   * @throws SEPAException
    */
   public String getName() throws SEPAException
   {
@@ -149,9 +129,6 @@ public class Zahler
 
   /**
    * Name des Zahlungspflichtigen setzen. Länge max. 70 Stellen.
-   * 
-   * @param name
-   * @throws SEPAException
    */
   public void setName(String name) throws SEPAException
   {
@@ -171,9 +148,6 @@ public class Zahler
 
   /**
    * BIC zurückgeben.
-   * 
-   * @return BIC
-   * @throws SEPAException
    */
   public String getIban() throws SEPAException
   {
@@ -183,9 +157,6 @@ public class Zahler
 
   /**
    * BIC setzen. Länge abhängig vom Land.
-   * 
-   * @param iban
-   * @throws SEPAException
    */
   public void setIban(String iban) throws SEPAException
   {
@@ -195,9 +166,6 @@ public class Zahler
 
   /**
    * Unstrukturierten Verwendungszweck zurückgeben.
-   * 
-   * @return Unstrukturierten Verwendungszweck
-   * @throws SEPAException
    */
   public String getVerwendungszweck() throws SEPAException
   {
@@ -213,9 +181,6 @@ public class Zahler
 
   /**
    * Unstrukturierten Verwendungszweck setzen. Länge max. 70 Stellen.
-   * 
-   * @param verwendungszweck
-   * @throws SEPAException
    */
   public void setVerwendungszweck(String verwendungszweck) throws SEPAException
   {
@@ -238,9 +203,6 @@ public class Zahler
 
   /**
    * Betrag zurückgeben.
-   * 
-   * @return Betrag
-   * @throws SEPAException
    */
   public BigDecimal getBetrag() throws SEPAException
   {
@@ -250,9 +212,6 @@ public class Zahler
 
   /**
    * Betrag setzen. Wert muss > 0
-   * 
-   * @param betrag
-   * @throws SEPAException
    */
   public void setBetrag(BigDecimal betrag) throws SEPAException
   {
@@ -294,13 +253,13 @@ public class Zahler
     return faelligkeit;
   }
 
-  public void setFaelligkeit(Date faelligkeit) throws SEPAException
+  public void setFaelligkeit(Date faelligkeit)
   {
     this.faelligkeit = faelligkeit;
   }
 
   public void setFaelligkeit(Date faelligkeit1, Date faelligkeit2,
-      SequenceType1Code sequ) throws SEPAException
+      SequenceType1Code sequ)
   {
     switch (sequ)
     {
@@ -325,9 +284,6 @@ public class Zahler
 
   /**
    * Zusammenfassung von 2 Buchungen zu einer Mandats-ID zu einer.
-   * 
-   * @param zahler
-   * @throws SEPAException
    */
   public void add(Zahler zahler) throws SEPAException
   {

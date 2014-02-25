@@ -94,8 +94,6 @@ public class ASatz extends Satz
 
   /**
    * Konstruktor mit der Übergabe eines zu parsenden Satzes
-   * 
-   * @param satz
    */
   public ASatz(String satz, int toleranz) throws DtausException
   {
@@ -396,6 +394,9 @@ public class ASatz extends Satz
 }
 /*
  * $Log$
+ * Revision 1.15  2014/02/25 16:17:02  jverein
+ * Warnings entfernt.
+ *
  * Revision 1.14  2013/03/28 12:28:40  jverein
  * Überflüssige "throws" entfernt.
  * Revision 1.13 2012/10/04 17:20:23 jverein Marginale

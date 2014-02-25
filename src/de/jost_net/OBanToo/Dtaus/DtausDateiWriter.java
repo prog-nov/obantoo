@@ -118,8 +118,6 @@ public class DtausDateiWriter
   /**
    * Die Close-Methode ist nach der Ausgabe des E-Satzes der letzten/einzigen
    * logischen Datei erforderlich.
-   * 
-   * @throws IOException
    */
   public void close() throws IOException
   {
@@ -352,6 +350,9 @@ public class DtausDateiWriter
 }
 /*
  * $Log$
+ * Revision 1.9  2014/02/25 16:17:09  jverein
+ * Warnings entfernt.
+ *
  * Revision 1.8  2012/10/04 17:22:26  jverein
  * Marginale Änderungen. Patch von Marcel Parau.
  * Revision 1.7 2008/02/08 18:45:02 jost ***

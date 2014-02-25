@@ -11,6 +11,7 @@ import de.jost_net.OBanToo.StringLatin.Zeichen;
 
 public class Empfaenger
 {
+
   private String bic;
 
   private String name;
@@ -31,9 +32,6 @@ public class Empfaenger
 
   /**
    * BIC zurückgeben
-   * 
-   * @return BIC
-   * @throws SEPAException
    */
   public String getBic() throws SEPAException
   {
@@ -43,9 +41,6 @@ public class Empfaenger
 
   /**
    * BIC setzen. Länge 8 oder 11 Stellen
-   * 
-   * @param bic
-   * @throws SEPAException
    */
   public void setBic(String bic) throws SEPAException
   {
@@ -62,7 +57,6 @@ public class Empfaenger
    * Name des Zahlungspflichtigen zurückgeben
    * 
    * @return Name des Zahlungspflichtigen
-   * @throws SEPAException
    */
   public String getName() throws SEPAException
   {
@@ -78,9 +72,6 @@ public class Empfaenger
 
   /**
    * Name des Zahlungspflichtigen setzen. Länge max. 70 Stellen.
-   * 
-   * @param name
-   * @throws SEPAException
    */
   public void setName(String name) throws SEPAException
   {
@@ -100,9 +91,6 @@ public class Empfaenger
 
   /**
    * BIC zurückgeben.
-   * 
-   * @return BIC
-   * @throws SEPAException
    */
   public String getIban() throws SEPAException
   {
@@ -112,9 +100,6 @@ public class Empfaenger
 
   /**
    * BIC setzen. Länge abhängig vom Land.
-   * 
-   * @param iban
-   * @throws SEPAException
    */
   public void setIban(String iban) throws SEPAException
   {
@@ -124,9 +109,6 @@ public class Empfaenger
 
   /**
    * Unstrukturierten Verwendungszweck zurückgeben.
-   * 
-   * @return Unstrukturierten Verwendungszweck
-   * @throws SEPAException
    */
   public String getVerwendungszweck() throws SEPAException
   {
@@ -142,9 +124,6 @@ public class Empfaenger
 
   /**
    * Unstrukturierten Verwendungszweck setzen. Länge max. 70 Stellen.
-   * 
-   * @param verwendungszweck
-   * @throws SEPAException
    */
   public void setVerwendungszweck(String verwendungszweck) throws SEPAException
   {
@@ -167,9 +146,6 @@ public class Empfaenger
 
   /**
    * Betrag zurückgeben.
-   * 
-   * @return Betrag
-   * @throws SEPAException
    */
   public BigDecimal getBetrag() throws SEPAException
   {
@@ -179,9 +155,6 @@ public class Empfaenger
 
   /**
    * Betrag setzen. Wert muss > 0
-   * 
-   * @param betrag
-   * @throws SEPAException
    */
   public void setBetrag(BigDecimal betrag) throws SEPAException
   {
@@ -226,11 +199,9 @@ public class Empfaenger
     String message = "";
     try
     {
-      message = MessageFormat
-          .format(
-              "Empfänger: Name={0}, IBAN={1}, BIC={2}, Verwendungszweck={3}, Betrag={4}, ",
-              getName(), getIban(), getBic(), getVerwendungszweck(),
-              getBetrag());
+      message = MessageFormat.format(
+          "Empfänger: Name={0}, IBAN={1}, BIC={2}, Verwendungszweck={3}, Betrag={4}, ",
+          getName(), getIban(), getBic(), getVerwendungszweck(), getBetrag());
     }
     catch (SEPAException e)
     {

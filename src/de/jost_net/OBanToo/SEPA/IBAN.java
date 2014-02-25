@@ -12,7 +12,6 @@ package de.jost_net.OBanToo.SEPA;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
-import java.rmi.RemoteException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -102,9 +101,9 @@ public class IBAN
    * Konstruktor mit Übergabe der IBAN als String
    * 
    * @param iban
-   *          IBAN
+   *        IBAN
    * @throws SEPAException
-   *           wenn die IBAN nicht den Konventionen entspricht.
+   *         wenn die IBAN nicht den Konventionen entspricht.
    */
   public IBAN(String iban) throws SEPAException
   {
@@ -202,7 +201,6 @@ public class IBAN
    * 
    * DE08700901001234567890131400
    * 
-   * @throws RemoteException
    * 
    */
 
@@ -227,11 +225,10 @@ public class IBAN
     {
       throw new SEPAException(
           Fehler.BLZ_UNGUELTIGE_LAENGE,
-          MessageFormat
-              .format(
-                  "Bankleitzahl hat falsche Länge für {0}. Maximal {1,number, integer} Stellen.",
-                  new Object[] { land.getBezeichnung(),
-                      new Integer(land.getBankIdentifierLength()) }));
+          MessageFormat.format(
+              "Bankleitzahl hat falsche Länge für {0}. Maximal {1,number, integer} Stellen.",
+              new Object[] { land.getBezeichnung(),
+                  new Integer(land.getBankIdentifierLength())}));
     }
 
     if (kontoNr.length() > land.getAccountLength().intValue())
@@ -254,7 +251,7 @@ public class IBAN
       {
         cl = IBAN.class;
         method = cl.getMethod("ibanRegel_" + b.getIBANRegel(), new Class[] {
-            String.class, String.class, SEPALand.class });
+            String.class, String.class, SEPALand.class});
       }
       catch (Exception e)
       {
@@ -265,7 +262,7 @@ public class IBAN
 
       try
       {
-        Object[] args = new Object[] { blz, kontoNr, land };
+        Object[] args = new Object[] { blz, kontoNr, land};
         Object ret = method.invoke(null, args);
         IBANRet retval = (IBANRet) ret;
         code = retval.getCode();
@@ -369,8 +366,6 @@ public class IBAN
 
   /**
    * Standardregel
-   * 
-   * @throws Exception
    */
   public static IBANRet ibanRegel_000000(String blz, String konto,
       SEPALand land, String bic, boolean ungueltigePruefzifferZugelassen)
@@ -433,7 +428,10 @@ public class IBAN
    * keine IBAN-Ermittlung (diese Bankleitzahl findet im Zahlungsverkehr keine
    * Verwendung)
    */
-  public static IBANRet ibanRegel_000100(String blz, String konto, SEPALand land)
+  public static IBANRet ibanRegel_000100(@SuppressWarnings("unused")
+  String blz, @SuppressWarnings("unused")
+  String konto, @SuppressWarnings("unused")
+  SEPALand land)
   {
     return new IBANRet(IBANCode.IBANBERECHNUNGNICHTMOEGLICH);
   }
@@ -644,7 +642,7 @@ public class IBAN
         "34280032", "50880050", "62280012", "74380007", "22280000", "36280071",
         "51380040", "63080015", "75080003", "24080000", "36580072", "52080080",
         "64080014", "76080053", "24180001", "40080040", "53080030", "64380011",
-        "79080052", "25480021", "41280043", "54080021", "65080009", "79380051" };
+        "79080052", "25480021", "41280043", "54080021", "65080009", "79380051"};
     for (String s : blzgesperrtekontenkreise)
     {
       if (blz.equals(s))
@@ -821,7 +819,7 @@ public class IBAN
         "34280032", "50880050", "62280012", "74380007", "22280000", "36280071",
         "51380040", "63080015", "75080003", "24080000", "36580072", "52080080",
         "64080014", "76080053", "24180001", "40080040", "53080030", "64380011",
-        "79080052", "25480021", "41280043", "54080021", "65080009", "79380051" };
+        "79080052", "25480021", "41280043", "54080021", "65080009", "79380051"};
     for (String s : blzgesperrtekontenkreise)
     {
       if (blz.equals(s))
@@ -928,7 +926,7 @@ public class IBAN
       throws Exception
   {
     String[] blzs = new String[] { "10020200", "20120200", "25020200",
-        "30020500", "51020000", "55020000", "60120200", "70220200", "86020200" };
+        "30020500", "51020000", "55020000", "60120200", "70220200", "86020200"};
     String _blz = blz;
     for (String s : blzs)
     {
@@ -1923,20 +1921,20 @@ public class IBAN
       throws Exception
   {
     BigInteger kontobi = new BigInteger(konto);
-    if ((kontobi.compareTo(new BigInteger("0000000000")) >= 0 && kontobi
-        .compareTo(new BigInteger("0000099999")) <= 0)
-        || (kontobi.compareTo(new BigInteger("0000900000")) >= 0 && kontobi
-            .compareTo(new BigInteger("0029999999")) <= 0)
-        || (kontobi.compareTo(new BigInteger("0060000000")) >= 0 && kontobi
-            .compareTo(new BigInteger("0099999999")) <= 0)
-        || (kontobi.compareTo(new BigInteger("0900000000")) >= 0 && kontobi
-            .compareTo(new BigInteger("0999999999")) <= 0)
-        || (kontobi.compareTo(new BigInteger("2000000000")) >= 0 && kontobi
-            .compareTo(new BigInteger("2999999999")) <= 0)
-        || (kontobi.compareTo(new BigInteger("7100000000")) >= 0 && kontobi
-            .compareTo(new BigInteger("8499999999")) <= 0)
-        || (kontobi.compareTo(new BigInteger("8600000000")) >= 0 && kontobi
-            .compareTo(new BigInteger("8999999999")) <= 0))
+    if ((kontobi.compareTo(new BigInteger("0000000000")) >= 0 && kontobi.compareTo(new BigInteger(
+        "0000099999")) <= 0)
+        || (kontobi.compareTo(new BigInteger("0000900000")) >= 0 && kontobi.compareTo(new BigInteger(
+            "0029999999")) <= 0)
+        || (kontobi.compareTo(new BigInteger("0060000000")) >= 0 && kontobi.compareTo(new BigInteger(
+            "0099999999")) <= 0)
+        || (kontobi.compareTo(new BigInteger("0900000000")) >= 0 && kontobi.compareTo(new BigInteger(
+            "0999999999")) <= 0)
+        || (kontobi.compareTo(new BigInteger("2000000000")) >= 0 && kontobi.compareTo(new BigInteger(
+            "2999999999")) <= 0)
+        || (kontobi.compareTo(new BigInteger("7100000000")) >= 0 && kontobi.compareTo(new BigInteger(
+            "8499999999")) <= 0)
+        || (kontobi.compareTo(new BigInteger("8600000000")) >= 0 && kontobi.compareTo(new BigInteger(
+            "8999999999")) <= 0))
     {
       return new IBANRet(IBANCode.AUFBAUKONTONUMMERFALSCH);
     }
@@ -1955,8 +1953,7 @@ public class IBAN
       return ibanRegel_000000(blz, konto + "000", land);
     }
     else if (konto.length() == 8
-        && (konto.startsWith("3") || konto.startsWith("4") || konto
-            .startsWith("5")))
+        && (konto.startsWith("3") || konto.startsWith("4") || konto.startsWith("5")))
     {
       return ibanRegel_000000(blz, konto, land);
     }
