@@ -12,6 +12,7 @@ package de.jost_net.OBanToo.JUnit;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
@@ -74,6 +75,11 @@ public class TestUeberweisung
       fail();
     }
     catch (JAXBException e)
+    {
+      e.printStackTrace();
+      fail();
+    }
+    catch (FileNotFoundException e)
     {
       e.printStackTrace();
       fail();

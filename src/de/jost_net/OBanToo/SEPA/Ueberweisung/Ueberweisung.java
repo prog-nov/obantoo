@@ -1,6 +1,8 @@
 package de.jost_net.OBanToo.SEPA.Ueberweisung;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -159,11 +161,8 @@ public class Ueberweisung
 
   /**
    * Für jede Buchung wird ein Zahler-Object übergeben
-   * 
-   * @param zahler
-   * @throws SEPAException
    */
-  public void add(Empfaenger empfaenger) throws SEPAException
+  public void add(Empfaenger empfaenger)
   {
     empfaengerarray.add(empfaenger);
   }
@@ -177,13 +176,15 @@ public class Ueberweisung
    * Schreibt die SEPA-Datei. Vorher sind alle Werte über die set-Methoden sowie
    * die add(Zahler)-Methode übergeben werden.
    * 
-   * @param file
-   * @throws DatatypeConfigurationException
-   * @throws SEPAException
-   * @throws JAXBException
    */
   public void write(File file) throws DatatypeConfigurationException,
-      SEPAException, JAXBException
+      SEPAException, JAXBException, FileNotFoundException
+  {
+    write(new FileOutputStream(file));
+  }
+
+  public void write(FileOutputStream fos) throws JAXBException,
+      DatatypeConfigurationException, SEPAException
   {
     Document doc = new Document();
     doc.setCstmrCdtTrfInitn(getCustumerCreditTransferInitiationV03());
@@ -210,16 +211,12 @@ public class Ueberweisung
         "urn:iso:std:iso:20022:tech:xsd:pain.001.003.03 pain.001.003.03.xsd");
 
     m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-    m.marshal(doc, file);
+    m.marshal(doc, fos);
   }
 
   /**
    * SEPA-Datei einlesen. Nach dem Methodenaufruf können die Werte über die
    * get-Methoden abgefragt werden.
-   * 
-   * @param file
-   * @throws JAXBException
-   * @throws SEPAException
    */
   // public void read(File file) throws JAXBException, SEPAException
   // {
@@ -363,11 +360,10 @@ public class Ueberweisung
   {
     GregorianCalendar gc = new GregorianCalendar();
     gc.setTime(date);
-    XMLGregorianCalendar xmlgc = DatatypeFactory.newInstance()
-        .newXMLGregorianCalendar(gc);
+    XMLGregorianCalendar xmlgc = DatatypeFactory.newInstance().newXMLGregorianCalendar(
+        gc);
 
-    XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance()
-        .newXMLGregorianCalendar();
+    XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar();
     xmlGregorianCalendar.setDay(xmlgc.getDay());
     xmlGregorianCalendar.setMonth(xmlgc.getMonth());
     xmlGregorianCalendar.setYear(xmlgc.getYear());
@@ -379,11 +375,10 @@ public class Ueberweisung
   {
     GregorianCalendar gc = new GregorianCalendar();
     gc.setTime(date);
-    XMLGregorianCalendar xmlgc = DatatypeFactory.newInstance()
-        .newXMLGregorianCalendar(gc);
+    XMLGregorianCalendar xmlgc = DatatypeFactory.newInstance().newXMLGregorianCalendar(
+        gc);
 
-    XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance()
-        .newXMLGregorianCalendar();
+    XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar();
     xmlGregorianCalendar.setDay(xmlgc.getDay());
     xmlGregorianCalendar.setMonth(xmlgc.getMonth());
     xmlGregorianCalendar.setYear(xmlgc.getYear());
@@ -394,7 +389,7 @@ public class Ueberweisung
   }
 
   private CreditTransferTransactionInformationSCT getCreditTransferTransactionInformationSCT(
-      Empfaenger e) throws DatatypeConfigurationException, SEPAException
+      Empfaenger e) throws  SEPAException
   {
     CreditTransferTransactionInformationSCT ctti = new CreditTransferTransactionInformationSCT();
 
@@ -443,9 +438,6 @@ public class Ueberweisung
 
   /**
    * Message-ID. Z. B. Buchungslaufnummer. Max. 35 Stellen.
-   * 
-   * @param messageid
-   * @throws SEPAException
    */
   public void setMessageID(String messageid) throws SEPAException
   {
@@ -468,9 +460,6 @@ public class Ueberweisung
 
   /**
    * BIC. Länge 8 oder 11 Stellen.
-   * 
-   * @param bic
-   * @throws SEPAException
    */
   public void setBIC(String bic) throws SEPAException
   {
@@ -492,9 +481,6 @@ public class Ueberweisung
 
   /**
    * IBAN. Länge in Abhängigkeit vom Land.
-   * 
-   * @param iban
-   * @throws SEPAException
    */
   public void setIBAN(String iban) throws SEPAException
   {
@@ -513,9 +499,6 @@ public class Ueberweisung
 
   /**
    * Name des Zahlungspflichtigen. Länge max. 70 Stellen.
-   * 
-   * @param name
-   * @throws SEPAException
    */
   public void setName(String name) throws SEPAException
   {
@@ -539,8 +522,6 @@ public class Ueberweisung
 
   /**
    * Wird nur intern beim einlesen einer Datei genutzt.
-   * 
-   * @param kontrollsumme
    */
   void setKontrollsumme(BigDecimal kontrollsumme)
   {
@@ -586,8 +567,6 @@ public class Ueberweisung
 
   /**
    * Datum der Erzeugung der Datei. Wird beim Einlesen einer Datei genutzt.
-   * 
-   * @param creationdatetime
    */
   void setCreationDateTime(Date creationdatetime)
   {
@@ -614,8 +593,6 @@ public class Ueberweisung
 
   /**
    * Gibt die Zahler nach dem Einlesen zurück.
-   * 
-   * @return
    */
   public ArrayList<Empfaenger> getZahler()
   {
