@@ -1,5 +1,6 @@
 package de.jost_net.OBanToo.SEPA.Ueberweisung;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -180,10 +181,10 @@ public class Ueberweisung
   public void write(File file) throws DatatypeConfigurationException,
       SEPAException, JAXBException, FileNotFoundException
   {
-    write(new FileOutputStream(file));
+    write(new BufferedOutputStream(new FileOutputStream(file)));
   }
 
-  public void write(FileOutputStream fos) throws JAXBException,
+  public void write(BufferedOutputStream bos) throws JAXBException,
       DatatypeConfigurationException, SEPAException
   {
     Document doc = new Document();
@@ -211,7 +212,7 @@ public class Ueberweisung
         "urn:iso:std:iso:20022:tech:xsd:pain.001.003.03 pain.001.003.03.xsd");
 
     m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-    m.marshal(doc, fos);
+    m.marshal(doc, bos);
   }
 
   /**
@@ -389,7 +390,7 @@ public class Ueberweisung
   }
 
   private CreditTransferTransactionInformationSCT getCreditTransferTransactionInformationSCT(
-      Empfaenger e) throws  SEPAException
+      Empfaenger e) throws SEPAException
   {
     CreditTransferTransactionInformationSCT ctti = new CreditTransferTransactionInformationSCT();
 
