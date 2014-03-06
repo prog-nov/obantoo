@@ -144,6 +144,7 @@ public class IBAN
       {
         throw new SEPAException("Ungültige IBAN. Prüfziffer falsch. " + iban);
       }
+      bic = b.getBIC();
     }
   }
 
