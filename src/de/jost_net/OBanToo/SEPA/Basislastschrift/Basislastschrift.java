@@ -254,25 +254,32 @@ public class Basislastschrift
     Document doc = (Document) u.unmarshal(file);
     setMessageID(doc.getCstmrDrctDbtInitn().getGrpHdr().getMsgId());
     setName(doc.getCstmrDrctDbtInitn().getPmtInf().get(0).getCdtr().getNm());
-    setIBAN(doc.getCstmrDrctDbtInitn().getPmtInf().get(0).getCdtrAcct().getId().getIBAN());
+    setIBAN(doc.getCstmrDrctDbtInitn().getPmtInf().get(0).getCdtrAcct().getId()
+        .getIBAN());
     int anzahlbuchungen = 0;
     BigDecimal kontrollsumme = new BigDecimal(0);
-    for (PaymentInstructionInformationSDD pii : doc.getCstmrDrctDbtInitn().getPmtInf())
+    for (PaymentInstructionInformationSDD pii : doc.getCstmrDrctDbtInitn()
+        .getPmtInf())
     {
       anzahlbuchungen += new Integer(pii.getNbOfTxs());
       setBIC(pii.getCdtrAgt().getFinInstnId().getBIC());
       kontrollsumme = kontrollsumme.add(pii.getCtrlSum());
-      setCreationDateTime(doc.getCstmrDrctDbtInitn().getGrpHdr().getCreDtTm().toGregorianCalendar().getTime());
+      setCreationDateTime(doc.getCstmrDrctDbtInitn().getGrpHdr().getCreDtTm()
+          .toGregorianCalendar().getTime());
       // setFaelligskeitsdatum(doc.getCstmrDrctDbtInitn().getPmtInf().get(0)
       // .getReqdColltnDt().toGregorianCalendar().getTime());
 
       // TODO
-      setGlaeubigerID(pii.getCdtrSchmeId().getId().getPrvtId().getOthr().getId());
+      setGlaeubigerID(pii.getCdtrSchmeId().getId().getPrvtId().getOthr()
+          .getId());
 
-      setGlaeubigerID(doc.getCstmrDrctDbtInitn().getGrpHdr().getInitgPty().getId().getPrvtId().getOthr().getId());
-      System.out.println(pii.getCdtrSchmeId().getId().getPrvtId().getOthr().getId());
+      setGlaeubigerID(doc.getCstmrDrctDbtInitn().getGrpHdr().getInitgPty()
+          .getId().getPrvtId().getOthr().getId());
+      System.out.println(pii.getCdtrSchmeId().getId().getPrvtId().getOthr()
+          .getId());
 
-      System.out.println(doc.getCstmrDrctDbtInitn().getGrpHdr().getInitgPty().getId().getPrvtId().getOthr().getId());
+      System.out.println(doc.getCstmrDrctDbtInitn().getGrpHdr().getInitgPty()
+          .getId().getPrvtId().getOthr().getId());
 
       List<DirectDebitTransactionInformationSDD> liste = pii.getDrctDbtTxInf();
       for (DirectDebitTransactionInformationSDD ddti : liste)
@@ -281,7 +288,8 @@ public class Basislastschrift
         z.setBetrag(ddti.getInstdAmt().getValue());
         z.setBic(ddti.getDbtrAgt().getFinInstnId().getBIC());
         z.setIban(ddti.getDbtrAcct().getId().getIBAN());
-        z.setMandatdatum(ddti.getDrctDbtTx().getMndtRltdInf().getDtOfSgntr().toGregorianCalendar().getTime());
+        z.setMandatdatum(ddti.getDrctDbtTx().getMndtRltdInf().getDtOfSgntr()
+            .toGregorianCalendar().getTime());
         z.setMandatid(ddti.getPmtId().getEndToEndId());
         z.setName(ddti.getDbtr().getNm());
         z.setVerwendungszweck(ddti.getRmtInf().getUstrd());
@@ -399,10 +407,11 @@ public class Basislastschrift
   {
     GregorianCalendar gc = new GregorianCalendar();
     gc.setTime(date);
-    XMLGregorianCalendar xmlgc = DatatypeFactory.newInstance().newXMLGregorianCalendar(
-        gc);
+    XMLGregorianCalendar xmlgc = DatatypeFactory.newInstance()
+        .newXMLGregorianCalendar(gc);
 
-    XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar();
+    XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance()
+        .newXMLGregorianCalendar();
     xmlGregorianCalendar.setDay(xmlgc.getDay());
     xmlGregorianCalendar.setMonth(xmlgc.getMonth());
     xmlGregorianCalendar.setYear(xmlgc.getYear());
@@ -414,10 +423,11 @@ public class Basislastschrift
   {
     GregorianCalendar gc = new GregorianCalendar();
     gc.setTime(date);
-    XMLGregorianCalendar xmlgc = DatatypeFactory.newInstance().newXMLGregorianCalendar(
-        gc);
+    XMLGregorianCalendar xmlgc = DatatypeFactory.newInstance()
+        .newXMLGregorianCalendar(gc);
 
-    XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar();
+    XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance()
+        .newXMLGregorianCalendar();
     xmlGregorianCalendar.setDay(xmlgc.getDay());
     xmlGregorianCalendar.setMonth(xmlgc.getMonth());
     xmlGregorianCalendar.setYear(xmlgc.getYear());
@@ -611,8 +621,8 @@ public class Basislastschrift
    * Komprimiert. Muss gesetzt werden, bevor der erste Zähler übergeben wird.
    * 
    * @param komprimiert
-   *        true: Zahlungen mit gleicher Mandanten-ID werden zusammengefasst,
-   *        false: keine Zusammenfassung.
+   *          true: Zahlungen mit gleicher Mandanten-ID werden zusammengefasst,
+   *          false: keine Zusammenfassung.
    */
   public void setKomprimiert(boolean komprimiert) throws SEPAException
   {
