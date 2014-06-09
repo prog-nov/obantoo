@@ -22,6 +22,7 @@ public class SEPALaender
   {
     laender.add(getDeutschland());
     laender.add(getItalien());
+    laender.add(getLuxemburg());
     laender.add(getNiederlande());
     laender.add(getOesterreich());
     laender.add(getPolen());
@@ -58,6 +59,19 @@ public class SEPALaender
     deutschland.setAccountSample("532013000");
     deutschland.setIBANSample("DE89370400440532013000");
     return deutschland;
+  }
+
+  private static SEPALand getLuxemburg()
+  {
+    SEPALand luxemburg = new SEPALand();
+    luxemburg.setKennzeichen("LU");
+    luxemburg.setBezeichnung("Frankreich");
+    luxemburg.setBankIdentifierLength(3);
+    luxemburg.setAccountLength(13);
+    luxemburg.setBankIdentifierSample("888");
+    luxemburg.setAccountSample("1234567890123");
+    luxemburg.setIBANSample("LU978881234567890123");
+    return luxemburg;
   }
 
   private static SEPALand getItalien()
