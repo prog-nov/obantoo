@@ -1013,97 +1013,103 @@ public class TestIBAN
     }
   }
 
-  @Test
-  public void regel003101_1()
-  {
-    try
-    {
-      IBAN iban = new IBAN("6790149813", "54520071", "DE");
-      assertEquals("DE77545201946790149813", iban.getIBAN());
-      assertEquals(IBANCode.PRUEFZIFFERNMETHODEFEHLT, iban.getCode());
-    }
-    catch (SEPAException e)
-    {
-      e.printStackTrace();
-      fail();
-    }
-  }
+  // @Test
+  // BLZ existiert nicht mehr in der BLZ
+  // public void regel003101_1()
+  // {
+  // try
+  // {
+  // IBAN iban = new IBAN("6790149813", "54520071", "DE");
+  // assertEquals("DE77545201946790149813", iban.getIBAN());
+  // assertEquals(IBANCode.PRUEFZIFFERNMETHODEFEHLT, iban.getCode());
+  // }
+  // catch (SEPAException e)
+  // {
+  // e.printStackTrace();
+  // fail();
+  // }
+  // }
 
-  @Test
-  public void regel003101_2()
-  {
-    try
-    {
-      IBAN iban = new IBAN("6791000000", "54520071", "DE");
-      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
-    }
-    catch (SEPAException e)
-    {
-      e.printStackTrace();
-      fail();
-    }
-  }
+  // @Test
+  // BLZ existiert nicht mehr in der BLZ
+  // public void regel003101_2()
+  // {
+  // try
+  // {
+  // IBAN iban = new IBAN("6791000000", "54520071", "DE");
+  // assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
+  // }
+  // catch (SEPAException e)
+  // {
+  // e.printStackTrace();
+  // fail();
+  // }
+  // }
 
-  @Test
-  public void regel003101_3()
-  {
-    try
-    {
-      IBAN iban = new IBAN("897", "10120760", "DE");
-      assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
-    }
-    catch (SEPAException e)
-    {
-      e.printStackTrace();
-      fail();
-    }
-  }
+  // @Test
+  // BLZ existiert nicht mehr in der BLZ
+  // public void regel003101_3()
+  // {
+  // try
+  // {
+  // IBAN iban = new IBAN("897", "10120760", "DE");
+  // assertEquals(IBANCode.AUFBAUKONTONUMMERFALSCH, iban.getCode());
+  // }
+  // catch (SEPAException e)
+  // {
+  // e.printStackTrace();
+  // fail();
+  // }
+  // }
 
-  @Test
-  public void regel003101_A()
-  {
-    try
-    {
-      IBAN iban = new IBAN("1210100047", "79020325", "DE");
-      assertEquals("DE70762200731210100047", iban.getIBAN());
-      assertEquals(IBANCode.PRUEFZIFFERNMETHODEFEHLT, iban.getCode());
-    }
-    catch (SEPAException e)
-    {
-      e.printStackTrace();
-      fail();
-    }
-  }
+  // @Test
+  // BLZ existiert nicht mehr in der BLZ
+  // public void regel003101_A()
+  // {
+  // try
+  // {
+  // IBAN iban = new IBAN("1210100047", "79020325", "DE");
+  // assertEquals("DE70762200731210100047", iban.getIBAN());
+  // assertEquals(IBANCode.PRUEFZIFFERNMETHODEFEHLT, iban.getCode());
+  // }
+  // catch (SEPAException e)
+  // {
+  // e.printStackTrace();
+  // fail();
+  // }
+  // }
 
-  @Test
-  public void regel003101_B()
-  {
-    try
-    {
-      IBAN iban = new IBAN("1210100047", "70020001", "DE");
-      assertEquals("DE70762200731210100047", iban.getIBAN());
-    }
-    catch (SEPAException e)
-    {
-      e.printStackTrace();
-      fail();
-    }
-  }
+  // @Test
+  // BLZ existiert nicht mehr in der BLZ
+  // public void regel003101_B()
+  // {
+  // try
+  // {
+  // IBAN iban = new IBAN("1210100047", "70020001", "DE");
+  // assertEquals("DE70762200731210100047", iban.getIBAN());
+  // }
+  // catch (SEPAException e)
+  // {
+  // e.printStackTrace();
+  // fail();
+  // }
+  // }
 
-  @Test
-  public void regel003101_C()
-  {
-    try
-    {
-      IBAN iban = new IBAN("1210100047", "76020214", "DE");
-      assertEquals("DE70762200731210100047", iban.getIBAN());
-    }
-    catch (SEPAException e)
-    {
-      e.printStackTrace();
-      fail();
-    }
-  }
+  // @Test
+  // BLZ existiert nicht mehr in der BLZ
+  // public void regel003101_C()
+  // {
+  // try
+  // {
+  // IBAN iban = new IBAN("1210100047", "76020214", "DE");
+  // assertEquals("DE70762200731210100047", iban.getIBAN());
+  // }
+  // catch (SEPAException e)
+  // {
+  // e.printStackTrace();
+  // fail();
+  // }
+  // }
 
   @Test
   public void regel003101_D()
@@ -1733,20 +1739,21 @@ public class TestIBAN
     }
   }
 
-  @Test
-  public void regel004600_01()
-  {
-    try
-    {
-      IBAN iban = new IBAN("1234567890", "10120600", "DE");
-      assertEquals("DE62310108331234567890", iban.getIBAN());
-    }
-    catch (SEPAException e)
-    {
-      e.printStackTrace();
-      fail();
-    }
-  }
+//  @Test
+  // Die Bankleitzahl hat jetzt die Regel 000000
+//  public void regel004600_01()
+//  {
+//    try
+//    {
+//      IBAN iban = new IBAN("1234567890", "10120600", "DE");
+//      assertEquals("DE62310108331234567890", iban.getIBAN());
+//    }
+//    catch (SEPAException e)
+//    {
+//      e.printStackTrace();
+//      fail();
+//    }
+//  }
 
   @Test
   public void regel004800_01()
