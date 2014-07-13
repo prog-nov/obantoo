@@ -100,8 +100,8 @@ public class AccountCRCAlgs
     return result;
   }
 
-  public static PZRet alg_09(@SuppressWarnings("unused")
-  int[] blz, @SuppressWarnings("unused") int[] number)
+  public static PZRet alg_09(@SuppressWarnings("unused") int[] blz,
+      @SuppressWarnings("unused") int[] number)
   {
     return new PZRet(true);
   }
@@ -128,7 +128,8 @@ public class AccountCRCAlgs
     return new PZRet(number[9] == crc);
   }
 
-  public static PZRet alg_12(@SuppressWarnings("unused") int[] blz, @SuppressWarnings("unused") int[] number)
+  public static PZRet alg_12(@SuppressWarnings("unused") int[] blz,
+      @SuppressWarnings("unused") int[] number)
   {
     // this should never happen, because 12 is not used
     return new PZRet(false);
@@ -617,7 +618,7 @@ public class AccountCRCAlgs
           ok = new PZRet(false);
         }
         sum = addProducts(number, 4, 8, new int[] { 6, 5, 4, 3, 2 }, false);
-        crc = 7 - (sum % 7);
+        crc = (7 - (sum % 7)) % 7;
         if (crc > 9)
           crc = 0;
         ok = new PZRet((number[9] == crc));
@@ -1372,7 +1373,7 @@ public class AccountCRCAlgs
 
     // Methode C
     sum = addProducts(number, 4, 8, new int[] { 6, 5, 4, 3, 2 }, false);
-    crc = 7 - (sum % 7);
+    crc = (7 - (sum % 7)) % 7;
     return new PZRet(number[9] == crc);
   }
 
@@ -1697,9 +1698,12 @@ public class AccountCRCAlgs
     if (number[0] == 0)
     {
       long bigint = calculateIntFromNumber(number);
-      if (bigint >= 1 && bigint <= 1999999 || bigint >= 9000000
-          && bigint <= 25999999 || bigint >= 396000000 && bigint <= 499999999
-          || bigint >= 700000000 && bigint <= 799999999)
+
+      if ((bigint >= 1 && bigint <= 1999999)
+          || (bigint >= 9000000 && bigint <= 25999999)
+          || (bigint >= 396000000 && bigint <= 499999999)
+          || (bigint >= 700000000 && bigint <= 799999999)
+          || (bigint >= 910000000 && bigint <= 989999999))
       {
         return new PZRet(true);
       }
@@ -2198,8 +2202,7 @@ public class AccountCRCAlgs
     return alg_07(blz, number);
   }
 
-  public static PZRet alg_D0(@SuppressWarnings("unused")
-  int[] blz, int[] number)
+  public static PZRet alg_D0(@SuppressWarnings("unused") int[] blz, int[] number)
   {
     PZRet ok = new PZRet(false);
 
@@ -2418,7 +2421,8 @@ public class AccountCRCAlgs
   }
 
   /** @author Heiner */
-  private static PZRet ausnahme51(@SuppressWarnings("unused") int[] blz, int[] number)
+  private static PZRet ausnahme51(@SuppressWarnings("unused") int[] blz,
+      int[] number)
   {
     // Ausnahme
     if (number[2] == 9)
