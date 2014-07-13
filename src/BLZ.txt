@@ -5913,7 +5913,7 @@
 500109001Bank of America                                           60311Frankfurt am Main                  Bankamerica                29570BOFADEFXXXX09011112U000000000000000
 500109101Bank of America, Filiale Frankfurt                        60311Frankfurt am Main                  Bank of America                 BOFADEFXVAM09056399U000000000000000
 500128001ALTE LEIPZIGER Bauspar                                    61440Oberursel (Taunus)                 ALTE LEIPZIGER Bauspar          ALTEDEFAXXX28043632U000000000000000
-500200001Sberbank Europe Zndl Deutschland                          60594Frankfurt am Main                  Sberbank Direct Frankfurt       SEZBDEF1XXX28056514A000000000000000
+500200001Sberbank Europe Zndl Deutschland                          60594Frankfurt am Main                  Sberbank Direct Frankfurt       SEZDDEF1XXX28056514A000000000000000
 500201601UniCredit Bank - HypoVereinsbank Ndl 427 Ffm              85609Aschheim                           UniCredit exHypo Ndl427 Ffm                99029214U150320191003101
 500202001BHF-BANK                                                  60323Frankfurt am Main                  BHF-BANK Frankfurt Main    25160BHFBDEFF50060004826U000000000000800
 500203001KBC Bank Deutschland                                      60038Frankfurt am Main                  KBC Bank Frankfurt              BANVDEHB50018044276U000000000000000
