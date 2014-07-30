@@ -6137,7 +6137,7 @@
 501300001National Bank of Pakistan Zndl Frankfurt                  60313Frankfurt am Main                  Naba Frankfurt Main        29770NBPADEFFXXX09042553U000000000000000
 501301001BethmannMaffei Bank -alt-                                 60311Frankfurt am Main                  BethmannMaffei Bank Ffm-alt26025DELBDE33XXXD9013567U000000000001900
 501302001Oppenheim, Sal - jr & Cie                                 60605Frankfurt am Main                  Oppenheim, Sal - jr & Cie  26271SOPPDEFFXXX09011111U000000000000100
-501303001First International Bank                                  60325Frankfurt am Main                  FIRST BANK Frankfurt       99053MASFDEF1XXX09054927U000000000000000
+501303001First International Bank                                  60325Frankfurt am Main                  FIRST BANK Frankfurt       99053MASFDEF1XXX09054927D000000000000000
 501304001Merck Finck & Co                                          60015Frankfurt am Main                  Merck Finck & Co Frankfurt 26246MEFIDEMM50110000010U000000000000000
 501306001UBS Deutschland                                           60079Frankfurt am Main                  UBS Deutschland Frankfurt/M29860UBSWDEFFXXX09044188U000000000000000
 501310001Vietnam Joint Stock Commercial Bank for Industry and Trade60323Frankfurt am Main                  Vietinbank                 26170ICBVDEFFXXXE1055999U000000000000000
