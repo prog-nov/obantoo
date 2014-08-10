@@ -437,10 +437,7 @@ public class IBAN
    * keine IBAN-Ermittlung (diese Bankleitzahl findet im Zahlungsverkehr keine
    * Verwendung)
    */
-  public static IBANRet ibanRegel_000100(
-      @SuppressWarnings("unused") String blz,
-      @SuppressWarnings("unused") String konto,
-      @SuppressWarnings("unused") SEPALand land)
+  public static IBANRet ibanRegel_000100(String blz, String konto, SEPALand land)
   {
     return new IBANRet(IBANCode.IBANBERECHNUNGNICHTMOEGLICH);
   }

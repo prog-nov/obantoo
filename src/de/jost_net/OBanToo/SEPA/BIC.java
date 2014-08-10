@@ -47,8 +47,7 @@ public class BIC
     }
   }
 
-  public BIC(String kontoNr, String blz, @SuppressWarnings("unused")
-  String landkennzeichen)
+  public BIC(String kontoNr, String blz, String landkennzeichen)
       throws SEPAException
   {
     if (kontoNr == null || kontoNr.trim().length() == 0 || blz == null
