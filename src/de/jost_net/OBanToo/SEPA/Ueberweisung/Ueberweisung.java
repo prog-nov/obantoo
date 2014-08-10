@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,61 +45,6 @@ import de.jost_net.OBanToo.SEPA.Nachricht.pain_001_003_03.ServiceLevelSEPA;
 import de.jost_net.OBanToo.StringLatin.Zeichen;
 
 /**
- * <h1>SEPA-Basislastschriften</h1> <h2>Dateien erstellen</h2>
- * <p>
- * Beispiel für die Erstellung einer SEPA-Basislastschrift-Datei: <code>
-   Basislastschrift bl = new Basislastschrift();
-   bl.setKomprimiert(true);
-   bl.setMessageID("123"); // Z. B. Buchungslaufnummer
-   bl.setBIC("WELADED1WDB");
-   Calendar cal = Calendar.getInstance();
-   cal.set(Calendar.YEAR, 2013);
-   cal.set(Calendar.MONTH, 04);
-   cal.set(Calendar.DAY_OF_MONTH, 15);
-   bl.setFaelligskeitsdatum(cal.getTime());
-   bl.setIBAN("DE61478535200001861889");
-   bl.setName("Fa. SEPA GmbH und Co. Testenhausen");
-   bl.setGlaeubigerID("DE98ZZZ09999999999");
-   Zahler z1 = new Zahler();
-   z1.setBetrag(new BigDecimal("100.00"));
-   z1.setBic("DORTDE33XXX");
-   z1.setIban("DE15440501990001052500");
-   cal.set(Calendar.MONTH, 1);
-   cal.set(Calendar.DAY_OF_MONTH, 22);
-   z1.setMandatdatum(cal.getTime());
-   z1.setMandatid("4711");
-   z1.setName("Meier und Co.");
-   z1.setVerwendungszweck("Beitrag 2013");
-   bl.add(z1);
-   Zahler z11 = new Zahler();
-   z11.setBetrag(new BigDecimal("100.00"));
-   z11.setBic("DORTDE33XXX");
-   z11.setIban("DE15440501990001052500");
-   cal.set(Calendar.MONTH, 1);
-   cal.set(Calendar.DAY_OF_MONTH, 22);
-   z11.setMandatdatum(cal.getTime());
-   z11.setMandatid("4711");
-   z11.setName("Meier und Co.");
-   z11.setVerwendungszweck("Zusatzbetrag 2013");
-   bl.add(z11);
-   Zahler z2 = new Zahler();
-   z2.setBetrag(new BigDecimal("50.00"));
-   z2.setBic("WELADED1HER");
-   z2.setIban("DE36450514850000000034");
-   cal.set(Calendar.YEAR, 2001);
-   z2.setMandatdatum(cal.getTime());
-   z2.setMandatid("0815");
-   z2.setName("Fritz Mueller");
-   z2.setVerwendungszweck("Beitrag 2013");
-   bl.add(z2);
-   bl.write(new File("test.xml"));
- * </code>
- * </p>
- * <h2>Dateien einlesen</h2> <code>
-    Basislastschrift bl = new Basislastschrift();
-   bl.read(new File("test.xml"));
-   // jetzt können über die get-Methoden alle Werte abgefragt werden
- * </code>
  * 
  * @author heiner
  * 
@@ -107,7 +53,7 @@ public class Ueberweisung
 {
 
   /**
-   * Message-ID für die Prüfung auf Doppeleinreichung
+   * Message-ID fÃ¼r die PrÃ¼fung auf Doppeleinreichung
    */
   private String messageID = null;
 
@@ -127,12 +73,12 @@ public class Ueberweisung
   private String name = null;
 
   /**
-   * Array von Empfängern
+   * Array von EmpfÃ¤ngern
    */
   private ArrayList<Empfaenger> empfaengerarray = new ArrayList<Empfaenger>();
 
   /**
-   * Sammelbuchung? Standardmäßig Einzelbuchung.
+   * Sammelbuchung? StandardmÃ¤ÃŸig Einzelbuchung.
    */
   private boolean sammelbuchung = false;
 
@@ -152,7 +98,7 @@ public class Ueberweisung
   private Date creationdatetime;
 
   /**
-   * Datum der Ausführung
+   * Datum der AusfÃ¼hrung
    */
   private Date dateofexecution;
 
@@ -161,7 +107,7 @@ public class Ueberweisung
   }
 
   /**
-   * Für jede Buchung wird ein Zahler-Object übergeben
+   * FÃ¼r jede Buchung wird ein Zahler-Object Ã¼bergeben
    */
   public void add(Empfaenger empfaenger)
   {
@@ -174,8 +120,8 @@ public class Ueberweisung
   }
 
   /**
-   * Schreibt die SEPA-Datei. Vorher sind alle Werte über die set-Methoden sowie
-   * die add(Zahler)-Methode übergeben werden.
+   * Schreibt die SEPA-Datei. Vorher sind alle Werte Ã¼ber die set-Methoden sowie
+   * die add(Zahler)-Methode Ã¼bergeben werden.
    * 
    */
   public void write(File file) throws DatatypeConfigurationException,
@@ -191,8 +137,8 @@ public class Ueberweisung
     doc.setCstmrCdtTrfInitn(getCustumerCreditTransferInitiationV03());
 
     /*
-     * Die standardmäßig von xjc erzeugte Document-Klasse erzeugt beim
-     * marshall-Aufruf immer einen "ns2"-Zusatz. Durch hinzufügen eines
+     * Die standardmÃ¤ÃŸig von xjc erzeugte Document-Klasse erzeugt beim
+     * marshall-Aufruf immer einen "ns2"-Zusatz. Durch hinzufÃ¼gen eines
      * 
      * @XmlRootElementes in die Klasse document wird das vermieden.
      * 
@@ -212,11 +158,25 @@ public class Ueberweisung
         "urn:iso:std:iso:20022:tech:xsd:pain.001.003.03 pain.001.003.03.xsd");
 
     m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-    m.marshal(doc, bos);
+    try
+    {
+      m.marshal(doc, bos);
+    }
+    finally
+    {
+      try
+      {
+        bos.close();
+      }
+      catch (IOException e)
+      {
+        throw new SEPAException(e.getMessage());
+      }
+    }
   }
 
   /**
-   * SEPA-Datei einlesen. Nach dem Methodenaufruf können die Werte über die
+   * SEPA-Datei einlesen. Nach dem Methodenaufruf kï¿½nnen die Werte ï¿½ber die
    * get-Methoden abgefragt werden.
    */
   // public void read(File file) throws JAXBException, SEPAException
@@ -325,7 +285,7 @@ public class Ueberweisung
     pii.setNbOfTxs(seqAnzahl + ""); // Anzahl der Buchungen
 
     PartyIdentificationSEPA2 pi2 = new PartyIdentificationSEPA2();
-    pi2.setNm(Zeichen.convert(getName())); // Name des Überweisenden
+    pi2.setNm(Zeichen.convert(getName())); // Name des ï¿½berweisenden
     pii.setDbtr(pi2);
 
     AccountIdentificationSEPA ai = new AccountIdentificationSEPA();
@@ -361,10 +321,11 @@ public class Ueberweisung
   {
     GregorianCalendar gc = new GregorianCalendar();
     gc.setTime(date);
-    XMLGregorianCalendar xmlgc = DatatypeFactory.newInstance().newXMLGregorianCalendar(
-        gc);
+    XMLGregorianCalendar xmlgc = DatatypeFactory.newInstance()
+        .newXMLGregorianCalendar(gc);
 
-    XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar();
+    XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance()
+        .newXMLGregorianCalendar();
     xmlGregorianCalendar.setDay(xmlgc.getDay());
     xmlGregorianCalendar.setMonth(xmlgc.getMonth());
     xmlGregorianCalendar.setYear(xmlgc.getYear());
@@ -376,10 +337,11 @@ public class Ueberweisung
   {
     GregorianCalendar gc = new GregorianCalendar();
     gc.setTime(date);
-    XMLGregorianCalendar xmlgc = DatatypeFactory.newInstance().newXMLGregorianCalendar(
-        gc);
+    XMLGregorianCalendar xmlgc = DatatypeFactory.newInstance()
+        .newXMLGregorianCalendar(gc);
 
-    XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar();
+    XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance()
+        .newXMLGregorianCalendar();
     xmlGregorianCalendar.setDay(xmlgc.getDay());
     xmlGregorianCalendar.setMonth(xmlgc.getMonth());
     xmlGregorianCalendar.setYear(xmlgc.getYear());
@@ -454,19 +416,19 @@ public class Ueberweisung
   {
     if (messageID == null)
     {
-      throw new SEPAException("Message-ID ist noch nicht gefüllt");
+      throw new SEPAException("Message-ID ist noch nicht gefï¿½llt");
     }
     return messageID;
   }
 
   /**
-   * BIC. Länge 8 oder 11 Stellen.
+   * BIC. Lï¿½nge 8 oder 11 Stellen.
    */
   public void setBIC(String bic) throws SEPAException
   {
     if (bic == null || (bic.length() != 8 && bic.length() != 11))
     {
-      throw new SEPAException("BIC nicht korrekt gefüllt");
+      throw new SEPAException("BIC nicht korrekt gefï¿½llt");
     }
     this.bic = bic;
   }
@@ -475,13 +437,13 @@ public class Ueberweisung
   {
     if (bic == null)
     {
-      throw new SEPAException("BIC ist noch nicht gefüllt");
+      throw new SEPAException("BIC ist noch nicht gefï¿½llt");
     }
     return bic;
   }
 
   /**
-   * IBAN. Länge in Abhängigkeit vom Land.
+   * IBAN. Lï¿½nge in Abhï¿½ngigkeit vom Land.
    */
   public void setIBAN(String iban) throws SEPAException
   {
@@ -493,20 +455,20 @@ public class Ueberweisung
   {
     if (iban == null)
     {
-      throw new SEPAException("IBAN ist noch nicht gefüllt");
+      throw new SEPAException("IBAN ist noch nicht gefï¿½llt");
     }
     return iban;
   }
 
   /**
-   * Name des Zahlungspflichtigen. Länge max. 70 Stellen.
+   * Name des Zahlungspflichtigen. Lï¿½nge max. 70 Stellen.
    */
   public void setName(String name) throws SEPAException
   {
     if (name == null || name.length() == 0 || name.length() > 70)
     {
       throw new SEPAException(
-          "Name des Zahlungsempfängers nicht korrekt gefüllt");
+          "Name des Zahlungsempfï¿½ngers nicht korrekt gefï¿½llt");
     }
     this.name = name;
   }
@@ -516,7 +478,7 @@ public class Ueberweisung
     if (name == null)
     {
       throw new SEPAException(
-          "Name des Zahlungsempfängers ist noch nicht gefüllt");
+          "Name des Zahlungsempfï¿½ngers ist noch nicht gefï¿½llt");
     }
     return name;
   }
@@ -531,7 +493,7 @@ public class Ueberweisung
 
   /**
    * Kontrollsumme aller Buchungen. Steht nach dem Einlesen einer Datei zur
-   * Verfügung.
+   * Verfï¿½gung.
    * 
    * @return Kontrollsumme
    */
@@ -541,7 +503,7 @@ public class Ueberweisung
   }
 
   /**
-   * Anzahl der Buchungen. Steht nach dem Einlesen einer Datei zur Verfügung.
+   * Anzahl der Buchungen. Steht nach dem Einlesen einer Datei zur Verfï¿½gung.
    * 
    * @return Anzahl Buchungen
    */
@@ -557,7 +519,7 @@ public class Ueberweisung
 
   /**
    * Datum der Erzeugung der Datei. Steht nach dem Einlesen einer Datei zur
-   * Verfügung.
+   * Verfï¿½gung.
    * 
    * @return Erzeugungsdatum
    */
@@ -575,9 +537,9 @@ public class Ueberweisung
   }
 
   /**
-   * Gewünschtes Ausführungsdatum.
+   * Gewï¿½nschtes Ausfï¿½hrungsdatum.
    * 
-   * @return ausführungsdatum
+   * @return ausfï¿½hrungsdatum
    */
   public Date getAusfuehrungsdatum()
   {
@@ -585,7 +547,7 @@ public class Ueberweisung
   }
 
   /**
-   * Gewünschtes Ausführungsdatum.
+   * Gewï¿½nschtes Ausfï¿½hrungsdatum.
    */
   public void setAusfuehrungsdatum(Date dateofexecution)
   {
@@ -593,7 +555,7 @@ public class Ueberweisung
   }
 
   /**
-   * Gibt die Zahler nach dem Einlesen zurück.
+   * Gibt die Zahler nach dem Einlesen zurï¿½ck.
    */
   public ArrayList<Empfaenger> getZahler()
   {
@@ -616,7 +578,7 @@ public class Ueberweisung
   // cal.set(Calendar.DAY_OF_MONTH, 15);
   // bl.setFaelligskeitsdatum(cal.getTime());
   // bl.setIBAN("DE61478535200001861889");
-  // bl.setName("Fa. SEPA-Empfänger GmbH und Co. Testenhausen");
+  // bl.setName("Fa. SEPA-Empfï¿½nger GmbH und Co. Testenhausen");
   // bl.setGlaeubigerID("DE98ZZZ09999999999");
   //
   // Zahler z1 = new Zahler();
