@@ -120,7 +120,7 @@ public class IBAN
     land = SEPALaender.getLand(iban.substring(0, 2));
     if (land == null)
     {
-      throw new SEPAException("Ungültige IBAN. Landesschlüssel existiert nicht");
+      throw new SEPAException(Fehler.UNGUELTIGES_LAND);
     }
     int laebankid = land.getBankIdentifierLength();
     int laeaccount = land.getAccountLength();
