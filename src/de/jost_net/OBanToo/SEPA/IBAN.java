@@ -120,29 +120,20 @@ public class IBAN
     land = SEPALaender.getLand(iban.substring(0, 2));
     if (land == null)
     {
-      throw new SEPAException(Fehler.UNGUELTIGES_LAND);
-    }
-    int laebankid = land.getBankIdentifierLength();
-    int laeaccount = land.getAccountLength();
-    int laeiban = 4 + laebankid + laeaccount;
-    if (iban.length() != laeiban)
-    {
-      throw new SEPAException("Ungültige IBAN-Länge. Vorgeschrieben sind "
-          + laeiban + " Stellen für " + land.getBezeichnung());
+      throw new SEPAException(Fehler.UNGUELTIGES_LAND, iban.substring(0, 2));
     }
     String pz = iban.substring(2, 4);
-    String blz = iban.substring(4, 4 + laebankid);
-    String konto = iban.substring(4 + laebankid, 4 + laebankid + laeaccount);
+    if (!pz.equals(getPruefziffer(iban.substring(4), land.getKennzeichen())))
+    {
+      throw new SEPAException("Ungültige IBAN. Prüfziffer falsch. " + iban);
+    }
     if (land.getKennzeichen().equals("DE"))
     {
+      String blz = iban.substring(4, 12);
       Bank b = Banken.getBankByBLZ(blz);
       if (b == null)
       {
         throw new SEPAException("BLZ in der IBAN existiert nicht");
-      }
-      if (!pz.equals(getPruefziffer(blz, konto, land.getKennzeichen())))
-      {
-        throw new SEPAException("Ungültige IBAN. Prüfziffer falsch. " + iban);
       }
       bic = b.getBIC();
     }
@@ -340,7 +331,13 @@ public class IBAN
   private static String getPruefziffer(String blz, String konto,
       String laenderkennung) throws SEPAException
   {
-    String tmpIban1 = blz + konto + laenderkennung + "00";
+    return getPruefziffer(blz + konto, laenderkennung);
+  }
+
+  private static String getPruefziffer(String bban, String laenderkennung)
+      throws SEPAException
+  {
+    String tmpIban1 = bban + laenderkennung + "00";
     String tmpIban2 = "";
     for (int i = 0; i < tmpIban1.length(); i++)
     {
@@ -353,8 +350,8 @@ public class IBAN
     }
     catch (NumberFormatException e)
     {
-      String error = MessageFormat.format(
-          "Ungültige Bankverbindung: {0} {1} {2}", blz, konto, laenderkennung);
+      String error = MessageFormat.format("Ungültige IBAN: {0} {1}", bban,
+          laenderkennung);
       throw new SEPAException(error);
     }
     BigInteger modulo = bi.mod(BigInteger.valueOf(97));
