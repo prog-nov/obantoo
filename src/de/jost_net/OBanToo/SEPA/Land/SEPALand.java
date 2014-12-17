@@ -36,7 +36,7 @@ public class SEPALand
     this.kennzeichen = kennzeichen;
     this.bezeichnung = bezeichnung;
     this.ibansample = ibansample;
-    elements = new ArrayList<>();
+    elements = new ArrayList<Element>();
     StringTokenizer tok = new StringTokenizer(ibanclass, "!nac", true);
     while (tok.hasMoreTokens())
     {
