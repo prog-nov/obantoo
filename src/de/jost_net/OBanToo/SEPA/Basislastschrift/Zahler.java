@@ -292,15 +292,19 @@ public class Zahler
       verwendungszweck = "";
       verwendungszweckorig = "";
     }
+    betrag = betrag.add(zahler.getBetrag());
+    if (verwendungszweck.length() == 140 && verwendungszweck.endsWith("..."))
+    {
+      return;
+    }
+
     String tmpverwendungszweck = verwendungszweck + " " + betrag.toString()
         + ", " + zahler.getVerwendungszweck() + " " + zahler.getBetrag();
     if (tmpverwendungszweck.length() > 140)
     {
-      throw new SEPAException(
-          "Zahlung kann nicht zusammengefügt werden. Verwendungszweck ist zu lang");
+      tmpverwendungszweck = tmpverwendungszweck.substring(0, 137) + "...";
     }
     verwendungszweck = tmpverwendungszweck;
-    betrag = betrag.add(zahler.getBetrag());
   }
 
   @Override
