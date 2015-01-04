@@ -38,6 +38,11 @@ public class Zahler
   private static final BigDecimal nu = new BigDecimal("0.00");
 
   /**
+   * Interner Zähler für die geaddeten Verwendungszwecke
+   */
+  private int verwendungszwecke = 0;
+
+  /**
    * Gibt die Mandats-ID zurück
    */
   public String getMandatid() throws SEPAException
@@ -180,11 +185,12 @@ public class Zahler
   }
 
   /**
-   * Unstrukturierten Verwendungszweck setzen. Länge max. 70 Stellen.
+   * Unstrukturierten Verwendungszweck setzen. Länge max. 140 Stellen.
    */
   public void setVerwendungszweck(String verwendungszweck) throws SEPAException
   {
     String tmpVerwendungszweck = Zeichen.convert(verwendungszweck);
+    verwendungszwecke = 1;
     checkVerwendungszweck(tmpVerwendungszweck);
     this.verwendungszweck = tmpVerwendungszweck;
     this.verwendungszweckorig = verwendungszweck;
@@ -292,14 +298,18 @@ public class Zahler
       verwendungszweck = "";
       verwendungszweckorig = "";
     }
+    if (verwendungszwecke == 1)
+    {
+      verwendungszweck += " " + betrag.toString();
+    }
     betrag = betrag.add(zahler.getBetrag());
     if (verwendungszweck.length() == 140 && verwendungszweck.endsWith("..."))
     {
       return;
     }
 
-    String tmpverwendungszweck = verwendungszweck + " " + betrag.toString()
-        + ", " + zahler.getVerwendungszweck() + " " + zahler.getBetrag();
+    String tmpverwendungszweck = verwendungszweck + ", "
+        + zahler.getVerwendungszweck() + " " + zahler.getBetrag();
     if (tmpverwendungszweck.length() > 140)
     {
       tmpverwendungszweck = tmpverwendungszweck.substring(0, 137) + "...";
