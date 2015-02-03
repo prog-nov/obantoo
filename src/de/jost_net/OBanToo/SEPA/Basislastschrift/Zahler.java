@@ -297,10 +297,15 @@ public class Zahler
     {
       verwendungszweck = "";
       verwendungszweckorig = "";
+      verwendungszwecke = 1;
+    }
+    else
+    {
+      verwendungszwecke++;
     }
     if (verwendungszwecke == 1)
     {
-      verwendungszweck += " " + betrag.toString();
+      verwendungszweck += " " + this.getBetrag();
     }
     betrag = betrag.add(zahler.getBetrag());
     if (verwendungszweck.length() == 140 && verwendungszweck.endsWith("..."))
