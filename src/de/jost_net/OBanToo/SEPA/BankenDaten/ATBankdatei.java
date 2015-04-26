@@ -47,6 +47,10 @@ public class ATBankdatei
     String[] f = line.split(";");
     for (int i = 0; i < f.length; i++)
     {
+      if (f[i].startsWith("\"") && f[i].endsWith("\""))
+      {
+        f[i] = f[i].substring(1, f[i].length() - 1);
+      }
       felder.put(headers[i], f[i]);
     }
     return new ATBank(felder);
