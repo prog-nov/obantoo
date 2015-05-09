@@ -845,7 +845,7 @@ public class IBAN
 
   /**
    * Commerzbank AG 03: Anpassung des Testfalls "Gesperrte BLZ"<br>
-   * Fkeine Änderungen in der Logik erforderlich
+   * keine Änderungen in der Logik erforderlich
    */
   public static IBANRet ibanRegel_000503(String blz, String konto, SEPALand land)
       throws Exception
@@ -1508,7 +1508,7 @@ public class IBAN
   }
 
   /**
-   * Société Générale
+   * Societe Gnrale
    */
   public static IBANRet ibanRegel_002900(String blz, String konto, SEPALand land)
       throws Exception
