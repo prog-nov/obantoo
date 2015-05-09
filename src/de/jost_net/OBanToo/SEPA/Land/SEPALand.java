@@ -45,6 +45,8 @@ public class SEPALand
       tok.nextToken(); // Dieser Token wird nicht benötigt
       elements.add(new Element(lae, tok.nextToken()));
     }
+    bankidentfierlength = elements.get(0).lae;
+    accountlength = elements.get(1).lae;
   }
 
   public String getKennzeichen()
