@@ -1802,20 +1802,21 @@ public class TestIBAN
     }
   }
 
-  @Test
-  public void regel005100_01()
-  {
-    try
-    {
-      IBAN iban = new IBAN("5308810004", "67220020", "DE");
-      assertEquals("DE38600501010002662604", iban.getIBAN());
-    }
-    catch (SEPAException e)
-    {
-      e.printStackTrace();
-      fail();
-    }
-  }
+  // Die Bank existiert in der BLZ-Datei vom 8.6.2015 nicht mehr
+  // @Test
+  // public void regel005100_01()
+  // {
+  // try
+  // {
+  // IBAN iban = new IBAN("5308810004", "67220020", "DE");
+  // assertEquals("DE38600501010002662604", iban.getIBAN());
+  // }
+  // catch (SEPAException e)
+  // {
+  // e.printStackTrace();
+  // fail();
+  // }
+  // }
 
   @Test
   public void regel005300_01()
