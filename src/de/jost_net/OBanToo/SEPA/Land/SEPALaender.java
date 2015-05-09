@@ -284,7 +284,7 @@ public class SEPALaender
 
   private static SEPALand getSchweiz()
   {
-    return new SEPALand("CH", "Schweiz", "5!n12!c", "AT611904300234573201");
+    return new SEPALand("CH", "Schweiz", "5!n12!c", "CH9300762011623852957");
   }
 
   private static SEPALand getSerbien()
